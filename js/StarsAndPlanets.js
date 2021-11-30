@@ -27,7 +27,7 @@ function createCenario() {
 
     setPlanosPosition(leftPlane, topPlane, rightPlane, bottomPlane, backPlane, frontPlane);
     setStars();
-    setPlanets();
+    //setPlanets();
   
 }
 

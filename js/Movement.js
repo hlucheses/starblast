@@ -124,7 +124,7 @@ function controls(deltaTime) {
             playerSpaceship.userData.tiltLeft += tiltSpeed;
             playerSpaceship.rotation.z = playerSpaceship.userData.tiltLeft * (Math.PI / 8);
         }
-        console.log(playerSpaceship.position.x);
+        
     } else {
         if (playerSpaceship.userData.tiltLeft > 0 && cameras.current != cameras.side) {
             playerSpaceship.userData.tiltLeft -= tiltSpeed;

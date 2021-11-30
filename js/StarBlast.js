@@ -12,7 +12,11 @@ var scene, renderer, clock, rotationSpeed;
 var playerSpaceship, arrEnemySpaceship = [];
 var playerVelocity, playerDirection;
 var requestID;
-var stepBullet = 0;
+var bullets = [];
+var stepBullet = 0.5;
+var legenda = document.getElementById("info");
+var bulletMax;
+var opcao = {esquerda: false, meio: false, direita: false};
 
 
 function render() {
@@ -56,6 +60,11 @@ function onResize() {
     }
 }
 
+
+/*q: canhão da esquerda
+  w: canhão do meio
+  e: canhao da direita
+*/
 function onKeyDown() {
     if (keyStates['Digit1']) {
         stopAnimation();
@@ -63,11 +72,11 @@ function onKeyDown() {
         render();
     } else if (keyStates['Digit2']) {
         stopAnimation();
-        cameras.current = cameras.side;
+        cameras.current = cameras.front;
         render();
     } else if (keyStates['Digit3']) {
         stopAnimation();
-        cameras.current = cameras.front;
+        cameras.current = cameras.bulletCam;
         render();
     } else if (keyStates['Digit4']) {
 
@@ -83,21 +92,99 @@ function onKeyDown() {
         render();
         animateCamera();
 
-    } else if (keyStates["Space"]) {
+    }else if (keyStates["KeyQ"]){
+        opcao.esquerda = true;
+        opcao.meio = false;
+        opcao.direita = false;
+        
 
-        var bullet = new THREE.Mesh(new THREE.SphereGeometry(0.05, 8, 8), new THREE.MeshBasicMaterial({ color: "black" }));
-        bullet.position.set(playerSpaceship.position.x,
-            playerSpaceship.position.y,
-            playerSpaceship.position.z);
-        bullet.position.x -= stepBullet;
-        bullet.alive = true;
-        setTimeout(function() {
-            bullet.alive = false;
-            scene.remove(bullet)
-        }, 1000);
-        scene.add(bullet);
+    } else if (keyStates["KeyW"]){
+        opcao.esquerda = false;
+        opcao.meio = true;
+        opcao.direita = false;
+        
 
+    }else if (keyStates["KeyE"]){
+        opcao.esquerda = false;
+        opcao.meio = false;
+        opcao.direita = true;
+    
+        
+    }
+    else if (keyStates["Space"]) {
+        if(opcao.esquerda == true){
+            disparar(playerSpaceship.position.x + stepBullet - 8);
+        } else if(opcao.meio == true){
+            disparar(playerSpaceship.position.x);
+        } else if(opcao.direita == true){
+            disparar(playerSpaceship.position.x + stepBullet + 2);
+        }   
 
+    }
+}
+
+function adicionarLegenda(legenda){
+    switch(legenda){
+        case "KeyQ":
+            {
+                legenda.innerText = "Canhão Esquerdo Activo";
+                break;
+            }
+        case "KeyW":
+            {
+                legenda.innerText = "Canhão Central Activo";
+                break;
+            }
+        case "KeyE":
+            {
+                legenda.innerText = "Canhão Direito Activo";
+                break;
+            }
+    }
+}
+function disparar(deslocamento){
+    var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
+    bullet.position.set(playerSpaceship.position.x,
+        playerSpaceship.position.y,
+        playerSpaceship.position.z);
+    bullet.position.x = deslocamento;
+    bullets.push(bullet);
+
+    bullet.velocity = new THREE.Vector3(
+        -Math.sin(cameras.current.rotation.y),
+        0, 
+        Math.sin(cameras.current.rotation.y)
+    );
+   
+    
+    bullet.alive = true;
+    /*setTimeout(function() {
+        bullet.alive = false;
+        scene.remove(bullet)a
+    }, 1000);*/
+    scene.add(bullet);
+}
+
+//estava a mexer aqui na aula
+function enemyBulltes(){
+    for(var i = 0; i < arrEnemySpaceship.length; i++){
+        var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
+    bullet.position.set(arrEnemySpaceship[i].position.x,
+        arrEnemySpaceship[i].position.y,
+        -(arrEnemySpaceship[i].position.z));
+        bullet.position.x = arrEnemySpaceship[i].position.x;
+    bullets.push(bullet);
+    bullet.velocity = new THREE.Vector3(
+        -Math.sin(cameras.current.rotation.y),
+        0, 
+        Math.sin(cameras.current.rotation.y)
+    );
+    bullet.alive = true;
+    setTimeout(function() {
+        bullet.alive = false;
+        scene.remove(bullet)
+    }, 1000);
+    scene.add(bullet);
     }
 }
 
@@ -107,7 +194,12 @@ function animateCamera() {
     camera_rotation();
 }
 
+
 function animate() {
+    
+    
+    
+    var aux;
     const STEPS_PER_FRAME = .1;
     const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
 
@@ -118,12 +210,21 @@ function animate() {
 
     var increment = 0.025;
 
+    for(var j = 0; j < bullets.length; j++){
+        
+        bullets[j].position.z -= stepBullet;
+        aux = j;
+    }
+    if(bullets.length > 0){
+        cameras.bulletCam.lookAt(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
+        cameras.bulletCam.position.set(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);     
+    }
+   
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
         if (arrEnemySpaceship[i].userData.moving) {
 
             arrEnemySpaceship[i].userData.step += increment;
             arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
-            //arrEnemySpaceship[i].rotation.z = (Math.PI / 8) * arrEnemySpaceship[i].position.x;
         }
     }
 

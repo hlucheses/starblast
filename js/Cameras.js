@@ -20,15 +20,24 @@ function createCameras() {
     cameraLateral.lookAt(0, 0, 0);
 
     //camera de topo
-    var cameraTopo = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+    var cameraTopo =new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 2000);
     cameraTopo.position.set(0, 160, 5);
+    cameraTopo.zoom = 3;
     cameraTopo.rotation.set(Math.PI / 2, 0, 0);
+    cameraTopo.updateProjectionMatrix();
     cameraTopo.lookAt(0, 0, 0);
 
+
     var dynamicCamera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
-    dynamicCamera.position.set(0, 5, 150);
+    dynamicCamera.position.set(0, 5, 300);
     dynamicCamera.lookAt(0, 0, 0);
 
 
-    return { current: cameraFrontal, side: cameraLateral, front: cameraFrontal, top: cameraTopo, dynamic: dynamicCamera };
+    var bulletCamera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
+    bulletCamera.position.set(0, 5, 200);
+    bulletCamera.zoom = 50;
+    cameraTopo.updateProjectionMatrix();
+    bulletCamera.lookAt(0, 0, 0);
+
+    return { current: cameraFrontal, side: cameraLateral, front: cameraFrontal, top: cameraTopo, dynamic: dynamicCamera, bulletCam : bulletCamera};
 }
