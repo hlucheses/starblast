@@ -178,7 +178,7 @@ function addSmallPropellant(obj, x, y, z) {
 
 function createEnemy(x, y, z, cor = 0x850000) {
     var enemySpaceship = new THREE.Object3D();
-    enemySpaceship.userData = { moving: true, step: 0, padrao: true, xDestino: x };
+    enemySpaceship.userData = { moving: true, step: 0, padrao: true, xDestino: x, colidida: 0 };
     addEnemyWing(enemySpaceship, -1.805, -0.013, 3.062, 1.1772245805, cor);
     addEnemyWing(enemySpaceship, 1.805, -.013, 3.062, -1.1772245805, cor);
     addCannon(enemySpaceship, -2.422, -0.112, 2.793);
