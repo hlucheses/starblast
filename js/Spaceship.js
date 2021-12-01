@@ -6,6 +6,9 @@
  *- Miguel Gamboa
  * 
  */
+var centralCannonRing,
+    leftCannonHolder, rightCannonHolder;
+
 function createSpaceship(x, y, z) {
     playerSpaceship = new THREE.Object3D();
     playerSpaceship.userData = { moving: true, step: 0, tiltLeft: 0, tiltRight: 0 };
@@ -18,9 +21,9 @@ function createSpaceship(x, y, z) {
     addSmallPropellant(playerSpaceship, -1.246, 0, 6.776);
     addSmallPropellant(playerSpaceship, 1.246, 0, 6.776);
     addCentralCannonHolder(playerSpaceship, 0, -.6, 0);
-    addSideCannonHolder(playerSpaceship, 4.224, -.685, 2.055, -40.25);
-    addSideCannonHolder(playerSpaceship, -4.224, -.685, 2.055, 40.25);
-    addCentralCannonRing(playerSpaceship, 0, -1.565, .685);
+    leftCannonHolder = addSideCannonHolder(playerSpaceship, 4.224, -.685, 2.055, -40.25);
+    rightCannonHolder = addSideCannonHolder(playerSpaceship, -4.224, -.685, 2.055, 40.25);
+    centralCannonRing = addCentralCannonRing(playerSpaceship, 0, -1.565, .685);
     addCentralCannon(playerSpaceship, 0, -1.574, -.485);
     addSideCannon(playerSpaceship, 5.355, -1.574, -.221);
     addSideCannon(playerSpaceship, -5.355, -1.574, -.221);
@@ -29,6 +32,18 @@ function createSpaceship(x, y, z) {
     playerSpaceship.position.y = y;
     playerSpaceship.position.z = z;
     return playerSpaceship;
+}
+
+function changeCentralCannonRingColor(cor) {
+    centralCannonRing.material.color.setHex(cor);
+}
+
+function changeLeftCannonHolderColor(cor) {
+    leftCannonHolder.material.color.setHex(cor);
+}
+
+function changeRightCannonHolderColor(cor) {
+    rightCannonHolder.material.color.setHex(cor);
 }
 
 function addCentralCannon(obj, x, y, z) {
@@ -71,6 +86,7 @@ function addCentralCannonRing(obj, x, y, z) {
     mesh.position.set(x, y, z);
     mesh.rotation.set(Math.PI / 2, Math.PI / 2, 0);
     obj.add(mesh);
+    return mesh;
 }
 
 
@@ -83,6 +99,7 @@ function addSideCannonHolder(obj, x, y, z, rY) {
     mesh.position.set(x, y, z);
     mesh.rotation.set(Math.PI / 2, rY * Math.PI / 180, -Math.PI / 2);
     obj.add(mesh);
+    return mesh;
 }
 
 function addCentralCannonHolder(obj, x, y, z) {
