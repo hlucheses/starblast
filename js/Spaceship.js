@@ -159,18 +159,18 @@ function addSmallPropellant(obj, x, y, z) {
     obj.add(mesh);
 }
 
-function createEnemy(x, y, z) {
+function createEnemy(x, y, z, cor = 0x850000) {
     var enemySpaceship = new THREE.Object3D();
     enemySpaceship.userData = { moving: true, step: 0 };
-    addEnemyWing(enemySpaceship, -1.805, -0.013, 3.062, 1.1772245805);
-    addEnemyWing(enemySpaceship, 1.805, -.013, 3.062, -1.1772245805);
+    addEnemyWing(enemySpaceship, -1.805, -0.013, 3.062, 1.1772245805, cor);
+    addEnemyWing(enemySpaceship, 1.805, -.013, 3.062, -1.1772245805, cor);
     addCannon(enemySpaceship, -2.422, -0.112, 2.793);
     addCannon(enemySpaceship, 2.422, -0.112, 2.793);
     addCannonBall(enemySpaceship, -2.425, -.104, 1.405);
     addCannonBall(enemySpaceship, 2.425, -.104, 1.405);
     addTriangle(enemySpaceship, 0, .641, 3.423);
-    addEnemyBody(enemySpaceship, -.2, 0, 0, Math.PI / 2, -3.10319541);
-    addEnemyBody(enemySpaceship, .2, 0, 0, -Math.PI / 2, 0.038397243544);
+    addEnemyBody(enemySpaceship, -.2, 0, 0, Math.PI / 2, -3.10319541, cor);
+    addEnemyBody(enemySpaceship, .2, 0, 0, -Math.PI / 2, 0.038397243544, cor);
     addEnemyCockpit(enemySpaceship, 0, .227, -1.698);
     addEnemyPropellant(enemySpaceship, -.515, .006, 5);
     addEnemyPropellant(enemySpaceship, .515, .006, 5);
@@ -207,13 +207,13 @@ function addEnemyMainCannon(obj, x, y, z) {
     obj.add(mesh);
 }
 
-function addEnemyWing(obj, x, y, z, rZ) {
+function addEnemyWing(obj, x, y, z, rZ, cor) {
     const points = [];
     points.push(new THREE.Vector2(0, 2.34));
     points.push(new THREE.Vector2(3.82, -1.4));
     points.push(new THREE.Vector2(.06, -1.74));
     const geometry = new THREE.LatheGeometry(points);
-    const material = new THREE.MeshBasicMaterial({ color: 0x850000 });
+    const material = new THREE.MeshBasicMaterial({ color: cor });
     const mesh = new THREE.Mesh(geometry, material);
 
     geometry.scale(.553, 0.997, .052);
@@ -263,13 +263,13 @@ function addTriangle(obj, x, y, z) {
     obj.add(mesh);
 }
 
-function addEnemyBody(obj, x, y, z, rX, rZ) {
+function addEnemyBody(obj, x, y, z, rX, rZ, cor) {
     const points = [];
     points.push(new THREE.Vector2(0, 1.74));
     points.push(new THREE.Vector2(.92, -1.4));
     points.push(new THREE.Vector2(0, -1.96));
     const geometry = new THREE.LatheGeometry(points);
-    const material = new THREE.MeshBasicMaterial({ color: 0x850000 });
+    const material = new THREE.MeshBasicMaterial({ color: cor });
     const mesh = new THREE.Mesh(geometry, material);
 
     geometry.scale(2.020, 3.021, .62);
@@ -289,7 +289,7 @@ function addEnemyCockpit(obj, x, y, z) {
     obj.add(mesh);
 }
 
-function addEnemyPropellant(obj, x, y, z) {
+function addEnemyPropellant(obj, x, y, z) { //cf, 207, 13
     const points = [];
     points.push(new THREE.Vector2(.26, 3.46));
     points.push(new THREE.Vector2(.82, -2.36));
