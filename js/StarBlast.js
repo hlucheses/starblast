@@ -14,6 +14,7 @@ var playerVelocity, playerDirection;
 var requestID, jump = 0;
 var bullets = [];
 var bulletsEnemy = [];
+var enemyBoxes = [];
 var stepBullet = 2;
 var legenda = document.getElementById("info");
 var bulletMax;
@@ -24,6 +25,12 @@ function render() {
     renderer.render(scene, cameras.current);
 }
 
+function createBoxes(){
+    for (var i = 0; i < arrEnemySpaceship.length; i++){
+        var aabb = new THREE.Box3().setFromObject(arrEnemySpaceship[i]);
+        enemyBoxes.push(aabb);
+    }
+}
 function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -46,8 +53,9 @@ function init() {
     playerDirection = new THREE.Vector3();
 
     createScene();
+    createBoxes();
     render();
-    console.log(window.innerHeight);
+    
     
 }
 
@@ -205,6 +213,27 @@ function animateCamera() {
     camera_rotation();
 }
 
+function colide(box1, box2){
+    if((box1.max.x > box2.min.x) || (box1.min.x < box2.max.x) ||
+    (box1.max.y > box2.min.y) || (box1.min.y < box2.max.y) ||
+    (box1.max.z > box2.min.z) || (box1.min.z < box2.max.z)){
+        return true;
+    }else{ return false ;}
+}
+function detectCollision(){
+    for(var i = 0; i <  arrEnemySpaceship.length - 1; i++){
+        for (var j = i; j <  arrEnemySpaceship.length; j++){
+            if(((arrEnemySpaceship[i].position.x < -89) && (arrEnemySpaceship[i].position.x > 89)) 
+            || (colide(enemyBoxes[i], enemyBoxes[j]))){
+                arrEnemySpaceship[i].position.x *= (-1);
+                arrEnemySpaceship[j].position.x *= (-1);
+            }    
+            }
+        }
+       
+    }
+    
+
 function animate() {
 
     var aux;
@@ -230,15 +259,16 @@ function animate() {
 
 
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
-
+    
         if (arrEnemySpaceship[i].userData.moving) {
             if((arrEnemySpaceship[i].position.x > -89) && (arrEnemySpaceship[i].position.x < 89)){
                 arrEnemySpaceship[i].userData.step += increment;
                 arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
+                detectCollision();
             }else{
                 arrEnemySpaceship[i].position.x -= 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
             }
-            //console.log(arrEnemySpaceship[i].position.x);
+            
             
         }
     }
