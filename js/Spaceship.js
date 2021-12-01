@@ -191,7 +191,7 @@ function createEnemy(x, y, z, cor = 0x850000) {
     addEnemyCockpit(enemySpaceship, 0, .227, -1.698);
     addEnemyPropellant(enemySpaceship, -.515, .006, 5);
     addEnemyPropellant(enemySpaceship, .515, .006, 5);
-    //addEnemyCannonHolder(enemySpaceship, 5.013, 5.719, -5.385);
+    addEnemyCannonHolder(enemySpaceship, 5.013, 5.719, -5.385);
     //addEnemyMainCannon(enemySpaceship, 5.014, 4.996, -4.970);
     scene.add(enemySpaceship);
     enemySpaceship.rotation.y = Math.PI;
