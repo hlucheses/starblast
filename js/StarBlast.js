@@ -15,6 +15,7 @@ var requestID, jump = 0;
 var bullets = [];
 var bulletsEnemy = [];
 var enemyBoxes = [];
+var helpersArray = [];
 var stepBullet = 2;
 var legenda = document.getElementById("info");
 var bulletMax;
@@ -31,6 +32,7 @@ function createBoxes(){
         const helper = new THREE.Box3Helper(aabb, "white");
         scene.add(helper);
         enemyBoxes.push(aabb);
+        helpersArray.push(helper);
        
         
     }
@@ -185,7 +187,7 @@ function disparar(x, y) {
     /*setTimeout(function() {
         bullet.alive = false;
         scene.remove(bullet)a
-    }, 1000);*/
+    }, 1000);*/                
     scene.add(bullet);
 }
 
@@ -218,9 +220,12 @@ function animateCamera() {
 }
 
 function colide(box1, box2){
-    if((box1.max.x > box2.min.x) || (box1.min.x < box2.max.x) ||
-    (box1.max.y > box2.min.y) || (box1.min.y < box2.max.y) ||
-    (box1.max.z > box2.min.z) || (box1.min.z < box2.max.z)){
+    if((box1.min.x >= box2.min.x && box1.min.x <= box2.max.x ||
+        box1.max.x >= box2.min.x && box1.max.x <= box2.max.x) &&
+    (box1.min.y >= box2.min.y && box1.min.y <= box2.max.y ||
+        box1.max.y >= box2.min.y && box1.max.y <= box2.max.y) &&
+    (box1.min.z >= box2.min.z && box1.min.z <= box2.max.z ||
+        box1.max.z >= box2.min.z && box1.max.z <= box2.max.z)){
         return true;
     }else{ return false ;}
 }
@@ -228,10 +233,9 @@ function detectCollision(){
     for(var i = 0; i <  arrEnemySpaceship.length - 1; i++){
         for (var j = i; j <  arrEnemySpaceship.length; j++){
             if(((arrEnemySpaceship[i].position.x < -89) && (arrEnemySpaceship[i].position.x > 89)) 
-            || (colide(enemyBoxes[i], enemyBoxes[j]))){
-                /*arrEnemySpaceship[i].position.x *= (-1);
-                arrEnemySpaceship[j].position.x *= (-1);*/
-
+            || (colide(enemyBoxes[i],enemyBoxes[j]))){
+               arrEnemySpaceship[i].x = 0;
+               arrEnemySpaceship[j].x = 0;
             }    
         }
     }
@@ -265,6 +269,7 @@ function animate() {
 
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
         enemyBoxes[i].setFromObject(arrEnemySpaceship[i]);
+        //helpersArray[i].material.color.setHex("white");
         if (arrEnemySpaceship[i].userData.moving) {
             if((arrEnemySpaceship[i].position.x > -89) && (arrEnemySpaceship[i].position.x < 89)){
                 arrEnemySpaceship[i].userData.step += increment;
