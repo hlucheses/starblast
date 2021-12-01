@@ -168,22 +168,22 @@ function disparar(deslocamento) {
 function enemyBulltes() {
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
         var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
-    bullet.position.set(arrEnemySpaceship[i].position.x,
-        arrEnemySpaceship[i].position.y,
-        arrEnemySpaceship[i].position.z);
+        bullet.position.set(arrEnemySpaceship[i].position.x,
+            arrEnemySpaceship[i].position.y,
+            arrEnemySpaceship[i].position.z);
         bullet.position.x = arrEnemySpaceship[i].position.x + stepBullet + 1;
-    bulletsEnemy.push(bullet);
-    bullet.velocity = new THREE.Vector3(
-        Math.sin(cameras.current.rotation.y),
-        0, 
-        Math.sin(cameras.current.rotation.y)
-    );
-    bullet.alive = true;
-    /*setTimeout(function() {
-        bullet.alive = false;
-        scene.remove(bullet)
-    }, 1000);*/
-    scene.add(bullet);
+        bulletsEnemy.push(bullet);
+        bullet.velocity = new THREE.Vector3(
+            Math.sin(cameras.current.rotation.y),
+            0,
+            Math.sin(cameras.current.rotation.y)
+        );
+        bullet.alive = true;
+        /*setTimeout(function() {
+            bullet.alive = false;
+            scene.remove(bullet)
+        }, 1000);*/
+        scene.add(bullet);
     }
 }
 
@@ -251,11 +251,11 @@ function createScene() {
     createSpaceship(0, 0, 80);
 
 
-    arrEnemySpaceship.push(createEnemy(0, 0, -60));
-    arrEnemySpaceship.push(createEnemy(40, 0, -30));
+    arrEnemySpaceship.push(createEnemy(0, 0, -60, 0x75e30d));
+    arrEnemySpaceship.push(createEnemy(40, 0, -30, 0x75e30d));
     arrEnemySpaceship.push(createEnemy(-40, 0, -30));
-    arrEnemySpaceship.push(createEnemy(80, 0, -60));
-    arrEnemySpaceship.push(createEnemy(-80, 0, -60));
+    arrEnemySpaceship.push(createEnemy(80, 0, -60, 0x75e30d));
+    arrEnemySpaceship.push(createEnemy(-80, 0, -60, 0x75e30d));
     arrEnemySpaceship.push(createEnemy(-120, 0, -30));
     arrEnemySpaceship.push(createEnemy(120, 0, -30));
 
