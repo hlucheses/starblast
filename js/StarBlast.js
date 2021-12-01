@@ -98,9 +98,8 @@ function onKeyDown() {
         opcao.meio = false;
         opcao.direita = false;
         changeCentralCannonRingColor(0x00d5ff);
-        changeLeftCannonHolderColor(0xfc0fc0);
-        changeRightCannonHolderColor(0x00d5ff);
-
+        changeLeftCannonHolderColor(0x00d5ff);
+        changeRightCannonHolderColor(0xfc0fc0);
 
     } else if (keyStates["KeyW"]) {
         opcao.esquerda = false;
@@ -116,17 +115,17 @@ function onKeyDown() {
         opcao.meio = false;
         opcao.direita = true;
         changeCentralCannonRingColor(0x00d5ff);
-        changeLeftCannonHolderColor(0x00d5ff);
-        changeRightCannonHolderColor(0xfc0fc0);
+        changeLeftCannonHolderColor(0xfc0fc0);
+        changeRightCannonHolderColor(0x00d5ff);
 
 
     } else if (keyStates["Space"]) {
         if (opcao.esquerda == true) {
-            disparar(playerSpaceship.position.x + stepBullet - 5.355, playerSpaceship.position.y);
+            disparar(playerSpaceship.position.x - 5.355, playerSpaceship.position.y - 1.574);
         } else if (opcao.meio == true) {
             disparar(playerSpaceship.position.x, playerSpaceship.position.y - 1.574);
         } else if (opcao.direita == true) {
-            disparar(playerSpaceship.position.x + stepBullet + 1.555, playerSpaceship.position.y);
+            disparar(playerSpaceship.position.x + 5.355, playerSpaceship.position.y - 1.574);
         }
 
     }
@@ -153,7 +152,7 @@ function adicionarLegenda(legenda) {
 }
 
 function disparar(x, y) {
-    var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
+    var bullet = new THREE.Mesh(new THREE.SphereGeometry(.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
     bullet.position.set(playerSpaceship.position.x,
         playerSpaceship.position.y,
         playerSpaceship.position.z);
@@ -177,7 +176,7 @@ function disparar(x, y) {
 
 function enemyBulltes() {
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
-        var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
+        var bullet = new THREE.Mesh(new THREE.SphereGeometry(.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
         bullet.position.set(arrEnemySpaceship[i].position.x,
             arrEnemySpaceship[i].position.y,
             arrEnemySpaceship[i].position.z);
