@@ -27,7 +27,7 @@ function createCenario() {
 
     setPlanosPosition(leftPlane, topPlane, rightPlane, bottomPlane, backPlane, frontPlane);
     setStars();
-    //setPlanets();
+    
   
 }
 
@@ -78,31 +78,6 @@ function setStars() {
     scene.add(topCam);
 }
 
-function setPlanets() {
-    var aux = 2;
-    for (i = 1; i <= 300; i++) {
-        x = Math.floor(Math.random() * (-600 - 600) + 600);
-        y = Math.floor(Math.random() * (-600 - 600) + 600);
-        z = Math.floor(Math.random() * (-600 - 600) + 600);
-        raio = Math.floor(Math.random() * 8);
-       if (aux % 2 == 0) {
-            var planeta = new THREE.Mesh(new THREE.SphereGeometry(raio, 20, 20), new THREE.MeshBasicMaterial({
-                color: '#E0B0FF'
-            }));
-
-        } else if (aux % 2 != 0) {
-            var planeta = new THREE.Mesh(new THREE.SphereGeometry(raio, 20, 20), new THREE.MeshBasicMaterial({
-                color: '#3CB371'
-            }));
-
-        }
-        aux++;
-        planeta.position.set(x, y, z);
-        scene.add(planeta);
-
-    }
-
-}
 
 function setPlanosPosition(left, top, right, bottom, back, front) {
     back.position.set(0, 0, -350);

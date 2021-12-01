@@ -14,10 +14,10 @@ var playerVelocity, playerDirection;
 var requestID, jump = 0;
 var bullets = [];
 var bulletsEnemy = [];
-var stepBullet = 1.5;
+var stepBullet = 2;
 var legenda = document.getElementById("info");
 var bulletMax;
-var opcao = {esquerda: false, meio: false, direita: false};
+var opcao = { esquerda: false, meio: false, direita: false };
 
 
 function render() {
@@ -93,39 +93,38 @@ function onKeyDown() {
         render();
         animateCamera();
 
-    }else if (keyStates["KeyQ"]){
+    } else if (keyStates["KeyQ"]) {
         opcao.esquerda = true;
         opcao.meio = false;
         opcao.direita = false;
-        
 
-    } else if (keyStates["KeyW"]){
+
+    } else if (keyStates["KeyW"]) {
         opcao.esquerda = false;
         opcao.meio = true;
         opcao.direita = false;
-        
 
-    }else if (keyStates["KeyE"]){
+
+    } else if (keyStates["KeyE"]) {
         opcao.esquerda = false;
         opcao.meio = false;
         opcao.direita = true;
-    
-        
-    }
-    else if (keyStates["Space"]) {
-        if(opcao.esquerda == true){
-            disparar(playerSpaceship.position.x + stepBullet - 8);
-        } else if(opcao.meio == true){
+
+
+    } else if (keyStates["Space"]) {
+        if (opcao.esquerda == true) {
+            disparar(playerSpaceship.position.x + stepBullet - 6);
+        } else if (opcao.meio == true) {
             disparar(playerSpaceship.position.x);
-        } else if(opcao.direita == true){
-            disparar(playerSpaceship.position.x + stepBullet + 2);
-        }   
+        } else if (opcao.direita == true) {
+            disparar(playerSpaceship.position.x + stepBullet + 3);
+        }
 
     }
 }
 
-function adicionarLegenda(legenda){
-    switch(legenda){
+function adicionarLegenda(legenda) {
+    switch (legenda) {
         case "KeyQ":
             {
                 legenda.innerText = "Canhão Esquerdo Activo";
@@ -143,7 +142,8 @@ function adicionarLegenda(legenda){
             }
     }
 }
-function disparar(deslocamento){
+
+function disparar(deslocamento) {
     var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
     bullet.position.set(playerSpaceship.position.x,
         playerSpaceship.position.y,
@@ -151,13 +151,12 @@ function disparar(deslocamento){
     bullet.position.x = deslocamento;
     bullets.push(bullet);
 
-    bullet.velocity = new THREE.Vector3(
-        -Math.sin(cameras.current.rotation.y),
-        0, 
+    bullet.velocity = new THREE.Vector3(-Math.sin(cameras.current.rotation.y),
+        0,
         Math.sin(cameras.current.rotation.y)
     );
-   
-    
+
+
     bullet.alive = true;
     /*setTimeout(function() {
         bullet.alive = false;
@@ -166,25 +165,25 @@ function disparar(deslocamento){
     scene.add(bullet);
 }
 
-function enemyBulltes(){
-    for(var i = 0; i < arrEnemySpaceship.length; i++){
+function enemyBulltes() {
+    for (var i = 0; i < arrEnemySpaceship.length; i++) {
         var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
-    bullet.position.set(arrEnemySpaceship[i].position.x,
-        arrEnemySpaceship[i].position.y,
-        arrEnemySpaceship[i].position.z);
-        bullet.position.x = arrEnemySpaceship[i].position.x;
-    bulletsEnemy.push(bullet);
-    bullet.velocity = new THREE.Vector3(
-        Math.sin(cameras.current.rotation.y),
-        0, 
-        Math.sin(cameras.current.rotation.y)
-    );
-    bullet.alive = true;
-    /*setTimeout(function() {
-        bullet.alive = false;
-        scene.remove(bullet)
-    }, 1000);*/
-    scene.add(bullet);
+        bullet.position.set(arrEnemySpaceship[i].position.x,
+            arrEnemySpaceship[i].position.y,
+            arrEnemySpaceship[i].position.z);
+        bullet.position.x = arrEnemySpaceship[i].position.x + stepBullet + 2.5;
+        bulletsEnemy.push(bullet);
+        bullet.velocity = new THREE.Vector3(
+            Math.sin(cameras.current.rotation.y),
+            0,
+            Math.sin(cameras.current.rotation.y)
+        );
+        bullet.alive = true;
+        /*setTimeout(function() {
+            bullet.alive = false;
+            scene.remove(bullet)
+        }, 1000);*/
+        scene.add(bullet);
     }
 }
 
@@ -195,7 +194,7 @@ function animateCamera() {
 }
 
 function animate() {
-    
+
     var aux;
     const STEPS_PER_FRAME = .1;
     const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
@@ -207,8 +206,8 @@ function animate() {
 
     var increment = 0.025;
 
-    if(bullets.length > 0){
-        for(var j = 0; j < bullets.length; j++){
+    if (bullets.length > 0) {
+        for (var j = 0; j < bullets.length; j++) {
             bullets[j].position.add(bullets[j].velocity);
             bullets[j].position.z -= stepBullet;
             aux = j;
@@ -216,30 +215,30 @@ function animate() {
         cameras.bulletCam.lookAt(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
         cameras.bulletCam.position.set(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
     }
- 
-    
+
+
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
-       
+
         if (arrEnemySpaceship[i].userData.moving) {
 
             arrEnemySpaceship[i].userData.step += increment;
             arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
-        }   
+        }
     }
 
-    for(var i = 0; i < bulletsEnemy.length; i++){
-        if(bulletsEnemy.length > 0){
+    for (var i = 0; i < bulletsEnemy.length; i++) {
+        if (bulletsEnemy.length > 0) {
             bulletsEnemy[i].position.add(bulletsEnemy[i].velocity);
             bulletsEnemy[i].position.z += stepBullet;
         }
     }
 
-    if(jump % 100== 0){enemyBulltes();}
+    if (jump % 100 == 0) { enemyBulltes(); }
     jump++;
     playerSpaceship.userData.step += increment;
     playerSpaceship.position.y = .5 * (Math.cos(playerSpaceship.userData.step));
 
-    rotationSpeed = .002;
+    rotationSpeed = .007;
     render();
     requestAnimationFrame(animate);
 
