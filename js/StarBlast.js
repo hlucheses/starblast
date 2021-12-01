@@ -16,7 +16,8 @@ var requestID, jump = 0;
 var bullets = [];
 var bulletsEnemy = [];
 var enemyBoxes = [];
-var helpersArray = [];
+var bulletsBoxes = [];
+var bulletsBoxesHelpers = [];
 var stepBullet = 2;
 var legenda = document.getElementById("info");
 var bulletMax;
@@ -31,8 +32,6 @@ function createBoxes() {
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
         var aabb = new THREE.Box3();
         enemyBoxes.push(aabb);
-
-
     }
 }
 
@@ -168,7 +167,9 @@ function adicionarLegenda(legenda) {
 }
 
 function disparar(x, y) {
-    var bullet = new THREE.Mesh(new THREE.SphereGeometry(0.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
+
+    var bullet = { colidiu: false, time_alive: 180 };
+    bullet = new THREE.Mesh(new THREE.SphereGeometry(0.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
     bullet.position.set(playerSpaceship.position.x,
         playerSpaceship.position.y,
         playerSpaceship.position.z);
@@ -176,17 +177,15 @@ function disparar(x, y) {
     bullet.position.y = y;
     bullets.push(bullet);
 
+    var aabb = new THREE.Box3();
+    bulletsBoxes.push(aabb);
+
     bullet.velocity = new THREE.Vector3(-Math.sin(cameras.current.rotation.y),
         0,
         Math.sin(cameras.current.rotation.y)
     );
 
 
-    bullet.alive = true;
-    /*setTimeout(function() {
-        bullet.alive = false;
-        scene.remove(bullet)a
-    }, 1000);*/
     scene.add(bullet);
 }
 
@@ -203,11 +202,6 @@ function enemyBulltes() {
             0,
             Math.sin(cameras.current.rotation.y)
         );
-        bullet.alive = true;
-        /*setTimeout(function() {
-            bullet.alive = false;
-            scene.remove(bullet)
-        }, 1000);*/
         scene.add(bullet);
     }
 }
@@ -239,11 +233,29 @@ function detectCollision(i) {
 
                 arrEnemySpaceship[i].userData.padrao = !arrEnemySpaceship[i].userData.padrao;
                 arrEnemySpaceship[j].userData.padrao = !arrEnemySpaceship[j].userData.padrao;
+
             }
         }
     }
 }
 
+function detectCollisionBallSpaceship(i) {
+    for (var j = 0; j < enemyBoxes.length; j++) {
+        if (i != j) {
+            if (colide(bulletsBoxes[i], enemyBoxes[j])) {
+                bullets[i].colidiu = true;
+                do {
+                    bullets[i].time_alive -= 1;
+                } while (bullets[i].time_alive > 0);
+                scene.remove(bullets[i]);
+            }
+        }
+    }
+}
+
+function addBoxToBullet(i) {
+    bulletsBoxes[i].setFromObject(bullets[i]);
+}
 
 function animate() {
 
@@ -263,6 +275,10 @@ function animate() {
             bullets[j].position.add(bullets[j].velocity);
             bullets[j].position.z -= stepBullet;
             aux = j;
+            addBoxToBullet(j);
+            detectCollisionBallSpaceship(j);
+
+
         }
         cameras.bulletCam.lookAt(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
         cameras.bulletCam.position.set(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
@@ -279,7 +295,6 @@ function animate() {
             } else {
                 arrEnemySpaceship[i].userData.padrao = !arrEnemySpaceship[i].userData.padrao;
             }
-
 
             arrEnemySpaceship[i].position.x += 1 * (Math.cos((
                 arrEnemySpaceship[i].userData.padrao == true ?
@@ -315,16 +330,16 @@ function createScene() {
     scene = new THREE.Scene();
     scene.add(new THREE.AxesHelper(40));
     createCenario();
-    createSpaceship(0, 0, 80);
+    createSpaceship(0, 16, 80);
 
 
-    arrEnemySpaceship.push(createEnemy(0, 0, -60, 0x75e30d));
-    arrEnemySpaceship.push(createEnemy(40, 0, -30, 0x75e30d));
-    arrEnemySpaceship.push(createEnemy(-40, 0, -30));
-    arrEnemySpaceship.push(createEnemy(80, 0, -60, 0x75e30d));
-    arrEnemySpaceship.push(createEnemy(-80, 0, -60, 0x75e30d));
-    arrEnemySpaceship.push(createEnemy(-120, 0, -30));
-    arrEnemySpaceship.push(createEnemy(120, 0, -30));
+    arrEnemySpaceship.push(createEnemy(0, -1, -60, 0x75e30d));
+    arrEnemySpaceship.push(createEnemy(40, -1, -30, 0x75e30d));
+    arrEnemySpaceship.push(createEnemy(-40, -1, -30));
+    arrEnemySpaceship.push(createEnemy(80, -1, -60, 0x75e30d));
+    arrEnemySpaceship.push(createEnemy(-80, -1, -60, 0x75e30d));
+    arrEnemySpaceship.push(createEnemy(-120, -1, -30));
+    arrEnemySpaceship.push(createEnemy(120, -1, -30));
 
 
 }
