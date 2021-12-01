@@ -27,8 +27,11 @@ function render() {
 
 function createBoxes() {
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
-        var aabb = new THREE.Box3().setFromObject(arrEnemySpaceship[i]);
+        var aabb = new THREE.Box3();
+        const helper = new THREE.Box3Helper(aabb, "white");
+        scene.add(helper);
         enemyBoxes.push(aabb);
+
     }
 }
 
@@ -162,15 +165,9 @@ function adicionarLegenda(legenda) {
     }
 }
 
-function disparar(x, y) { <<
-    <<
-    << < HEAD
-    var bullet = new THREE.Mesh(new THREE.SphereGeometry(.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" })); ===
-    ===
-    =
+function disparar(x, y) {
     var bullet = new THREE.Mesh(new THREE.SphereGeometry(0.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" })); >>>
-    >>>
-    > 3 aa5f5022d2c5c39bef56b30322315a1a3ca8abc
+
     bullet.position.set(playerSpaceship.position.x,
         playerSpaceship.position.y,
         playerSpaceship.position.z);
@@ -233,8 +230,9 @@ function detectCollision() {
         for (var j = i; j < arrEnemySpaceship.length; j++) {
             if (((arrEnemySpaceship[i].position.x < -89) && (arrEnemySpaceship[i].position.x > 89)) ||
                 (colide(enemyBoxes[i], enemyBoxes[j]))) {
-                arrEnemySpaceship[i].position.x *= (-1);
-                arrEnemySpaceship[j].position.x *= (-1);
+                /*arrEnemySpaceship[i].position.x *= (-1);
+                arrEnemySpaceship[j].position.x *= (-1);*/
+
             }
         }
     }
@@ -267,7 +265,7 @@ function animate() {
 
 
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
-
+        enemyBoxes[i].setFromObject(arrEnemySpaceship[i]);
         if (arrEnemySpaceship[i].userData.moving) {
             if ((arrEnemySpaceship[i].position.x > -89) && (arrEnemySpaceship[i].position.x < 89)) {
                 arrEnemySpaceship[i].userData.step += increment;
