@@ -27,7 +27,7 @@ function render() {
 
 function createBoxes(){
     for (var i = 0; i < arrEnemySpaceship.length; i++){
-        var aabb = new THREE.Box3().setFromObject(arrEnemySpaceship[i]);
+        var aabb = new THREE.Box3();
         const helper = new THREE.Box3Helper(aabb, "white");
         scene.add(helper);
         enemyBoxes.push(aabb);
@@ -57,6 +57,7 @@ function init() {
     playerDirection = new THREE.Vector3();
 
     createScene();
+    createBoxes();
     render();
     
     
@@ -228,8 +229,9 @@ function detectCollision(){
         for (var j = i; j <  arrEnemySpaceship.length; j++){
             if(((arrEnemySpaceship[i].position.x < -89) && (arrEnemySpaceship[i].position.x > 89)) 
             || (colide(enemyBoxes[i], enemyBoxes[j]))){
-                arrEnemySpaceship[i].position.x *= (-1);
-                arrEnemySpaceship[j].position.x *= (-1);
+                /*arrEnemySpaceship[i].position.x *= (-1);
+                arrEnemySpaceship[j].position.x *= (-1);*/
+
             }    
         }
     }
@@ -242,7 +244,7 @@ function animate() {
     var aux;
     const STEPS_PER_FRAME = .1;
     const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
-    createBoxes();
+    
     for (let i = 0; i < STEPS_PER_FRAME; i++) {
         controls(deltaTime);
         updatePlayer(deltaTime);
@@ -262,7 +264,7 @@ function animate() {
 
 
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
-    
+        enemyBoxes[i].setFromObject(arrEnemySpaceship[i]);
         if (arrEnemySpaceship[i].userData.moving) {
             if((arrEnemySpaceship[i].position.x > -89) && (arrEnemySpaceship[i].position.x < 89)){
                 arrEnemySpaceship[i].userData.step += increment;
