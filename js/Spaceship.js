@@ -174,6 +174,8 @@ function createEnemy(x, y, z) {
     addEnemyCockpit(enemySpaceship, 0, .227, -1.698);
     addEnemyPropellant(enemySpaceship, -.515, .006, 5);
     addEnemyPropellant(enemySpaceship, .515, .006, 5);
+    addEnemyCannonHolder(enemySpaceship, 5.013, 5.719, -5.385);
+    //addEnemyMainCannon(enemySpaceship, 5.014, 4.996, -4.970);
     scene.add(enemySpaceship);
     enemySpaceship.rotation.y = Math.PI;
     enemySpaceship.position.x = x;
@@ -181,6 +183,28 @@ function createEnemy(x, y, z) {
     enemySpaceship.position.z = z;
 
     return enemySpaceship;
+}
+
+function addEnemyCannonHolder(obj, x, y, z) {
+    const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+    const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.08, 1.09, .08);
+    geometry.rotateX(-Math.PI / 6);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
+}
+
+function addEnemyMainCannon(obj, x, y, z) {
+    const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+    const material = new THREE.MeshBasicMaterial({ color: 0x850000 });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.452, 1.224, .452);
+    geometry.rotateX(Math.PI / 2);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
 }
 
 function addEnemyWing(obj, x, y, z, rZ) {
