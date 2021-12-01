@@ -172,7 +172,7 @@ function enemyBulltes(){
     bullet.position.set(arrEnemySpaceship[i].position.x,
         arrEnemySpaceship[i].position.y,
         arrEnemySpaceship[i].position.z);
-        bullet.position.x = arrEnemySpaceship[i].position.x + stepBullet + 2.5;
+        bullet.position.x = arrEnemySpaceship[i].position.x + stepBullet + 1;
     bulletsEnemy.push(bullet);
     bullet.velocity = new THREE.Vector3(
         Math.sin(cameras.current.rotation.y),
