@@ -99,18 +99,27 @@ function onKeyDown() {
         opcao.esquerda = true;
         opcao.meio = false;
         opcao.direita = false;
+        changeCentralCannonRingColor(0x00d5ff);
+        changeLeftCannonHolderColor(0xfc0fc0);
+        changeRightCannonHolderColor(0x00d5ff);
 
 
     } else if (keyStates["KeyW"]) {
         opcao.esquerda = false;
         opcao.meio = true;
         opcao.direita = false;
+        changeCentralCannonRingColor(0xfc0fc0);
+        changeLeftCannonHolderColor(0x00d5ff);
+        changeRightCannonHolderColor(0x00d5ff);
 
 
     } else if (keyStates["KeyE"]) {
         opcao.esquerda = false;
         opcao.meio = false;
         opcao.direita = true;
+        changeCentralCannonRingColor(0x00d5ff);
+        changeLeftCannonHolderColor(0x00d5ff);
+        changeRightCannonHolderColor(0xfc0fc0);
 
 
     } else if (keyStates["Space"]) {
