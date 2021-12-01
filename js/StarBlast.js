@@ -113,11 +113,11 @@ function onKeyDown() {
 
     } else if (keyStates["Space"]) {
         if (opcao.esquerda == true) {
-            disparar(playerSpaceship.position.x + stepBullet - 6);
+            disparar(playerSpaceship.position.x + stepBullet - 6, playerSpaceship.position.y);
         } else if (opcao.meio == true) {
-            disparar(playerSpaceship.position.x);
+            disparar(playerSpaceship.position.x, playerSpaceship.position.y - 1);
         } else if (opcao.direita == true) {
-            disparar(playerSpaceship.position.x + stepBullet + 3);
+            disparar(playerSpaceship.position.x + stepBullet + 2.2, playerSpaceship.position.y);
         }
 
     }
@@ -143,12 +143,13 @@ function adicionarLegenda(legenda) {
     }
 }
 
-function disparar(deslocamento) {
+function disparar(x, y) {
     var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
     bullet.position.set(playerSpaceship.position.x,
         playerSpaceship.position.y,
         playerSpaceship.position.z);
-    bullet.position.x = deslocamento;
+    bullet.position.x = x;
+    bullet.position.y = y;
     bullets.push(bullet);
 
     bullet.velocity = new THREE.Vector3(-Math.sin(cameras.current.rotation.y),
