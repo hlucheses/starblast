@@ -209,6 +209,7 @@ function animate() {
 
     if(bullets.length > 0){
         for(var j = 0; j < bullets.length; j++){
+           
             bullets[j].position.add(bullets[j].velocity);
             bullets[j].position.z -= stepBullet;
             aux = j;
