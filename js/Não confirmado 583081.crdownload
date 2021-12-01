@@ -114,11 +114,11 @@ function onKeyDown() {
     }
     else if (keyStates["Space"]) {
         if(opcao.esquerda == true){
-            disparar(playerSpaceship.position.x + stepBullet - 8);
+            disparar(playerSpaceship.position.x + stepBullet - 6);
         } else if(opcao.meio == true){
             disparar(playerSpaceship.position.x);
         } else if(opcao.direita == true){
-            disparar(playerSpaceship.position.x + stepBullet + 2);
+            disparar(playerSpaceship.position.x + stepBullet + 3);
         }   
 
     }
