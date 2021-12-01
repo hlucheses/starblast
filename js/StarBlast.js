@@ -209,7 +209,7 @@ function animate() {
 
     if(bullets.length > 0){
         for(var j = 0; j < bullets.length; j++){
-        
+            bullets[j].position.add(bullets[j].velocity);
             bullets[j].position.z -= stepBullet;
             aux = j;
         }
@@ -224,14 +224,17 @@ function animate() {
 
             arrEnemySpaceship[i].userData.step += increment;
             arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
-        }
-        if(bulletsEnemy.length > 0){
-            bulletsEnemy[i].position.z += stepBullet;
-        }
-        
+        }   
     }
 
-    if(jump % 70== 0){enemyBulltes();}
+    for(var i = 0; i < bulletsEnemy.length; i++){
+        if(bulletsEnemy.length > 0){
+            bulletsEnemy[i].position.add(bulletsEnemy[i].velocity);
+            bulletsEnemy[i].position.z += stepBullet;
+        }
+    }
+
+    if(jump % 100== 0){enemyBulltes();}
     jump++;
     playerSpaceship.userData.step += increment;
     playerSpaceship.position.y = .5 * (Math.cos(playerSpaceship.userData.step));
