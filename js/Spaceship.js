@@ -17,11 +17,83 @@ function createSpaceship(x, y, z) {
     addBigPropellant(playerSpaceship, 0, 0, 6.776);
     addSmallPropellant(playerSpaceship, -1.246, 0, 6.776);
     addSmallPropellant(playerSpaceship, 1.246, 0, 6.776);
+    addCentralCannonHolder(playerSpaceship, 0, -.6, 0);
+    addSideCannonHolder(playerSpaceship, 4.224, -.685, 2.055, -40.25);
+    addSideCannonHolder(playerSpaceship, -4.224, -.685, 2.055, 40.25);
+    addCentralCannonRing(playerSpaceship, 0, -1.565, .685);
+    addCentralCannon(playerSpaceship, 0, -1.574, -.485);
+    addSideCannon(playerSpaceship, 5.355, -1.574, -.221);
+    addSideCannon(playerSpaceship, -5.355, -1.574, -.221);
     scene.add(playerSpaceship);
     playerSpaceship.position.x = x;
     playerSpaceship.position.y = y;
     playerSpaceship.position.z = z;
     return playerSpaceship;
+}
+
+function addCentralCannon(obj, x, y, z) {
+    const points = [];
+    points.push(new THREE.Vector2(.78, .05));
+    points.push(new THREE.Vector2(1.2, -.92));
+    points.push(new THREE.Vector2(0, -.5));
+    const geometry = new THREE.LatheGeometry(points);
+    const material = new THREE.MeshBasicMaterial({ color: 0x3b4545 });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.55, 2.98, .55);
+    geometry.rotateX(-Math.PI / 2);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
+}
+
+function addSideCannon(obj, x, y, z) {
+    const points = [];
+    points.push(new THREE.Vector2(.78, .05));
+    points.push(new THREE.Vector2(-.76, -.92));
+    points.push(new THREE.Vector2(0, -.5));
+    const geometry = new THREE.LatheGeometry(points);
+    const material = new THREE.MeshBasicMaterial({ color: 0x3b4545 });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.55, 5.753, .55);
+    geometry.rotateX(-Math.PI / 2);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
+}
+
+
+function addCentralCannonRing(obj, x, y, z) {
+    const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00d5ff });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.71, .621, .71);
+    mesh.position.set(x, y, z);
+    mesh.rotation.set(Math.PI / 2, Math.PI / 2, 0);
+    obj.add(mesh);
+}
+
+
+function addSideCannonHolder(obj, x, y, z, rY) {
+    const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00d5ff });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.3, 3.232, .3);
+    mesh.position.set(x, y, z);
+    mesh.rotation.set(Math.PI / 2, rY * Math.PI / 180, -Math.PI / 2);
+    obj.add(mesh);
+}
+
+function addCentralCannonHolder(obj, x, y, z) {
+    const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00d5ff });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    geometry.scale(.165, 1.721, .163);
+    geometry.rotateY(Math.PI / 2);
+    mesh.position.set(x, y, z);
+    obj.add(mesh);
 }
 
 function addCockpit(obj, x, y, z) {
