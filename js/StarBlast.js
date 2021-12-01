@@ -219,12 +219,12 @@ function animate() {
 
     var increment = 0.025;
 
-    for (var j = 0; j < bullets.length; j++) {
-
-        bullets[j].position.z -= stepBullet;
-        aux = j;
-    }
     if (bullets.length > 0) {
+        for (var j = 0; j < bullets.length; j++) {
+            bullets[j].position.add(bullets[j].velocity);
+            bullets[j].position.z -= stepBullet;
+            aux = j;
+        }
         cameras.bulletCam.lookAt(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
         cameras.bulletCam.position.set(bullets[aux].position.x, bullets[aux].position.y, bullets[aux].position.z);
     }
@@ -237,7 +237,15 @@ function animate() {
         }
     }
 
+    for (var i = 0; i < bulletsEnemy.length; i++) {
+        if (bulletsEnemy.length > 0) {
+            bulletsEnemy[i].position.add(bulletsEnemy[i].velocity);
+            bulletsEnemy[i].position.z += stepBullet;
+        }
+    }
 
+    if (jump % 100 == 0) { enemyBulltes(); }
+    jump++;
     playerSpaceship.userData.step += increment;
     playerSpaceship.position.y = .5 * (Math.cos(playerSpaceship.userData.step));
 
