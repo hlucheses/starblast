@@ -27,15 +27,17 @@ function render() {
     renderer.render(scene, cameras.current);
 }
 
-function createBoxes() {
-    for (var i = 0; i < arrEnemySpaceship.length; i++) {
+function createBoxes(){
+    for (var i = 0; i < arrEnemySpaceship.length; i++){
         var aabb = new THREE.Box3();
+        const helper = new THREE.Box3Helper(aabb, "white");
+        scene.add(helper);
         enemyBoxes.push(aabb);
-
-
+        helpersArray.push(helper);
+       
+        
     }
 }
-
 function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -60,8 +62,8 @@ function init() {
     createScene();
     createBoxes();
     render();
-
-
+    
+    
 }
 
 
@@ -133,11 +135,11 @@ function onKeyDown() {
         changeCentralCannonRingColor(0x00d5ff);
         changeLeftCannonHolderColor(0xfc0fc0);
         changeRightCannonHolderColor(0x00d5ff);
-
+    
 
     } else if (keyStates["Space"]) {
         if (opcao.esquerda == true) {
-            disparar(playerSpaceship.position.x - 5.355, playerSpaceship.position.y - 1.574);
+            disparar(playerSpaceship.position.x -  5.355, playerSpaceship.position.y - 1.574);
         } else if (opcao.meio == true) {
             disparar(playerSpaceship.position.x, playerSpaceship.position.y - 1.574);
         } else if (opcao.direita == true) {
@@ -186,7 +188,7 @@ function disparar(x, y) {
     /*setTimeout(function() {
         bullet.alive = false;
         scene.remove(bullet)a
-    }, 1000);*/
+    }, 1000);*/                
     scene.add(bullet);
 }
 
@@ -218,39 +220,34 @@ function animateCamera() {
     camera_rotation();
 }
 
-function colide(box1, box2) {
-    if ((box1.min.x >= box2.min.x && box1.min.x <= box2.max.x ||
-            box1.max.x >= box2.min.x && box1.max.x <= box2.max.x) &&
-        (box1.min.y >= box2.min.y && box1.min.y <= box2.max.y ||
-            box1.max.y >= box2.min.y && box1.max.y <= box2.max.y) &&
-        (box1.min.z >= box2.min.z && box1.min.z <= box2.max.z ||
-            box1.max.z >= box2.min.z && box1.max.z <= box2.max.z)) {
+function colide(box1, box2){
+    if((box1.min.x >= box2.min.x && box1.min.x <= box2.max.x ||
+        box1.max.x >= box2.min.x && box1.max.x <= box2.max.x) &&
+    (box1.min.y >= box2.min.y && box1.min.y <= box2.max.y ||
+        box1.max.y >= box2.min.y && box1.max.y <= box2.max.y) &&
+    (box1.min.z >= box2.min.z && box1.min.z <= box2.max.z ||
+        box1.max.z >= box2.min.z && box1.max.z <= box2.max.z)){
         return true;
-    } else { return false; }
+    }else{ return false ;}
 }
-
-function detectCollision(i) {
-    for (var j = 0; j < arrEnemySpaceship.length; j++) {
-        if (j != i) {
-            if (colide(enemyBoxes[i], enemyBoxes[j])) {
-                /*temp = arrEnemySpaceship[i].userData.step;
-                arrEnemySpaceship[i].userData.step = arrEnemySpaceship[j].userData.step;
-                arrEnemySpaceship[j].userData.step = temp;*/
-
-                arrEnemySpaceship[i].userData.padrao = !arrEnemySpaceship[i].userData.padrao;
-                arrEnemySpaceship[j].userData.padrao = !arrEnemySpaceship[j].userData.padrao;
-            }
-        }
-    }
+function detectCollision(i){
+        for (var j = 0; j <  arrEnemySpaceship.length; j++){
+            if(j != i){
+                if(colide(enemyBoxes[i],enemyBoxes[j])){
+                    scene.remove(arrEnemySpaceship[i]);
+                    scene.remove(arrEnemySpaceship[j]);
+                 } 
+            }     
+        }     
 }
-
+    
 
 function animate() {
 
     var aux;
     const STEPS_PER_FRAME = .1;
     const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
-
+    
     for (let i = 0; i < STEPS_PER_FRAME; i++) {
         controls(deltaTime);
         updatePlayer(deltaTime);
@@ -273,23 +270,16 @@ function animate() {
         enemyBoxes[i].setFromObject(arrEnemySpaceship[i]);
         //helpersArray[i].material.color.setHex("white");
         if (arrEnemySpaceship[i].userData.moving) {
+            if((arrEnemySpaceship[i].position.x > -(limiteHorizontal)) && (arrEnemySpaceship[i].position.x < limiteHorizontal)){
 
-            if ((arrEnemySpaceship[i].position.x > -(limiteHorizontal)) && (arrEnemySpaceship[i].position.x < limiteHorizontal)) {
-                detectCollision(i);
-            } else {
-                arrEnemySpaceship[i].userData.padrao = !arrEnemySpaceship[i].userData.padrao;
-            }
-
-
-            arrEnemySpaceship[i].position.x += 1 * (Math.cos((
-                arrEnemySpaceship[i].userData.padrao == true ?
-                arrEnemySpaceship[i].userData.step :
-                Math.PI - arrEnemySpaceship[i].userData.step
-            )));
-
-            arrEnemySpaceship[i].userData.step += (Math.random() * 10 + 1) / 200;
-            arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
-
+                arrEnemySpaceship[i].userData.step += increment;
+                arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
+               detectCollision(i);
+            }/*else{
+                arrEnemySpaceship[i].position.x -= 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
+            }*/
+            
+            
         }
     }
 
