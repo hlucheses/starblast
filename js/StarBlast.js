@@ -11,8 +11,9 @@ var keyStates = {};
 var scene, renderer, clock, rotationSpeed;
 var playerSpaceship, arrEnemySpaceship = [];
 var playerVelocity, playerDirection;
-var requestID;
-var bullets = [];
+var requestID, jump = 0;
+var bullets = []
+var bulletsEnemy = [];
 var stepBullet = 0.5;
 var legenda = document.getElementById("info");
 var bulletMax;
@@ -171,19 +172,19 @@ function enemyBulltes(){
         var bullet = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
     bullet.position.set(arrEnemySpaceship[i].position.x,
         arrEnemySpaceship[i].position.y,
-        -(arrEnemySpaceship[i].position.z));
+        arrEnemySpaceship[i].position.z);
         bullet.position.x = arrEnemySpaceship[i].position.x;
-    bullets.push(bullet);
+    bullets.push(bulletsEnemy);
     bullet.velocity = new THREE.Vector3(
-        -Math.sin(cameras.current.rotation.y),
+        Math.sin(cameras.current.rotation.y),
         0, 
         Math.sin(cameras.current.rotation.y)
     );
     bullet.alive = true;
-    setTimeout(function() {
+    /*setTimeout(function() {
         bullet.alive = false;
         scene.remove(bullet)
-    }, 1000);
+    }, 1000);*/
     scene.add(bullet);
     }
 }
@@ -195,17 +196,18 @@ function animateCamera() {
 }
 
 function condition(step){
-    var j;
-    /**for (i = 2; i <= num / 2; i++) {
-    if (num % i == 0) {
-       resultado++;
-       break;
-    }
- } */
+    var resultado = 0;
     for(var i = 2; i <= step / 2 ; i++){
         if(step % i ==0 ){
-            
+            resultado++;
+            break;
         }
+    }
+
+    if(resultado == 0){
+        return true;
+    }else{
+        return false;
     }
 }
 
@@ -222,6 +224,7 @@ function animate() {
 
     var increment = 0.025;
 
+
     for(var j = 0; j < bullets.length; j++){
         
         bullets[j].position.z -= stepBullet;
@@ -233,14 +236,18 @@ function animate() {
     }
    
     for (var i = 0; i < arrEnemySpaceship.length; i++) {
+       
         if (arrEnemySpaceship[i].userData.moving) {
 
             arrEnemySpaceship[i].userData.step += increment;
             arrEnemySpaceship[i].position.x += 1 * (Math.cos(arrEnemySpaceship[i].userData.step));
         }
+
+        bulletsEnemy[i].position.z += stepBullet;
     }
 
-
+    if(jump % 70== 0){enemyBulltes();}
+    jump++;
     playerSpaceship.userData.step += increment;
     playerSpaceship.position.y = .5 * (Math.cos(playerSpaceship.userData.step));
 
