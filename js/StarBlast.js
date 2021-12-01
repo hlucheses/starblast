@@ -47,6 +47,8 @@ function init() {
 
     createScene();
     render();
+    console.log(window.innerHeight);
+    
 }
 
 
