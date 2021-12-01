@@ -194,10 +194,22 @@ function animateCamera() {
     camera_rotation();
 }
 
+function condition(step){
+    var j;
+    /**for (i = 2; i <= num / 2; i++) {
+    if (num % i == 0) {
+       resultado++;
+       break;
+    }
+ } */
+    for(var i = 2; i <= step / 2 ; i++){
+        if(step % i ==0 ){
+            
+        }
+    }
+}
 
 function animate() {
-    
-    
     
     var aux;
     const STEPS_PER_FRAME = .1;
