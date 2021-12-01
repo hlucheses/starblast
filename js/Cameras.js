@@ -21,7 +21,7 @@ function createCameras() {
 
     //camera de topo
     var cameraTopo =new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 2000);
-    cameraTopo.position.set(0, 160, 5);
+    cameraTopo.position.set(0, 120, 5);
     cameraTopo.zoom = 3;
     cameraTopo.rotation.set(Math.PI / 2, 0, 0);
     cameraTopo.updateProjectionMatrix();
@@ -29,7 +29,7 @@ function createCameras() {
 
 
     var dynamicCamera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
-    dynamicCamera.position.set(0, 5, 300);
+    dynamicCamera.position.set(0, 5, 200);
     dynamicCamera.lookAt(0, 0, 0);
 
 
