@@ -21,53 +21,53 @@ class Collision {
      * Trata das colisões entre naves. Recebe um vetor de naves
      * @param {array} spaceshipArray 
      */
-
-    static checkLimits(spaceshipArray) {
-        for (var i = 0; i < spaceshipArray.length; i++) {
-            /*if (spaceshipArray[i].design.position.x < Constants.LEFT_LIMIT) {
-                spaceshipArray[i].design.position.x = Constants.LEFT_LIMIT;
-            }
-
-            if (spaceshipArray[i].design.position.x > Constants.RIGHT_LIMIT) {
-                spaceshipArray[i].design.position.x = Constants.RIGHT_LIMIT;
-            }*/
-        }
-    }
-
-    // FIX: As naves de vez em quando se sobrepõem
     static checkAmongSpaceships(spaceshipArray) {
 
-        for (var i = 0; i < spaceshipArray.length; i++) {
+        for (var i = 0; i < spaceshipArray.length - 1; i++) {
 
-            for (var j = 0; j < spaceshipArray.length; j++) {
-
-                if (i != j) {
+            for (var j = i + 1; j < spaceshipArray.length; j++) {
 
 
-                    if (this.hasColided(spaceshipArray[i].boundingBox, spaceshipArray[j].boundingBox)) {
+                if (this.hasColided(spaceshipArray[i].boundingBox, spaceshipArray[j].boundingBox)) {
 
-                        const xSpeedDiff = spaceshipArray[i].speed.x - spaceshipArray[j].speed.x;
-                        const zSpeedDiff = spaceshipArray[i].speed.z - spaceshipArray[j].speed.z;
+                    var vCollision = {
+                        x: spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x,
+                        z: spaceshipArray[j].design.position.z - spaceshipArray[i].design.position.z
+                    };
 
-                        const xDist = spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x;
-                        const zDist = spaceshipArray[j].design.position.z - spaceshipArray[i].design.position.z;
+                    var distance = Math.sqrt(
+                        (spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x)
+                        * (spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x)
+                        + (spaceshipArray[j].design.position.z - spaceshipArray[i].design.position.z)
+                        * (spaceshipArray[j].design.position.z - spaceshipArray[i].design.position.z)
+                    );
 
-                        if (xSpeedDiff + zSpeedDiff + zDist + xDist >= 0) {
-                            var temp = { speed: new THREE.Vector3() };
-                            temp.speed.copy(spaceshipArray[i].speed);
 
-                            spaceshipArray[i].speed.copy(spaceshipArray[j].speed);
-                            //spaceshipArray[i].acceleration.set(0, 0, 0);
+                    let vCollisionNorm = { x: vCollision.x / distance, z: vCollision.z / distance };
 
-                            spaceshipArray[j].speed.copy(temp.speed);
-                            //spaceshipArray[j].acceleration.set(0, 0, 0);
+                    let vRelativeVelocity = {
+                        x: spaceshipArray[i].speed.x - spaceshipArray[j].speed.x,
+                        z: spaceshipArray[i].speed.z - spaceshipArray[j].speed.z
+                    };
 
-                            /* Se for uma nave inimiga (2) procura um novo sítio para ir */
-                            if (spaceshipArray[i].type == Constants.ENEMY) {
-                                spaceshipArray[i].newTarget();
-                            }
+                    let speed = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.z * vCollisionNorm.z;
 
-                        }
+                    if (speed < 0) {
+                        break;
+                    }
+
+                    spaceshipArray[i].speed.x -= (speed * vCollisionNorm.x);
+                    spaceshipArray[i].speed.z -= (speed * vCollisionNorm.z);
+                    spaceshipArray[j].speed.x += (speed * vCollisionNorm.x);
+                    spaceshipArray[j].speed.z += (speed * vCollisionNorm.z);
+
+                    // Se for uma nave inimiga (2) procura um novo sítio para ir
+                    if (spaceshipArray[i].type == Constants.ENEMY) {
+                        spaceshipArray[i].newTarget();
+                    }
+
+                    if (spaceshipArray[j].type == Constants.ENEMY) {
+                        spaceshipArray[j].newTarget();
                     }
                 }
             }

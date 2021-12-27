@@ -30,7 +30,7 @@ class Spaceship {
         // Determina o tipo de spaceship (1 para player, 2 para inimigo)
         this.type = null;
 
-        this.boundingBox = null
+        this.boundingBox = null;
         this.design = new THREE.Object3D();
         this.cannons = {};
 
@@ -60,13 +60,16 @@ class Spaceship {
         // inicia o hovering com 0
         this.hoveringStep = 0;
 
+        //
+        this.isColliding = false;
+
         // Define a posição inicial da nave
         this.setStartPosition(x, y, z);
     }
 
     /**
-     * 
-     * @returns Object3D component from spaceship
+     * Retorna o design da nave (estrutra "física")
+     * @returns {THREE.Object3D}
      */
     getDesign() {
         return this.design;

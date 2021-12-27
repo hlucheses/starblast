@@ -86,6 +86,8 @@ class EnemySpaceship extends EnemySpaceshipDesign {
 
     /**
      * Movimenta as naves aleatoriamente pela cena
+     * FIXME: Às vezes espera se coliderem para se mexer
+     * TODO: O movimento está muito caótico. Adicionar inteligência
      */
     moveRandomly() {
 

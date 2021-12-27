@@ -146,7 +146,6 @@ class StarBlast {
         // Verificar colisões
 
         // Entre as naves
-        Collision.checkLimits([this.PLAYER_SPACESHIP, ...(this.ENEMIES)]);
         Collision.checkAmongSpaceships([this.PLAYER_SPACESHIP, ...(this.ENEMIES)]);
     }
 }
