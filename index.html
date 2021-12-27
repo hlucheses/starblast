@@ -3,24 +3,39 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Space Impact</title>
+    <title>Star Blast</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 
 <body>
-    <div id="info">Star Blast</div>
+    
 </body>
 
 <script src="vendor/three.js"></script>
+<script src="js/Constants.js"></script>
 <script src="js/Cameras.js"></script>
-<script src="js/StarBlast.js"></script>
 <script src="js/Movement.js"></script>
 <script src="js/Spaceship.js"></script>
 <script src="js/StarsAndPlanets.js"></script>
+<script src="js/spaceships/parts/Cannon.js"></script>
+
+<script src="js/Collision.js"></script>
+
+<script src="js/spaceships/Spaceship.js"></script>
+<script src="js/spaceships/design/PlayerSpaceshipDesign.js"></script>
+<script src="js/spaceships/PlayerSpaceship.js"></script>
+<script src="js/spaceships/design/EnemySpaceshipDesign.js"></script>
+<script src="js/spaceships/EnemySpaceship.js"></script>
+<script src="js/Scenary.js"></script>
+
+<!-- Inclusão dupla porque colision usa enemy e enemy usa colision -->
+<!--<script src="js/Collision.js"></script>-->
+
+<script src="js/StarBlast.js"></script>
+
 <script>
-    init();
-    animate();
-    
+    StarBlast.init();
+    animateFora();
 </script>
     
 </html>

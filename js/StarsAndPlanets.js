@@ -6,29 +6,26 @@
  *- Miguel Gamboa
  * 
  */
+
 function createCenario() {
     var geometry = new THREE.PlaneGeometry(800, 800);
-     var material = new THREE.MeshBasicMaterial({
+    var material = new THREE.MeshBasicMaterial({
         side: THREE.DoubleSide,
         color: '#0B0A13'
-     
+
     });
     var leftPlane = new THREE.Mesh(geometry, material);
-
     var topPlane = new THREE.Mesh(geometry, material);
-
     var rightPlane = new THREE.Mesh(geometry, material);
-
     var bottomPlane = new THREE.Mesh(geometry, material);
-
     var backPlane = new THREE.Mesh(geometry, material);
 
     var frontPlane = new THREE.Mesh(geometry, material);
 
     setPlanosPosition(leftPlane, topPlane, rightPlane, bottomPlane, backPlane, frontPlane);
     setStars();
-    
-  
+
+
 }
 
 function createStars() {
