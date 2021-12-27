@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class EnemySpaceship extends EnemySpaceshipDesign {
+ class EnemySpaceship extends EnemySpaceshipDesign {
     
     /**
      * Inicializa nave na posição (x, y, z) e as configurações iniciais
@@ -44,9 +44,6 @@ class EnemySpaceship extends EnemySpaceshipDesign {
         // Limites da nave
         this.frontLimit = Constants.ENEMY_FRONT_LIMIT;
         this.backLimit = Constants.ENEMY_BACK_LIMIT;
-
-        // Valor usado para identificar a nave no vector StarBlast.ENEMIES
-        this.id;
     }
 
     /**
@@ -146,6 +143,23 @@ class EnemySpaceship extends EnemySpaceshipDesign {
         }
 
         this.move();
+    }
+
+    /**
+     * Dispara balas aleatoriamente
+     */
+    shootRandomly() {
+        var numero = 123456;//Constants.randomNumber(1, 1000000);    
+
+        if (numero % 123456 == 0) {
+            numero = Constants.randomNumber(1, 2);
+
+            if (numero == 1) {
+                this.cannons.left.shoot();
+            } else {
+                this.cannons.right.shoot();
+            }
+        }
     }
 
     /**

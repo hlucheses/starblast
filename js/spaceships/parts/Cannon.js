@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class Cannon {
+ class Cannon {
 
     /**
      * Inicia com o design do canhão
@@ -31,5 +31,20 @@ class Cannon {
      */
     setColor(color) {
         this.mesh.material.color.set(color);
+    }
+
+    /**
+     * Disparar uma bala
+     * O tipo ajuda a determinar o sentido da bala
+     * @param {number}
+     */
+    shoot(type) {
+        var bullet = new Bullet(this.x, this.y, this.z, type);
+
+        if (type == Constants.PLAYER) {
+
+        } else {
+
+        }
     }
 }

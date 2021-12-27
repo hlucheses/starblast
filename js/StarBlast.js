@@ -20,8 +20,9 @@
  * São definidas as animações do programa
  * FIX: É suposto as animações também pertencerem à classe StarBlast
  */
-function animateFora() {
+ function animateFora() {
     StarBlast.moveSpaceships();
+    //StarBlast.shootRandomly();
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
@@ -150,5 +151,14 @@ class StarBlast {
 
         // Entre as naves
         Collision.checkAmongSpaceships([this.PLAYER_SPACESHIP, ...(this.ENEMIES)]);
+    }
+
+    /**
+     * Faz os inimigos darem tiro aleatoriamente
+     */
+    static shootRandomly() {
+        for (var i = 0; i < this.ENEMIES.length; i++) {
+            //this.ENEMIES[i].shootRandomly();
+        }
     }
 }

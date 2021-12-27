@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class Spaceship {
+class Spaceship extends StarBlastObject {
 
     /**
      * Define posição inicial da nave
@@ -25,66 +25,27 @@ class Spaceship {
      * @param {number} z 
      */
     constructor(x, y, z) {
+
+        super(x, y, z);
         /* Atributos definidos nos filhos */
 
         // Determina o tipo de spaceship (1 para player, 2 para inimigo)
         this.type = null;
 
         this.boundingBox = null;
-        this.design = new THREE.Object3D();
+
         this.cannons = {};
 
-        /* Atributos definidos nesta classe mãe */
+        // inicia o hovering com 0
+        this.hoveringStep = 0;
 
+        /* FIXME: Permitir com que funcione vindo de constants */
         // Variação da aceleração (1, 1, 1)
         this.ACCELERATION = Constants.metersToPixels(1);
         this.BRAKING = Constants.metersToPixels(1);
 
         // Velocidade máxima 80 m/s
         this.MAX_SPEED = Constants.metersToPixels(80);
-
-        // Variáveis de movimento
-
-        /*
-            Se moving = -1 => a nave está a se mover no sentido negativo
-            do eixo em questão
-            Se moving = 0 => a nave está parada no eixo em questão
-            Se moving = 1 => a nave está a se mover no sentido positivo
-            do eixo em questão
-        */
-        this.moving = new THREE.Vector3(0, 0, 0);
-
-        this.speed = new THREE.Vector3(0, 0, 0);
-        this.acceleration = new THREE.Vector3(0, 0, 0);
-
-        // inicia o hovering com 0
-        this.hoveringStep = 0;
-
-        //
-        this.isColliding = false;
-
-        // Define a posição inicial da nave
-        this.setStartPosition(x, y, z);
-    }
-
-    /**
-     * Retorna o design da nave (estrutra "física")
-     * @returns {THREE.Object3D}
-     */
-    getDesign() {
-        return this.design;
-    }
-
-    /**
-     * Define posição inicial da nave
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     */
-    setStartPosition(x, y, z) {
-        this.design.position.x = x;
-        this.design.position.y = y;
-        this.design.position.z = z;
     }
 
     /**
@@ -214,5 +175,5 @@ class Spaceship {
             this.design.position.x = Constants.RIGHT_LIMIT;
             this.speed.x = 0;
         }
-    } 
+    }
 }

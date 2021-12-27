@@ -15,7 +15,19 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class Constants {
+ class Constants {
+
+    /* FIXME: Estas constantes NÃO FUNCIONAM EM spaceships/Spaceship.js */
+
+    static SPACESHIP_ACCELERATION;
+    static SPACESHIP_BRAKING;
+    static SPACESHIP_MAX_SPEED;
+
+    static staticConstructor() {
+        SPACESHIP_ACCELERATION = this.metersToPixels(1);
+        SPACESHIP_BRAKING = this.metersToPixels(1);
+        SPACESHIP_MAX_SPEED = this.metersToPixels(80);
+    }
 
     // 1 pixel equivale a PIXELS_TO_METERS metros
     static PIXELS_TO_METERS = 40;
@@ -133,3 +145,6 @@ class Constants {
         return number / Math.abs(number);
     }
 }
+
+// inicializa o construtor estático
+Constants.staticConstructor();
