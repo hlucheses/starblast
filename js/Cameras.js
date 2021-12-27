@@ -1,14 +1,18 @@
 /**
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe estática que representa as câmaras.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
  * 
- * Grupo 2:
- * -Andreia de Brito
- * -Hélder da Costa
- *- Miguel Gamboa
- * 
- */
-
-/**
- * Classe estática que representa as câmaras
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
 class Cameras {
@@ -53,6 +57,11 @@ class Cameras {
         this.CURRENT = this.FRONTAL;
     }
 
+    /**
+     * Muda a câmara com base na tecla apertada ou com base na câmara passada
+     * nos parâmetros
+     * @param {string|THREE.PerspectiveCamera|THREE.OrthographicCamera} camera 
+     */
     static changeCurrent(camera) {
 
         if (typeof camera == "string") {

@@ -1,5 +1,18 @@
 /**
- * Classe que representa o desenho da nave.
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe que representa o desenho da nave do player.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
+ * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
 class PlayerSpaceshipDesign extends Spaceship {
@@ -19,6 +32,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * Adicionar os componentes ao objecto principal (partes da nave)
      */
     initialDesign() {
+        // Canhões usados para fazer os disparos
         this.cannons.left = new Cannon(this.addSideCannonHolder(4.224, -.685, 2.055, -40.25));
         this.cannons.right = new Cannon(this.addSideCannonHolder(-4.224, -.685, 2.055, 40.25));
         this.cannons.middle = new Cannon(this.addCentralCannonRing(0, -1.565, .685));

@@ -1,3 +1,20 @@
+<!--
+    - StarBlast, jogo de naves espaciais.
+    - Este projecto é um projecto da cadeira de computação gráfica
+    - como requisito parcial de avaliação do 4º ano de engenharia
+    - informática (ISPTEC - Luanda, Angola).
+    -
+    - @link https://github.com/hlucheses/starblast/
+    - @file Documento html.
+    -
+    - @author Andreia Vanessa Graça de Brito
+    - @author Helder Lucheses Gonçalves da Costa
+    - @author Miguel Gamboa Francisco Domingos
+    -
+    - @since 27.12.2021
+    - @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
+-->
+
 <!DOCTYPE html>
 <html>
 
@@ -8,34 +25,36 @@
 </head>
 
 <body>
-    
 </body>
 
+<!-- 
+    As inclusões apresentam-se neste estado porque é suposto ser uma página
+    estática. Um requisito para o uso do import é que haja um servidor.
+-->
+
 <script src="vendor/three.js"></script>
+
+<!-- Classes estáticas -->
 <script src="js/Constants.js"></script>
 <script src="js/Cameras.js"></script>
-<script src="js/Movement.js"></script>
-<script src="js/Spaceship.js"></script>
-<script src="js/StarsAndPlanets.js"></script>
-<script src="js/spaceships/parts/Cannon.js"></script>
-
 <script src="js/Collision.js"></script>
+<script src="js/Scenary.js"></script>
 
+<!-- Classes relativas às naves (instanciáveis) -->
+<script src="js/spaceships/parts/Cannon.js"></script>
 <script src="js/spaceships/Spaceship.js"></script>
 <script src="js/spaceships/design/PlayerSpaceshipDesign.js"></script>
 <script src="js/spaceships/PlayerSpaceship.js"></script>
 <script src="js/spaceships/design/EnemySpaceshipDesign.js"></script>
 <script src="js/spaceships/EnemySpaceship.js"></script>
-<script src="js/Scenary.js"></script>
 
-<!-- Inclusão dupla porque colision usa enemy e enemy usa colision -->
-<!--<script src="js/Collision.js"></script>-->
-
+<!-- Main -->
 <script src="js/StarBlast.js"></script>
 
+<!-- É aqui que o Dasher, o Rudolph e o Prancer nascem -->
 <script>
     StarBlast.init();
     animateFora();
 </script>
-    
+
 </html>

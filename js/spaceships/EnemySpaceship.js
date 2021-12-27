@@ -1,5 +1,18 @@
 /**
- * Classe que representa uma nave inimiga
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe que representa uma nave inimiga.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
+ * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
 class EnemySpaceship extends EnemySpaceshipDesign {
@@ -28,8 +41,11 @@ class EnemySpaceship extends EnemySpaceshipDesign {
         // Verifica em que posição a nave está em relação ao destino
         this.status = this.getStatus();
 
+        // Limites da nave
         this.frontLimit = Constants.ENEMY_FRONT_LIMIT;
         this.backLimit = Constants.ENEMY_BACK_LIMIT;
+
+        // Valor usado para identificar a nave no vector StarBlast.ENEMIES
         this.id;
     }
 
@@ -73,45 +89,54 @@ class EnemySpaceship extends EnemySpaceshipDesign {
      */
     moveRandomly() {
 
+        // Se já chegou ao destino, computa um novo
         if (this.checkTarget()) {
             this.newTarget();
         } else {
 
+            // Se a posição está antes do destino e ainda não chegou ao alvo em X
             if (this.design.position.x <= this.target.x && !this.targetBool.x) {
-                if (this.status.x > 0) {
+                if (this.status.x > 0) { // Se está depois do destino
+                    // Informa que já chegou ao alvo em X e para
                     this.targetBool.x = true;
                     this.acceleration.setX(0);
                     this.moving.setX(0);
-                } else {
+                } else { // Se está antes do destino
                     this.acceleration.setX(this.ACCELERATION);
                     this.moving.setX(1);
                 }
+            // Se a posição está depois do destino e ainda não chegou ao alvo em X
             } else if (this.design.position.x >= this.target.x && !this.targetBool.x) {
-                if (this.status.x < 0) {
+                if (this.status.x < 0) { // Se está antes do destino
+                    // Informa que já chegou ao alvo em X e para
                     this.targetBool.x = true;
                     this.acceleration.setX(0);
                     this.moving.setX(0);
-                } else {
+                } else { // Se está depois do destino
                     this.acceleration.setX(-this.ACCELERATION);
                     this.moving.setX(-1);
                 }
             }
 
+            // Se a posição está antes do destino e ainda não chegou ao alvo em Z
             if (this.design.position.z <= this.target.z && !this.targetBool.z) {
-                if (this.status.z > 0) {
+                if (this.status.z > 0) { // Se está depois do destino
+                    // Informa que já chegou ao alvo em X e para
                     this.targetBool.z = true;
                     this.acceleration.setZ(0);
                     this.moving.setZ(0);
-                } else {
+                } else { // Se está antes do destino
                     this.acceleration.setZ(this.ACCELERATION);
                     this.moving.setZ(1);
                 }
+            // Se a posição está depois do destino e ainda não chegou ao alvo em X
             } else if (this.design.position.z >= this.target.z && !this.targetBool.z) {
-                if (this.status.z < 0) {
+                if (this.status.z < 0) {// Se está antes do destino
+                    // Informa que já chegou ao alvo em X e para
                     this.targetBool.z = true;
                     this.acceleration.setZ(0);
                     this.moving.setZ(0);
-                } else {
+                } else { // Se está depois do destino
                     this.acceleration.setZ(-this.ACCELERATION);
                     this.moving.setZ(-1);
                 }
@@ -125,11 +150,17 @@ class EnemySpaceship extends EnemySpaceshipDesign {
      * Procura um novo destino para o movimento
      */
     newTarget() {
+
+        // Define que ainda não chegou ao destino
         this.targetBool.x = false;
         this.targetBool.z = false;
+
+        // Calcula um novo destino aleatório dentro dos limites estabelecidos
         this.target.x = Constants.randomNumber(Constants.LEFT_LIMIT, Constants.RIGHT_LIMIT);
         this.target.y = 0;
         this.target.z = Constants.randomNumber(Constants.ENEMY_BACK_LIMIT, Constants.ENEMY_FRONT_LIMIT);
+
+        // Dá em que estado a nave está em relação à posição destino
         this.status = this.getStatus();
     }
 
@@ -153,6 +184,9 @@ class EnemySpaceship extends EnemySpaceshipDesign {
         return this.targetBool.x && this.targetBool.y && this.targetBool.z;
     }
 
+    /**
+     * Verifica os limites no eixo de Z
+     */
     checkZLimits() {
         if (this.design.position.z < this.backLimit) {
             this.design.position.z = this.backLimit;

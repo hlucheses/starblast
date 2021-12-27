@@ -1,5 +1,18 @@
 /**
- * Classe que representa qualquer nave no jogo
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe que representa qualquer nave no jogo.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
+ * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
 class Spaceship {
@@ -16,6 +29,7 @@ class Spaceship {
 
         // Determina o tipo de spaceship (1 para player, 2 para inimigo)
         this.type = null;
+
         this.boundingBox = null
         this.design = new THREE.Object3D();
         this.cannons = {};
@@ -30,16 +44,24 @@ class Spaceship {
         this.MAX_SPEED = Constants.metersToPixels(80);
 
         // Variáveis de movimento
+
+        /*
+            Se moving = -1 => a nave está a se mover no sentido negativo
+            do eixo em questão
+            Se moving = 0 => a nave está parada no eixo em questão
+            Se moving = 1 => a nave está a se mover no sentido positivo
+            do eixo em questão
+        */
         this.moving = new THREE.Vector3(0, 0, 0);
+
         this.speed = new THREE.Vector3(0, 0, 0);
         this.acceleration = new THREE.Vector3(0, 0, 0);
 
         // inicia o hovering com 0
         this.hoveringStep = 0;
 
+        // Define a posição inicial da nave
         this.setStartPosition(x, y, z);
-        this.frontLimit;
-        this.backLimit;
     }
 
     /**
@@ -76,7 +98,7 @@ class Spaceship {
         this.checkXLimits();
         this.checkZLimits();
 
-        // Se a velocidade for menor que a máxima acelerar
+        // Se a velocidade for menor que a máxima acelerar no sentido em questão
 
         if (Math.abs(this.speed.x) <= this.MAX_SPEED) {
             this.speed.x += this.acceleration.x;

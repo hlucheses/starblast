@@ -1,5 +1,18 @@
 /**
- * Classe que define constantes importantes do programa
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe estática que define constantes importantes do programa.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
+ * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
 class Constants {
@@ -35,8 +48,10 @@ class Constants {
     // Define a distância mínima das estrelas ao centro da cena em %
     static LIMITE_ESTRELAS = 0.6;
 
+    // Mostrar bounding boxes
     static SHOW_BOUNDING_BOX_HELPERS = true;
 
+    // Constantes que determinam o tipo de spaceship
     static PLAYER = 1;
     static ENEMY = 2;
 
@@ -49,6 +64,7 @@ class Constants {
     static ENEMY_FRONT_LIMIT = -30;
     static ENEMY_BACK_LIMIT = -60;  
     
+    // Limite longitudenal da nave do player
     static PLAYER_FRONT_LIMIT = 20;
     static PLAYER_BACK_LIMIT = 180;
 
@@ -62,23 +78,54 @@ class Constants {
         return start + Math.floor(Math.random() * (end - start + 1));
     }
 
+    /**
+     * Converte um número de pixels para metros
+     * @param {number} number 
+     * @returns {number}
+     */
     static pixelsToMeters(number) {
         return number * this.PIXELS_TO_METERS;
     }
 
+    /**
+     * Converte um numero de metros para pixels
+     * @param {number} number 
+     * @returns {number}
+     */
     static metersToPixels(number) {
         return number / this.PIXELS_TO_METERS;
     }
 
+    /**
+     * Calcula pelo teorema de Pitágoras o módulo de um vector tridimensional
+     * @param {THREE.Vector3} vector 
+     * @returns {number}
+     */
     static vectorLength(vector) {
         return Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
     }
 
+    /**
+     * Compara dois vectores e diz se são iguais (true) ou não (false)
+     * @param {THREE.Vector3} vector1 
+     * @param {THREE.Vector3} vector2 
+     * @returns {boolean}
+     */
     static compareVectors(vector1, vector2) {
         return vector1.x == vector2.x && vector1.y == vector2.y && vector1.z == vector2.z;
     }
 
+    /**
+     * Retorna o sinal de um numero, -1 se for negativo 1 se for positivo e
+     * 0 se for 0
+     * @param {number} number 
+     * @returns {number}
+     */
     static getSignal(number) {
+        if (number == 0) {
+            return 0;
+        }
+
         return number / Math.abs(number);
     }
 }

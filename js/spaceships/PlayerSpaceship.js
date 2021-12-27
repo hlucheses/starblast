@@ -1,5 +1,18 @@
 /**
- * Classe que representa a nave heroína
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe que representa a nave do player.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
+ * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
 class PlayerSpaceship extends PlayerSpaceshipDesign {
@@ -13,10 +26,12 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
     constructor(x, y, z) {
         super(x, y, z);
 
-        
-        this.type = Constants.PLAYER; // Tipo 1 é nave do herói
+        this.type = Constants.PLAYER; // Tipo de nave
+
+        // Cria a boundingBox
         this.boundingBox = this.createBoundingBox();
 
+        // Estabelece os limites longitudenais do player
         this.frontLimit = Constants.PLAYER_FRONT_LIMIT;
         this.backLimit = Constants.PLAYER_BACK_LIMIT;
     }
@@ -51,6 +66,9 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
         
     }
 
+    /**
+     * Verifica os limites no eixo de Z
+     */
     checkZLimits() {
         if (this.design.position.z > this.backLimit) {
             this.design.position.z = this.backLimit;

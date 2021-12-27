@@ -1,15 +1,19 @@
 /**
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe estática que representa os elementos do cenário.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
  * 
- * Grupo 2:
- * -Andreia de Brito
- * -Hélder da Costa
- *- Miguel Gamboa
- * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
-
-/**
- * Classe abstracta que representa os elementos do cenário
-*/
 
 class Scenary {
 
@@ -24,12 +28,17 @@ class Scenary {
         front: null
     }
 
-
+    /**
+     * Constutor estático, declarado abaixo da classe
+     */
     static staticConstructor() {
         this.initializeWalls();
         this.setWalls();
     }
 
+    /**
+     * Inicializa 6 paredes (formar uma caixa)
+     */
     static initializeWalls() {
         var geometry = new THREE.PlaneGeometry(Constants.WALL_SIZE.width, Constants.WALL_SIZE.height);
         var material = new THREE.MeshBasicMaterial({
@@ -45,6 +54,9 @@ class Scenary {
         this.planes.front = new THREE.Mesh(geometry, material);
     }
 
+    /**
+     * Coloca as paredes nas extremidades do espaço
+     */
     static setWalls() {
         this.planes.left.position.set(-Constants.SPACE.width / 2, 0, 0);
         this.planes.left.rotation.set(0, Math.PI / 2, 0);
@@ -63,6 +75,10 @@ class Scenary {
         this.planes.front.position.set(0, 0, Constants.SPACE.depth / 2);
     }
 
+    /**
+     * Calcula uma posição aleatória para cada estrela e as coloca no campo
+     * @returns {THREE.Group}
+     */
     static getStars() {
         var starsGroup = new THREE.Group();
 
@@ -83,10 +99,12 @@ class Scenary {
             */
             var extremidade;
 
+            // Escolhe aleatória mente 1 ou -1
             do {
                 extremidade = Constants.randomNumber(-1, 1);
             } while (extremidade == 0);
 
+            // Gera a posição da estrela aleatoriamente
             var x = Constants.randomNumber(-Constants.SPACE.width / 2, Constants.SPACE.width / 2);
             var y = Constants.randomNumber(-Constants.SPACE.height / 2, Constants.SPACE.height / 2);
             var z = Constants.randomNumber(-Constants.SPACE.depth / 2, Constants.SPACE.depth / 2);
@@ -120,4 +138,5 @@ class Scenary {
     }
 }
 
+// Inicializa a classe
 Scenary.staticConstructor();

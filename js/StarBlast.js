@@ -1,18 +1,27 @@
 /**
+ * StarBlast, jogo de naves espaciais.
+ *
+ * Este projecto é um projecto da cadeira de computação gráfica
+ * como requisito parcial de avaliação do 4º ano de engenharia
+ * informática (ISPTEC - Luanda, Angola).
+ *
+ * @link   https://github.com/hlucheses/starblast/
+ * @file   Classe estática que representa o ficheiro principal do programa.
+ * @author Andreia Vanessa Graça de Brito
+ * @author Helder Lucheses Gonçalves da Costa
+ * @author Miguel Gamboa Francisco Domingos
+ * @since  27.12.2021
  * 
- * Grupo 2:
- * -Andreia de Brito
- * -Hélder da Costa
- *- Miguel Gamboa
- * 
+ * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
+
 /**
-     * São definidas as animações do programa
-     */
+ * São definidas as animações do programa
+ * FIX: É suposto as animações também pertencerem à classe StarBlast
+ */
 function animateFora() {
     StarBlast.moveSpaceships();
-    
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
@@ -52,7 +61,7 @@ class StarBlast {
 
         // Redimensionar o projecto ao redimensionar a janela
         window.addEventListener("resize", () => {
-            
+
             // TODO: Ao redimensionar, o aspect ratio muda drasticamente. Resolver problema
             if (window.innerHeight > 0) {
                 Cameras.CURRENT.aspect = window.innerWidth / window.innerHeight;
