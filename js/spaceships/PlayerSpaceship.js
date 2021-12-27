@@ -34,6 +34,7 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
         // Estabelece os limites longitudenais do player
         this.frontLimit = Constants.PLAYER_FRONT_LIMIT;
         this.backLimit = Constants.PLAYER_BACK_LIMIT;
+        this.cannons.current = null;
     }
 
     /**
@@ -79,5 +80,36 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
             this.design.position.z = this.frontLimit;
             this.speed.z = 0;
         }
+    }
+
+    /**
+     * Verifica que canhão foi seleccionado e muda 
+     * a sua cor com base no código da tecla clicada
+     * @param {string}
+     */
+    checkCannon(keyCode) {
+
+        if (keyCode == "KeyQ" || keyCode == "KeyW" || keyCode == "KeyE") {
+            this.cannons.left.setColor(Constants.COLORS.cannons.default);
+            this.cannons.right.setColor(Constants.COLORS.cannons.default);
+            this.cannons.middle.setColor(Constants.COLORS.cannons.default);
+        } else {
+            return;
+        }
+
+        switch (keyCode) {
+            case "KeyQ":
+                this.cannons.current = this.cannons.left;
+                break;
+            case "KeyW":
+                this.cannons.current = this.cannons.middle;
+                break;
+            case "KeyE":
+                this.cannons.current = this.cannons.right;
+                break;
+
+        }
+
+        this.cannons.current.setColor(Constants.COLORS.cannons.selected);
     }
 }

@@ -48,7 +48,10 @@ class StarBlast {
         // Eventos ao pressionar a tecla
         document.addEventListener('keydown', (event) => {
             this.keyStates[event.code] = true;
+
             Cameras.changeCurrent(event.code);
+
+            this.PLAYER_SPACESHIP.checkCannon(event.code);
 
             if (event.code == "Digit4") {
                 this.toggleWireframe();

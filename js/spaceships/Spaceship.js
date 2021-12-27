@@ -38,7 +38,7 @@ class Spaceship {
 
         // Variação da aceleração (1, 1, 1)
         this.ACCELERATION = Constants.metersToPixels(1);
-        this.BRAKING = Constants.metersToPixels(.6);
+        this.BRAKING = Constants.metersToPixels(1);
 
         // Velocidade máxima 80 m/s
         this.MAX_SPEED = Constants.metersToPixels(80);

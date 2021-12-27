@@ -30,11 +30,13 @@ class Collision {
 
                 if (this.hasColided(spaceshipArray[i].boundingBox, spaceshipArray[j].boundingBox)) {
 
+                    /* A colisão só é calculada nos eixos de movimento (x e z) */
                     var vCollision = {
                         x: spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x,
                         z: spaceshipArray[j].design.position.z - spaceshipArray[i].design.position.z
                     };
 
+                    // Calcula a distância entre as duas naves
                     var distance = Math.sqrt(
                         (spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x)
                         * (spaceshipArray[j].design.position.x - spaceshipArray[i].design.position.x)
@@ -42,14 +44,16 @@ class Collision {
                         * (spaceshipArray[j].design.position.z - spaceshipArray[i].design.position.z)
                     );
 
-
+                    // Norma dos vectores de colisão
                     let vCollisionNorm = { x: vCollision.x / distance, z: vCollision.z / distance };
 
+                    // Velocidade relativa
                     let vRelativeVelocity = {
                         x: spaceshipArray[i].speed.x - spaceshipArray[j].speed.x,
                         z: spaceshipArray[i].speed.z - spaceshipArray[j].speed.z
                     };
 
+                    // Velocidade calculada
                     let speed = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.z * vCollisionNorm.z;
 
                     if (speed < 0) {
@@ -81,8 +85,8 @@ class Collision {
      * @returns 
      */
     static hasColided(a, b) {
-        return (a.min.x < b.max.x && a.max.x > b.min.x) &&
-            (a.min.y < b.max.y && a.max.y > b.min.y) &&
-            (a.min.z < b.max.z && a.max.z > b.min.z);
+        return (a.min.x <= b.max.x && a.max.x >= b.min.x) &&
+            (a.min.y <= b.max.y && a.max.y >= b.min.y) &&
+            (a.min.z <= b.max.z && a.max.z >= b.min.z);
     }
 }

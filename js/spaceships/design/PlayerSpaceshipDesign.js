@@ -33,8 +33,8 @@ class PlayerSpaceshipDesign extends Spaceship {
      */
     initialDesign() {
         // Canhões usados para fazer os disparos
-        this.cannons.left = new Cannon(this.addSideCannonHolder(4.224, -.685, 2.055, -40.25));
-        this.cannons.right = new Cannon(this.addSideCannonHolder(-4.224, -.685, 2.055, 40.25));
+        this.cannons.right = new Cannon(this.addSideCannonHolder(4.224, -.685, 2.055, -40.25));
+        this.cannons.left = new Cannon(this.addSideCannonHolder(-4.224, -.685, 2.055, 40.25));
         this.cannons.middle = new Cannon(this.addCentralCannonRing(0, -1.565, .685));
 
         this.cockpit = this.addCockpit(0, .774, 1.467);

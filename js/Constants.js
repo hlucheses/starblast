@@ -29,6 +29,10 @@ class Constants {
             secondary: 0x750000,
             third: 0x0c0c0d,
             fourth: 0x201313
+        },
+        cannons: {
+            default: 0x00d5ff,
+            selected: 0xff0000,
         }
     }
 
