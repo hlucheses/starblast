@@ -72,6 +72,10 @@ class Spaceship {
         // À posicão são adicionados (velocidade) metros a cada frame
         this.design.position.add(this.speed);
 
+        // Verificar se atingiu um limite
+        this.checkXLimits();
+        this.checkZLimits();
+
         // Se a velocidade for menor que a máxima acelerar
 
         if (Math.abs(this.speed.x) <= this.MAX_SPEED) {
@@ -85,10 +89,6 @@ class Spaceship {
         } else {
             this.speed.z = Constants.getSignal(this.speed.z) * this.MAX_SPEED;
         }
-
-        // Verificar se atingiu um limite
-        this.checkXLimits();
-        this.checkZLimits();
 
         // Inclinação
         this.tilt();

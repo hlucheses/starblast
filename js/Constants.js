@@ -42,8 +42,8 @@ class Constants {
 
 
     // Limite lateral das naves
-    static LEFT_LIMIT = -200;
-    static RIGHT_LIMIT = 200;
+    static LEFT_LIMIT = -120;
+    static RIGHT_LIMIT = 120;
 
     // Limite longitudenal das naves inimigas
     static ENEMY_FRONT_LIMIT = -30;

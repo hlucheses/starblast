@@ -40,10 +40,10 @@ class Collision {
                             temp.speed.copy(spaceshipArray[i].speed);
 
                             spaceshipArray[i].speed.copy(spaceshipArray[j].speed);
-                            spaceshipArray[i].acceleration.set(0, 0, 0);
+                            //spaceshipArray[i].acceleration.set(0, 0, 0);
 
                             spaceshipArray[j].speed.copy(temp.speed);
-                            spaceshipArray[j].acceleration.set(0, 0, 0);
+                            //spaceshipArray[j].acceleration.set(0, 0, 0);
 
                             /* Se for uma nave inimiga (2) procura um novo sítio para ir */
                             if (spaceshipArray[i].type == Constants.ENEMY) {
