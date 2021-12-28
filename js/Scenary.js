@@ -72,7 +72,9 @@ class Scenary {
         var geometry = new THREE.BoxGeometry(Constants.WALL_WIDTH, Constants.WALL_HEIGHT, Constants.WALL_DEPTH);
         var material =  new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
-            color: Constants.COLORS.walls
+            color: Constants.COLORS.walls,
+            transparent: true,
+            opacity: 0.36
         });
 
         this.walls.left = new THREE.Mesh(geometry, material);
@@ -87,10 +89,12 @@ class Scenary {
      */
 
     static setBox(){
-        this.walls.left.position.set(-800, 0, 0);
-        this.walls.right.position.set(800, 0, 0);
-        this.walls.top.position.set(0, 800, 0);
-        this.walls.bottom.set(0, -800, 0);
+        this.walls.left.position.set(-250, 0, 0);
+        this.walls.right.position.set(250, 0, 0);
+        this.walls.top.position.set(0, 0, -250);
+        this.walls.top.rotation.set(0, Math.PI/2, 0);
+        this.walls.bottom.position.set(0, 0, 250);
+        this.walls.bottom.rotation.set(0, Math.PI/2, 0);
     }
     /**
      * Coloca as paredes nas extremidades do espaço

@@ -28,7 +28,7 @@ class Cameras {
     static staticConstructor() {
 
         /* Câmara frontal */
-        this.FRONTAL.position.set(0, 5, 200);
+        this.FRONTAL.position.set(0, 5, 210);
         this.FRONTAL.lookAt(0, 0, 0);
 
         /* Câmara lateral */

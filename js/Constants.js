@@ -46,7 +46,7 @@
             default: 0x00d5ff,
             selected: 0xff0000,
         },
-        walls: '#FF0000',
+        walls: '#FFFFFF',
     }
 
     // Número de inimigos
@@ -73,9 +73,9 @@
     static ENEMY = 2;
 
     //X e Y das paredes internas
-    static WALL_WIDTH = 800;
-    static WALL_HEIGHT = 800;
-    static WALL_DEPTH= 800;
+    static WALL_WIDTH = 10;
+    static WALL_HEIGHT = 100;
+    static WALL_DEPTH= 500;
 
     // Limite lateral das naves
     static LEFT_LIMIT = -120;

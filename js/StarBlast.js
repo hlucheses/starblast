@@ -108,6 +108,7 @@ class StarBlast {
      */
     static createScene() {
         this.addWallsToScene();
+        this.addBoxToScene();
 
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
