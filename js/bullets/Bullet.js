@@ -48,6 +48,8 @@
 
         // Cria a boundingBox
         this.boundingBox = this.createBoundingBox();
+        this.rotationStep = 0;
+        this.collided = false;
     }
 
     /**
@@ -55,34 +57,46 @@
      * TODO: Considerar que a bala abranda e que quando bate numa parede cai
      */
     move() {
+        if (!this.collided) {
+            if (this.type == Constants.ENEMY) {
 
-        if (this.type == Constants.ENEMY) {
-
-            // Nave inimiga move-se num sentido
-            if (this.speed.z < this.MAX_SPEED) {
-                this.speed.z += this.ACCELERATION;
+                // Nave inimiga move-se num sentido
+                if (this.speed.z < this.MAX_SPEED) {
+                    this.speed.z += this.ACCELERATION;
+                } else {
+                    this.peaked = true;
+                }
+    
+                if (this.peaked) {
+                    this.speed.z -= this.BRAKING;
+                }
             } else {
-                this.peaked = true;
-            }
-
-            if (this.peaked) {
-                this.speed.z -= this.BRAKING;
-            }
-        } else {
-            // Nave do player move-se num sentido
-            if (this.speed.z < this.MAX_SPEED) {
-                this.speed.z -= this.ACCELERATION;
-            } else {
-                this.peaked = true;
-            }
-
-            if (this.peaked) {
-                this.speed.z += this.BRAKING;
+                // Nave do player move-se num sentido
+                if (this.speed.z < this.MAX_SPEED) {
+                    this.speed.z -= this.ACCELERATION;
+                } else {
+                    this.peaked = true;
+                }
+    
+                if (this.peaked) {
+                    this.speed.z += this.BRAKING;
+                }
             }
         }
 
         this.design.position.z += this.speed.z;
 
+        this.rotate();
         this.updateBoundingBox();
+    }
+
+    /**
+     * Faz as balas girarem em relação ao eixo do movimento
+     * como pedido em enunciado
+     */
+    rotate() {
+        this.rotationStep += .1;
+        var inclination = (Math.cos(this.rotationStep) * (2 * Math.PI));
+        this.design.rotation.z = ((this.type == 1) ? -1 : 1) * inclination;
     }
 }

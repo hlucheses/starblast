@@ -79,6 +79,34 @@ class Collision {
     }
 
     /**
+     * Verifica colisões entre as balas e as naves
+     * @param {array} bulletsArray 
+     * @param {array} spaceshipArray 
+     */
+    static checkBulletsSpaceships(bulletsArray, spaceshipArray) {
+        for (var i = 0; i < spaceshipArray.length; i++) {
+
+            for (var j = 0; j < bulletsArray.length; j++) {
+
+                if (bulletsArray[j].type != spaceshipArray[i].type
+                    && this.hasColided(spaceshipArray[i].boundingBox, bulletsArray[j].boundingBox)) {
+
+                    bulletsArray[j].speed.multiplyScalar(-1);
+
+                    bulletsArray[j].collided = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * Verifica colisão entre as balas
+     */
+    static checkAmongBullets(bulletsArray) {
+
+    }
+
+    /**
      * Verifica a colisão AABB entre 2 boundingBoxes
      * @param {THREE.Box3} a 
      * @param {THREE.Box3} b 

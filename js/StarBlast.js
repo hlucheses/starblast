@@ -196,6 +196,18 @@ class StarBlast {
     static moveBullets() {
         for (var i = 0; i < this.BULLETS.length; i++) {
             this.BULLETS[i].move();
+
+            // Se a bola ja saiu da do espaço deve ser eliminada
+            if (this.BULLETS[i].design.position.z > Constants.SPACE.depth / 2
+                || this.BULLETS[i].design.position.z < - (Constants.SPACE.depth / 2)) {
+                    this.SCENE.remove(this.BULLETS[i].boxHelper);
+                    this.SCENE.remove(this.BULLETS[i].design);
+                    this.BULLETS.splice(i, 1);
+                }
         }
+
+        // Verificar colisões
+        Collision.checkBulletsSpaceships(this.BULLETS, [...(this.ENEMIES), this.PLAYER_SPACESHIP]);
+        Collision.checkAmongBullets();
     }
 }
