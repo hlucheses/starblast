@@ -43,6 +43,7 @@ class Scenary {
         this.setWalls();
         this.initializeBox();
         this.setBox();
+        this.setAmbientalLight()
     }
 
     /**
@@ -177,6 +178,11 @@ class Scenary {
             starsGroup.add(estrela);
         }
         return starsGroup;
+    }
+
+    static setAmbientalLight(){
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+        return directionalLight;
     }
 }
 

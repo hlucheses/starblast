@@ -18,7 +18,7 @@
 class Cameras {
     static FRONTAL = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
     static SIDE = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.6, 2000);
-    static TOP = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 2000);
+    static TOP = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
     static DYNAMIC = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
     static BULLET = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
 
@@ -38,10 +38,10 @@ class Cameras {
         this.SIDE.lookAt(0, 0, 0);
 
         /* Câmara de topo */
-        this.TOP.position.set(0, 150, 5);
+        this.TOP.position.set(0, 460, 5);
         //this.TOP.zoom = (window.innerWidth * window.innerHeight) / 300000;
         this.TOP.rotation.set(Math.PI / 2, 0, 0);
-        this.TOP.updateProjectionMatrix();
+        //this.TOP.updateProjectionMatrix();
         this.TOP.lookAt(0, 0, 0);
 
         /* Câmara dinâmica */

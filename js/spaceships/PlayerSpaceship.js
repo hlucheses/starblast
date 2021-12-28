@@ -91,7 +91,7 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
      */
     checkCannon(keyCode) {
 
-        if (keyCode == "KeyQ" || keyCode == "KeyW" || keyCode == "KeyE") {
+        if (keyCode == "KeyZ" || keyCode == "KeyX" || keyCode == "KeyC") {
             this.cannons.left.setColor(Constants.COLORS.cannons.default);
             this.cannons.right.setColor(Constants.COLORS.cannons.default);
             this.cannons.middle.setColor(Constants.COLORS.cannons.default);
@@ -100,13 +100,13 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
         }
 
         switch (keyCode) {
-            case "KeyQ":
+            case "KeyZ":
                 this.cannons.current = this.cannons.left;
                 break;
-            case "KeyW":
+            case "KeyX":
                 this.cannons.current = this.cannons.middle;
                 break;
-            case "KeyE":
+            case "KeyC":
                 this.cannons.current = this.cannons.right;
                 break;
 

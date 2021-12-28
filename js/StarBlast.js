@@ -34,6 +34,9 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
+    static ambientalLight = {ON: false}; 
+    ambientalLight =  Scenary.setAmbientalLight();
+
 
     // Elementos da cena
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 16, 160);
@@ -81,6 +84,16 @@ class StarBlast {
             if (event.code == "Digit4") {
                 this.toggleWireframe();
             }
+
+            if (event.code == "KeyQ"){
+                if(this.ambientalLight.ON == false){
+                    this.SCENE.add(this.ambientalLight);
+                    this.ambientalLight.ON = true;
+                }else{
+                    this.SCENE.remove(this.ambientalLight);
+                    this.ambientalLight.ON = false;
+                }
+            }
         });
 
         document.addEventListener('keyup', (event) => {
@@ -117,6 +130,7 @@ class StarBlast {
 
         this.addEnemiesToScene();
         this.SCENE.add(Scenary.getStars());
+        
     }
 
     /**
