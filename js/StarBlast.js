@@ -24,6 +24,7 @@ function animateFora() {
     StarBlast.moveSpaceships();
     StarBlast.shoot();
     StarBlast.moveBullets();
+    StarBlast.updateCamera();
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
@@ -205,19 +206,19 @@ class StarBlast {
             if (this.BULLETS[i].design.position.z > Constants.SPACE.depth / 2
                 || this.BULLETS[i].design.position.z < - (Constants.SPACE.depth / 2)) {
 
-                    // Remover a câmara se a bala fugir
-                    if (this.BULLETS[i] == this.PLAYER_SPACESHIP.lastBullet
-                        && Cameras.CURRENT == Cameras.BULLET) {
-                            Cameras.CURRENT = Cameras.FRONTAL;
-                            this.PLAYER_SPACESHIP.lastBullet = null;
-                        }
-
-                    this.SCENE.remove(this.BULLETS[i].boxHelper);
-                    this.SCENE.remove(this.BULLETS[i].design);
-
-                    
-                    this.BULLETS.splice(i, 1);
+                // Remover a câmara se a bala fugir
+                if (this.BULLETS[i] == this.PLAYER_SPACESHIP.lastBullet
+                    && Cameras.CURRENT == Cameras.BULLET) {
+                    Cameras.CURRENT = Cameras.FRONTAL;
+                    this.PLAYER_SPACESHIP.lastBullet = null;
                 }
+
+                this.SCENE.remove(this.BULLETS[i].boxHelper);
+                this.SCENE.remove(this.BULLETS[i].design);
+
+
+                this.BULLETS.splice(i, 1);
+            }
         }
 
         // Se a câmara for bullet deve seguir a bala
@@ -228,5 +229,14 @@ class StarBlast {
         // Verificar colisões
         Collision.checkBulletsSpaceships(this.BULLETS, [...(this.ENEMIES), this.PLAYER_SPACESHIP]);
         Collision.checkAmongBullets();
+    }
+
+    /**
+     * Actualiza a câmara a cada frame caso seja dinâmica
+     */
+    static updateCamera() {
+        if (Cameras.CURRENT == Cameras.DYNAMIC) {
+            Cameras.rotate(this.SCENE);
+        }
     }
 }

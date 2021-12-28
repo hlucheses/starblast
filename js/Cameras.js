@@ -55,6 +55,9 @@ class Cameras {
 
         // Definição da câmara inicial padrão
         this.CURRENT = this.FRONTAL;
+
+        // Velocidade de rotação da câmara dinâmica
+        this.ROTATION_SPEED = .007;
     }
 
     /**
@@ -63,6 +66,7 @@ class Cameras {
      * @param {string|THREE.PerspectiveCamera|THREE.OrthographicCamera} camera 
      */
     static changeCurrent(camera) {
+
 
         if (typeof camera == "string") {
 
@@ -74,7 +78,6 @@ class Cameras {
                     this.CURRENT = this.FRONTAL;
                     break;
                 case "Digit3":
-                    console.log("bullet!");
                     this.CURRENT = this.BULLET;
                     break;
                 case "Digit5":
@@ -98,6 +101,21 @@ class Cameras {
         } else {
             this.CURRENT = this.FRONTAL;
         }
+    }
+
+    /**
+     * Roda a câmara em relação a uma cena
+     * @param {THREE.Scene}
+     */
+    static rotate(scene) {
+        var x = this.CURRENT.position.x,
+            z = this.CURRENT.position.z;
+        var rotationSpeed = this.ROTATION_SPEED;
+
+        this.CURRENT.position.x = x * Math.cos(rotationSpeed) + z * Math.sin(rotationSpeed);
+        this.CURRENT.position.z = z * Math.cos(rotationSpeed) - x * Math.sin(rotationSpeed);
+
+        this.CURRENT.lookAt(scene.position);
     }
 }
 
