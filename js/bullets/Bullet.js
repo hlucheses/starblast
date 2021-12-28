@@ -17,9 +17,7 @@
 
  class Bullet extends BulletDesign {
 
-    static MAX_SPEED = 4 * Constants.SPACESHIP_MAX_SPEED;
-    static ACCELERATION = 2 * Constants.SPACESHIP_ACCELERATION;
-    static BRAKING = 1.5 * Constants.SPACESHIP_BRAKING;
+    
 
     /**
      * Define posição da bala
@@ -30,10 +28,51 @@
      */
     constructor(x, y, z, type) {
         super(x, y, z);
+        this.speed = new THREE.Vector3(0, 0, 1);
         this.type = type;
+        this.alive = true;
+        this.peaked = true;
+
+        // FIXME: Não consigo tornar isto em atributos estáticos
+        this.MAX_SPEED = 4 *  Constants.metersToPixels(80);
+        this.ACCELERATION = 2 * Constants.metersToPixels(1);
+        this.BRAKING = .5 *  Constants.metersToPixels(1);
     }
 
+    /**
+     * Move as balas
+     * TODO: Considerar que a bala abranda e que quando bate numa parede cai
+     */
     move() {
+
+        console.log(this.ACCELERATION);
+
+        if (this.type == Constants.ENEMY) {
+
+            // Nave inimiga move-se num sentido
+            if (this.speed.z < this.MAX_SPEED) {
+                this.speed.z += this.ACCELERATION;
+            } else {
+                this.peaked = true;
+            }
+
+            if (this.peaked) {
+                this.speed.z -= this.BRAKING;
+            }
+        } else {
+            // Nave do player move-se num sentido
+            if (this.speed.z > this.MAX_SPEED) {
+                this.speed.z -= this.ACCELERATION;
+            } else {
+                this.peaked = true;
+            }
+
+            if (this.peaked) {
+                this.speed.z += this.BRAKING;
+            }
+        }
+
+        this.design.position.z += this.speed.z;
         
     }
 }

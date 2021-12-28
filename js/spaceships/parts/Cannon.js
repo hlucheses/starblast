@@ -22,7 +22,8 @@
      * @param {THREE.mesh} mesh 
      */
     constructor (mesh) {
-        this.mesh = mesh;        
+        this.mesh = mesh;
+        this.bullets = {};     
     }
 
     /**
@@ -39,12 +40,9 @@
      * @param {number}
      */
     shoot(type) {
-        var bullet = new Bullet(this.x, this.y, this.z, type);
-
-        if (type == Constants.PLAYER) {
-
-        } else {
-
-        }
+        var worldPosition = new THREE.Vector3();
+        this.mesh.getWorldPosition(worldPosition);
+        //console.log(target);
+        return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type);
     }
 }

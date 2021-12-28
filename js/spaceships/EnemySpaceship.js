@@ -147,19 +147,22 @@
 
     /**
      * Dispara balas aleatoriamente
+     * @returns {Bullet} bala disparada
      */
     shootRandomly() {
-        var numero = 123456;//Constants.randomNumber(1, 1000000);    
+        var numero = Constants.randomNumber(1, 80);    
 
-        if (numero % 123456 == 0) {
+        if (numero == 1) {
             numero = Constants.randomNumber(1, 2);
 
             if (numero == 1) {
-                this.cannons.left.shoot();
+                return this.cannons.left.shoot(this.type);
             } else {
-                this.cannons.right.shoot();
+                return this.cannons.right.shoot(this.type);
             }
         }
+
+        return null;
     }
 
     /**

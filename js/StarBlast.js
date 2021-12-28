@@ -22,7 +22,8 @@
  */
  function animateFora() {
     StarBlast.moveSpaceships();
-    //StarBlast.shootRandomly();
+    StarBlast.shoot();
+    StarBlast.moveBullets();
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
@@ -35,6 +36,7 @@ class StarBlast {
     // Elementos da cena
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 16, 160);
     static ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES);
+    static BULLETS = [];
 
     // Estado das teclas
     static keyStates = {};
@@ -156,9 +158,23 @@ class StarBlast {
     /**
      * Faz os inimigos darem tiro aleatoriamente
      */
-    static shootRandomly() {
+    static shoot() {
         for (var i = 0; i < this.ENEMIES.length; i++) {
-            //this.ENEMIES[i].shootRandomly();
+            var bullet = this.ENEMIES[i].shootRandomly();
+
+            if (bullet != null) {
+                this.SCENE.add(bullet.design);
+                this.BULLETS.push(bullet);
+            }
+        }
+    }
+
+    /**
+     * Move as balas pela cena
+     */
+    static moveBullets() {
+        for (var i = 0; i < this.BULLETS.length; i++) {
+            this.BULLETS[i].move();
         }
     }
 }

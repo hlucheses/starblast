@@ -41,7 +41,7 @@
      * @returns {Three.mesh}
      */
     addBody(x, y, z) {
-        var mesh = new THREE.Mesh(new THREE.SphereGeometry(0.7, 64, 64), new THREE.MeshBasicMaterial({ color: "#d3d3d3" }));
+        var mesh = new THREE.Mesh(new THREE.SphereGeometry(.6, 64, 64), new THREE.MeshBasicMaterial({ color: "#0000ff" }));
         mesh.position.set(x, y, z);
         this.design.add(mesh);
         return mesh;
