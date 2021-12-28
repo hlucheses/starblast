@@ -28,12 +28,21 @@ class Scenary {
         front: null
     }
 
+    static walls = {
+        left: null,
+        right: null,
+        top: null,
+        bottom: null
+    }
+
     /**
      * Constutor estático, declarado abaixo da classe
      */
     static staticConstructor() {
         this.initializeWalls();
         this.setWalls();
+        this.initializeBox();
+        this.setBox();
     }
 
     /**
@@ -54,6 +63,35 @@ class Scenary {
         this.planes.front = new THREE.Mesh(geometry, material);
     }
 
+    /**
+     * Coloca as paredes internas
+     * 
+     */
+
+    static initializeBox(){
+        var geometry = new THREE.BoxGeometry(Constants.WALL_WIDTH, Constants.WALL_HEIGHT, Constants.WALL_DEPTH);
+        var material =  new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            color: Constants.COLORS.walls
+        });
+
+        this.walls.left = new THREE.Mesh(geometry, material);
+        this.walls.right = new THREE.Mesh(geometry, material);
+        this.walls.top = new THREE.Mesh(geometry, material);
+        this.walls.bottom = new THREE.Mesh(geometry, material);
+    }
+
+
+    /**
+     * Colocar as paredes pra formar a caixa
+     */
+
+    static setBox(){
+        this.walls.left.position.set(-800, 0, 0);
+        this.walls.right.position.set(800, 0, 0);
+        this.walls.top.position.set(0, 800, 0);
+        this.walls.bottom.set(0, -800, 0);
+    }
     /**
      * Coloca as paredes nas extremidades do espaço
      */

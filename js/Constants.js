@@ -45,7 +45,8 @@
         cannons: {
             default: 0x00d5ff,
             selected: 0xff0000,
-        }
+        },
+        walls: '#FF0000',
     }
 
     // Número de inimigos
@@ -54,10 +55,10 @@
     /* Cenário */
 
     // Tamanho das paredes
-    static WALL_SIZE = {height: 800, width: 800};
+    static WALL_SIZE = {height: 1200, width: 1200};
 
     // Tamanho do espaço da cena
-    static SPACE = {height: 700, width: 700, depth: 700};
+    static SPACE = {height: 1200, width: 1200, depth: 1200};
 
     // Número de estrelas
     static NUMBER_OF_STARS = 5000;
@@ -65,12 +66,16 @@
     static LIMITE_ESTRELAS = 0.6;
 
     // Mostrar bounding boxes
-    static SHOW_BOUNDING_BOX_HELPERS = true;
+    static SHOW_BOUNDING_BOX_HELPERS = false;
 
     // Constantes que determinam o tipo de spaceship
     static PLAYER = 1;
     static ENEMY = 2;
 
+    //X e Y das paredes internas
+    static WALL_WIDTH = 800;
+    static WALL_HEIGHT = 800;
+    static WALL_DEPTH= 800;
 
     // Limite lateral das naves
     static LEFT_LIMIT = -120;

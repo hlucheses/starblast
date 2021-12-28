@@ -149,6 +149,14 @@ class StarBlast {
     }
 
     /**
+     * Adicionar a caixa à cena
+     */
+    static addBoxToScene() {
+        for (let[key, wall] of Object.entries(Scenary.walls)) {
+            this.SCENE.add(wall);
+        }
+    }
+    /**
      * Mostra a cena em wireframes
      */
     static toggleWireframe() {
