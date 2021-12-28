@@ -35,6 +35,8 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
         this.frontLimit = Constants.PLAYER_FRONT_LIMIT;
         this.backLimit = Constants.PLAYER_BACK_LIMIT;
         this.cannons.current = null;
+
+        this.lastBullet = null;
     }
 
     /**
@@ -122,6 +124,8 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
             return;
         }
 
-        return this.cannons.current.shoot(Constants.PLAYER);
+        this.lastBullet = this.cannons.current.shoot(Constants.PLAYER);
+
+        return this.lastBullet;
     }
 }

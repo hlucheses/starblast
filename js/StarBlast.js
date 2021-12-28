@@ -54,6 +54,10 @@ class StarBlast {
 
             Cameras.changeCurrent(event.code);
 
+            if (Cameras.CURRENT == Cameras.BULLET) {
+                Cameras.updateBulletCam(this.PLAYER_SPACESHIP.lastBullet);
+            }
+
             this.PLAYER_SPACESHIP.checkCannon(event.code);
 
             // TODO: arranjar um lugar melhor para este código
@@ -200,10 +204,25 @@ class StarBlast {
             // Se a bola ja saiu da do espaço deve ser eliminada
             if (this.BULLETS[i].design.position.z > Constants.SPACE.depth / 2
                 || this.BULLETS[i].design.position.z < - (Constants.SPACE.depth / 2)) {
+
+                    // Remover a câmara se a bala fugir
+                    if (this.BULLETS[i] == this.PLAYER_SPACESHIP.lastBullet
+                        && Cameras.CURRENT == Cameras.BULLET) {
+                            Cameras.CURRENT = Cameras.FRONTAL;
+                            this.PLAYER_SPACESHIP.lastBullet = null;
+                        }
+
                     this.SCENE.remove(this.BULLETS[i].boxHelper);
                     this.SCENE.remove(this.BULLETS[i].design);
+
+                    
                     this.BULLETS.splice(i, 1);
                 }
+        }
+
+        // Se a câmara for bullet deve seguir a bala
+        if (Cameras.CURRENT == Cameras.BULLET) {
+            Cameras.updateBulletCam(this.PLAYER_SPACESHIP.lastBullet);
         }
 
         // Verificar colisões

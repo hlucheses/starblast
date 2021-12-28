@@ -74,6 +74,7 @@ class Cameras {
                     this.CURRENT = this.FRONTAL;
                     break;
                 case "Digit3":
+                    console.log("bullet!");
                     this.CURRENT = this.BULLET;
                     break;
                 case "Digit5":
@@ -82,6 +83,20 @@ class Cameras {
             }
         } else {
             this.CURRENT = camera;
+        }
+    }
+
+    /**
+     * Faz a câmara seguir o objecto
+     * @param {object} object 
+     */
+    static updateBulletCam(object) {
+        if (object != null) {
+            var offset = new THREE.Vector3(object.design.position.x + 20, object.design.position.y + 6, object.design.position.z);
+            this.BULLET.position.lerp(offset, 0.2);
+            this.BULLET.lookAt(object.design.position);
+        } else {
+            this.CURRENT = this.FRONTAL;
         }
     }
 }
