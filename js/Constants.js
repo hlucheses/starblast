@@ -84,6 +84,9 @@
     static PLAYER_FRONT_LIMIT = 20;
     static PLAYER_BACK_LIMIT = 180;
 
+    // Número inicial de vidas
+    static STARTING_LIVES = 2;
+
     /**
      * Gera um número aleatório de start a end
      * @param {number} start 

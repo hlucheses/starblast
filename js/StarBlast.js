@@ -24,6 +24,7 @@ function animateFora() {
     StarBlast.moveSpaceships();
     StarBlast.shoot();
     StarBlast.moveBullets();
+    StarBlast.checkDead();
     StarBlast.updateCamera();
     StarBlast.render();
     requestAnimationFrame(animateFora);
@@ -236,6 +237,24 @@ class StarBlast {
     static updateCamera() {
         if (Cameras.CURRENT == Cameras.DYNAMIC) {
             Cameras.rotate(this.SCENE);
+        }
+    }
+
+    /**
+     * Verifica se os inimigos estão mortos, remove se estiverem
+     */
+    static checkDead() {
+        for (var i = 0; i < this.ENEMIES.length; i++) {
+            if (this.ENEMIES[i].lives <= 0) {
+
+                if (Constants.SHOW_BOUNDING_BOX_HELPERS)  {
+                    this.SCENE.remove(this.ENEMIES[i].boxHelper);
+                }
+
+                this.SCENE.remove(this.ENEMIES[i].design);
+                
+                this.ENEMIES.splice(i, 1);
+            }
         }
     }
 }

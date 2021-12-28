@@ -44,6 +44,9 @@ class Spaceship extends StarBlastObject {
 
         // Velocidade máxima 80 m/s
         this.MAX_SPEED = Constants.metersToPixels(80);
+
+        // Número inicial de vidas
+        this.lives = Constants.STARTING_LIVES;
     }
 
     /**

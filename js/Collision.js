@@ -65,6 +65,7 @@ class Collision {
 
                     // Impedir que as naves se movimentem no eixo vertical
                     spaceshipArray[i].speed.y = 0;
+                    spaceshipArray[i].lives--;
 
                     bulletsArray[j].collided = true;
                 }
