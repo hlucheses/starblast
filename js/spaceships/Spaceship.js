@@ -32,8 +32,6 @@ class Spaceship extends StarBlastObject {
         // Determina o tipo de spaceship (1 para player, 2 para inimigo)
         this.type = null;
 
-        this.boundingBox = null;
-
         this.cannons = {};
 
         // inicia o hovering com 0
@@ -141,25 +139,6 @@ class Spaceship extends StarBlastObject {
                 }
             }
         }
-    }
-
-    /**
-     * Retorna uma bounding box em volta da nave
-     * @returns {THREE.Box3}
-     */
-    createBoundingBox() {
-        var aabb = new THREE.Box3();
-        aabb.setFromObject(this.design);
-        this.boxHelper = new THREE.Box3Helper(aabb, "white");
-
-        return aabb;
-    }
-
-    /**
-     * Actualiza a posição da bounding box em cada frame
-     */
-    updateBoundingBox() {
-        this.boundingBox.setFromObject(this.design);
     }
 
     /**

@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
- class StarBlastObject {
+class StarBlastObject {
 
     /**
      * Define posição inicial do objecto
@@ -39,17 +39,17 @@
             Se moving = 1 => a nave está a se mover no sentido positivo
             do eixo em questão
         */
-            this.moving = new THREE.Vector3(0, 0, 0);
+        this.moving = new THREE.Vector3(0, 0, 0);
 
-            this.speed = new THREE.Vector3(0, 0, 0);
-            this.acceleration = new THREE.Vector3(0, 0, 0);
+        this.speed = new THREE.Vector3(0, 0, 0);
+        this.acceleration = new THREE.Vector3(0, 0, 0);
     }
 
     /**
      * Retorna o design do objecto (estrutra "física")
      * @returns {THREE.Object3D}
      */
-     getDesign() {
+    getDesign() {
         return this.design;
     }
 
@@ -63,5 +63,23 @@
         this.design.position.x = x;
         this.design.position.y = y;
         this.design.position.z = z;
+    }
+
+    /**
+     * Retorna uma bounding box em volta do objecto
+     * @returns {THREE.Box3}
+     */
+    createBoundingBox() { 
+        var aabb = new THREE.Box3();
+        aabb.setFromObject(this.design);
+        this.boxHelper = new THREE.Box3Helper(aabb, "white");
+        return aabb;
+    }
+
+    /**
+     * Actualiza a posição da bounding box em cada frame
+     */
+    updateBoundingBox() {
+        this.boundingBox.setFromObject(this.design);
     }
 }

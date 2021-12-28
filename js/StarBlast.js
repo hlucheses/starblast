@@ -20,7 +20,7 @@
  * São definidas as animações do programa
  * FIX: É suposto as animações também pertencerem à classe StarBlast
  */
- function animateFora() {
+function animateFora() {
     StarBlast.moveSpaceships();
     StarBlast.shoot();
     StarBlast.moveBullets();
@@ -55,6 +55,22 @@ class StarBlast {
             Cameras.changeCurrent(event.code);
 
             this.PLAYER_SPACESHIP.checkCannon(event.code);
+
+            // TODO: arranjar um lugar melhor para este código
+            // Este código é igual ao que está em inimigo
+            if (event.code == "Space") {
+
+                var bullet = this.PLAYER_SPACESHIP.shoot();
+
+                if (bullet != null) {
+                    this.BULLETS.push(bullet);
+                    this.SCENE.add(bullet.design);
+
+                    if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                        this.SCENE.add(bullet.boxHelper);
+                    }
+                }
+            }
 
             if (event.code == "Digit4") {
                 this.toggleWireframe();
@@ -163,6 +179,11 @@ class StarBlast {
             var bullet = this.ENEMIES[i].shootRandomly();
 
             if (bullet != null) {
+
+                if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                    this.SCENE.add(bullet.boxHelper);
+                }
+
                 this.SCENE.add(bullet.design);
                 this.BULLETS.push(bullet);
             }

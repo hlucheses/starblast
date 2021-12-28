@@ -42,7 +42,6 @@
     shoot(type) {
         var worldPosition = new THREE.Vector3();
         this.mesh.getWorldPosition(worldPosition);
-        //console.log(target);
         return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type);
     }
 }

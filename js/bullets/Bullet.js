@@ -28,8 +28,16 @@
      */
     constructor(x, y, z, type) {
         super(x, y, z);
-        this.speed = new THREE.Vector3(0, 0, 1);
+        
+
         this.type = type;
+
+        this.speed = new THREE.Vector3(0, 0, 1);
+
+        if (this.type == Constants.PLAYER) {
+            this.speed.z = -1;
+        }
+
         this.alive = true;
         this.peaked = true;
 
@@ -37,6 +45,9 @@
         this.MAX_SPEED = 4 *  Constants.metersToPixels(80);
         this.ACCELERATION = 2 * Constants.metersToPixels(1);
         this.BRAKING = .5 *  Constants.metersToPixels(1);
+
+        // Cria a boundingBox
+        this.boundingBox = this.createBoundingBox();
     }
 
     /**
@@ -44,8 +55,6 @@
      * TODO: Considerar que a bala abranda e que quando bate numa parede cai
      */
     move() {
-
-        console.log(this.ACCELERATION);
 
         if (this.type == Constants.ENEMY) {
 
@@ -61,7 +70,7 @@
             }
         } else {
             // Nave do player move-se num sentido
-            if (this.speed.z > this.MAX_SPEED) {
+            if (this.speed.z < this.MAX_SPEED) {
                 this.speed.z -= this.ACCELERATION;
             } else {
                 this.peaked = true;
@@ -73,6 +82,7 @@
         }
 
         this.design.position.z += this.speed.z;
-        
+
+        this.updateBoundingBox();
     }
 }

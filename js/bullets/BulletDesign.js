@@ -38,7 +38,7 @@
 
     /**
      * Retorna a mesh que representa o corpo da bala
-     * @returns {Three.mesh}
+     * @returns {THREE.Mesh}
      */
     addBody(x, y, z) {
         var mesh = new THREE.Mesh(new THREE.SphereGeometry(.6, 64, 64), new THREE.MeshBasicMaterial({ color: "#0000ff" }));

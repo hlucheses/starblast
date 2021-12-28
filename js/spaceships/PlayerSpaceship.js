@@ -112,4 +112,16 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
 
         this.cannons.current.setColor(Constants.COLORS.cannons.selected);
     }
+
+    /**
+     * Dá um tiro usando um canhão
+     * @returns {Bullet}
+     */
+    shoot() {
+        if (this.cannons.current == null) {
+            return;
+        }
+
+        return this.cannons.current.shoot(Constants.PLAYER);
+    }
 }
