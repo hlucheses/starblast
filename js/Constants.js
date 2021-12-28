@@ -87,6 +87,9 @@
     // Número inicial de vidas
     static STARTING_LIVES = 2;
 
+    // Aceleração gravítica (fazer em relação a metros)
+    static GRAVITY = .013;
+
     /**
      * Gera um número aleatório de start a end
      * @param {number} start 

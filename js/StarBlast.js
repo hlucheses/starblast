@@ -204,8 +204,8 @@ class StarBlast {
             this.BULLETS[i].move();
 
             // Se a bola ja saiu da do espaço deve ser eliminada
-            if (this.BULLETS[i].design.position.z > Constants.SPACE.depth / 2
-                || this.BULLETS[i].design.position.z < - (Constants.SPACE.depth / 2)) {
+            if (this.BULLETS[i].design.position.y < - Constants.SPACE.height / 2
+                || this.BULLETS[i].design.position.y > Constants.SPACE.height / 2) {
 
                 // Remover a câmara se a bala fugir
                 if (this.BULLETS[i] == this.PLAYER_SPACESHIP.lastBullet
@@ -242,6 +242,7 @@ class StarBlast {
 
     /**
      * Verifica se os inimigos estão mortos, remove se estiverem
+     * TODO: fazer com que haja uma animação de morte
      */
     static checkDead() {
         for (var i = 0; i < this.ENEMIES.length; i++) {

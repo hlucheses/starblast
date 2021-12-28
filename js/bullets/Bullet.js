@@ -32,19 +32,21 @@ class Bullet extends BulletDesign {
 
         this.type = type;
 
-        this.speed = new THREE.Vector3(0, 0, 1);
+        // FIXME: Não consigo tornar isto em atributos estáticos
+        this.MAX_SPEED = 4 * Constants.metersToPixels(80);
+        this.ACCELERATION = 2 * Constants.metersToPixels(1);
+        this.BRAKING = .5 * Constants.metersToPixels(1);
+
+        this.speed = new THREE.Vector3(0, .2, this.MAX_SPEED);
 
         if (this.type == Constants.PLAYER) {
-            this.speed.z = -1;
+            this.speed.z *= -1;
         }
 
         this.alive = true;
         this.peaked = false;
 
-        // FIXME: Não consigo tornar isto em atributos estáticos
-        this.MAX_SPEED = 4 * Constants.metersToPixels(80);
-        this.ACCELERATION = 2 * Constants.metersToPixels(1);
-        this.BRAKING = .5 * Constants.metersToPixels(1);
+        
 
         // Cria a boundingBox
         this.boundingBox = this.createBoundingBox();
@@ -93,6 +95,8 @@ class Bullet extends BulletDesign {
                 }
             }
         }
+
+        this.speed.y -= Constants.GRAVITY;
 
         this.design.position.add(this.speed);
 
