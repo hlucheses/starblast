@@ -216,7 +216,6 @@ class StarBlast {
                 this.SCENE.remove(this.BULLETS[i].boxHelper);
                 this.SCENE.remove(this.BULLETS[i].design);
 
-
                 this.BULLETS.splice(i, 1);
             }
         }
@@ -228,7 +227,7 @@ class StarBlast {
 
         // Verificar colisões
         Collision.checkBulletsSpaceships(this.BULLETS, [...(this.ENEMIES), this.PLAYER_SPACESHIP]);
-        Collision.checkAmongBullets();
+        Collision.checkAmongBullets(this.BULLETS);
     }
 
     /**

@@ -15,9 +15,9 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
- class Bullet extends BulletDesign {
+class Bullet extends BulletDesign {
 
-    
+
 
     /**
      * Define posição da bala
@@ -28,7 +28,7 @@
      */
     constructor(x, y, z, type) {
         super(x, y, z);
-        
+
 
         this.type = type;
 
@@ -39,15 +39,19 @@
         }
 
         this.alive = true;
-        this.peaked = true;
+        this.peaked = false;
 
         // FIXME: Não consigo tornar isto em atributos estáticos
-        this.MAX_SPEED = 4 *  Constants.metersToPixels(80);
+        this.MAX_SPEED = 4 * Constants.metersToPixels(80);
         this.ACCELERATION = 2 * Constants.metersToPixels(1);
-        this.BRAKING = .5 *  Constants.metersToPixels(1);
+        this.BRAKING = .5 * Constants.metersToPixels(1);
 
         // Cria a boundingBox
         this.boundingBox = this.createBoundingBox();
+
+        // Cria a esfera envolvente
+        this.boundingSphere = this.createBoundingSphere();
+
         this.rotationStep = 0;
         this.collided = false;
     }
@@ -55,39 +59,46 @@
     /**
      * Move as balas
      * TODO: Considerar que a bala abranda e que quando bate numa parede cai
+     * FIXME: As balas não estão a abrandar
      */
     move() {
         if (!this.collided) {
             if (this.type == Constants.ENEMY) {
 
                 // Nave inimiga move-se num sentido
-                if (this.speed.z < this.MAX_SPEED) {
-                    this.speed.z += this.ACCELERATION;
-                } else {
-                    this.peaked = true;
+                if (!this.peaked) {
+                    if (this.speed.z < this.MAX_SPEED) {
+                        this.speed.z += this.ACCELERATION;
+                    } else {
+                        this.peaked = true;
+                    }
                 }
-    
+
                 if (this.peaked) {
                     this.speed.z -= this.BRAKING;
                 }
+
             } else {
                 // Nave do player move-se num sentido
-                if (this.speed.z < this.MAX_SPEED) {
-                    this.speed.z -= this.ACCELERATION;
-                } else {
-                    this.peaked = true;
+                if (!this.peaked) {
+                    if (this.speed.z < this.MAX_SPEED) {
+                        this.speed.z -= this.ACCELERATION;
+                    } else {
+                        this.peaked = true;
+                    }
                 }
-    
+
                 if (this.peaked) {
                     this.speed.z += this.BRAKING;
                 }
             }
         }
 
-        this.design.position.z += this.speed.z;
+        this.design.position.add(this.speed);
 
         this.rotate();
         this.updateBoundingBox();
+        this.updateBoundingSphere();
     }
 
     /**
@@ -98,5 +109,30 @@
         this.rotationStep += .1;
         var inclination = (Math.cos(this.rotationStep) * (2 * Math.PI));
         this.design.rotation.z = ((this.type == 1) ? -1 : 1) * inclination;
+    }
+
+    /**
+     * Cria uma esfera envolvente para o objecto
+     * @returns {THREE.Sphere}
+     */
+    createBoundingSphere() {
+        const center = new THREE.Vector3();
+        this.boundingBox.getCenter(center);
+        
+        var bsphere = new THREE.Sphere(center);
+        bsphere = this.boundingBox.getBoundingSphere(bsphere);
+        return bsphere;
+    }
+
+    /**
+     * Actualiza a posição esfera envolvente
+     * TODO: É possível que em verões futuras a bala aumente
+     * com base num evento, nesse caso deve-se monitorar não
+     * só o centro mas também o tamanho.
+     */
+    updateBoundingSphere() {
+        const center = new THREE.Vector3();
+        this.boundingBox.getCenter(center);
+        this.boundingSphere.center.copy(center);
     }
 }

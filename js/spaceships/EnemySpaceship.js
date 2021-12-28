@@ -68,7 +68,7 @@
 
             /* Evita que sejam geradas duas naves que se interceptam */
             for (var j = i - 1; j >= 0; j--) {
-                if (Collision.hasColided(
+                if (Collision.hasCollided(
                     enemiesArray[i].boundingBox,
                     enemiesArray[j].boundingBox
                 )) {
@@ -150,7 +150,7 @@
      * @returns {Bullet} bala disparada
      */
     shootRandomly() {
-        var numero = Constants.randomNumber(1, 80);    
+        var numero = Constants.randomNumber(1, 160);    
 
         if (numero == 1) {
             numero = Constants.randomNumber(1, 2);
