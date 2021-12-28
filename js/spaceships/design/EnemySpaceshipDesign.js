@@ -74,7 +74,7 @@ class EnemySpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(3.82, -1.4));
         points.push(new THREE.Vector2(.06, -1.74));
         const geometry = new THREE.LatheGeometry(points);
-        const material = new THREE.MeshBasicMaterial({ color: this.cor });
+        const material = new THREE.MeshPhongMaterial({ color: this.cor });
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(.553, 0.997, .052);
@@ -142,7 +142,7 @@ class EnemySpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(3.82, -1.4));
         points.push(new THREE.Vector2(.06, -1.74));
         const geometry = new THREE.LatheGeometry(points);
-        const material = new THREE.MeshBasicMaterial(
+        const material = new THREE.MeshPhongMaterial(
             { color: Constants.COLORS.enemySpaceship.fourth }
         );
         const mesh = new THREE.Mesh(geometry, material);
@@ -188,7 +188,7 @@ class EnemySpaceshipDesign extends Spaceship {
      */
     addCockpit(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const material = new THREE.MeshBasicMaterial(
+        const material = new THREE.MeshLambertMaterial(
             { color: Constants.COLORS.enemySpaceship.third }
         );
         const mesh = new THREE.Mesh(geometry, material);
@@ -213,7 +213,7 @@ class EnemySpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(.82, -2.36));
         points.push(new THREE.Vector2(.58, -4.96));
         const geometry = new THREE.LatheGeometry(points);
-        const material = new THREE.MeshBasicMaterial(
+        const material = new THREE.MeshLambertMaterial(
             { color: Constants.COLORS.enemySpaceship.secondary }
         );
         const mesh = new THREE.Mesh(geometry, material);

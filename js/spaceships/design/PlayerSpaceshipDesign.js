@@ -105,7 +105,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      */
     addCentralCannonRing(x, y, z) {
         const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00d5ff });
+        const material = new THREE.MeshLambertMaterial({ color: 0x00d5ff });
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(.71, .621, .71);
@@ -127,7 +127,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      */
     addSideCannonHolder(x, y, z, rY) {
         const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00d5ff });
+        const material = new THREE.MeshLambertMaterial({ color: 0x00d5ff });
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(.3, 3.232, .3);
@@ -167,7 +167,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      */
     addCockpit(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00e3e6 });
+        const material = new THREE.MeshLambertMaterial({ color: 0x00e3e6 });
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(2.839, 0.837, 1.381);
@@ -233,7 +233,7 @@ class PlayerSpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(.82, -2.38));
         points.push(new THREE.Vector2(0, -1.96));
         const geometry = new THREE.LatheGeometry(points);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00e3e6 });
+        const material = new THREE.MeshLambertMaterial({ color: 0x00e3e6 });
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(1, 0.609, 1);
@@ -257,7 +257,7 @@ class PlayerSpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(.82, -2.38));
         points.push(new THREE.Vector2(0, -1.96));
         const geometry = new THREE.LatheGeometry(points);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00e3e6 });
+        const material = new THREE.MeshLambertMaterial({ color: 0x00e3e6 });
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(.5, 0.519, .5);
