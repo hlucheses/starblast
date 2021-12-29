@@ -34,7 +34,7 @@ class SpotlightDesign {
             points.push(new THREE.Vector2(Math.sin(i * 0.2) * 10 + 5, (i - 5) * 2));
         }
         const geometry = new THREE.LatheGeometry(points);
-        const material = new THREE.MeshPhongMaterial({ color: 0x888888 });
+        const material = new THREE.MeshPhongMaterial({ color: 0x888888});
         const mesh = new THREE.Mesh(geometry, material);
 
         geometry.scale(.5, .5, .5);
@@ -45,7 +45,9 @@ class SpotlightDesign {
 
     addBulb(x, y, z) {
         const geometry = new THREE.SphereGeometry(1.5, 64, 64);
-        const material = new THREE.MeshPhongMaterial({ color: 0xeeeeee });
+        const material = new THREE.MeshPhongMaterial({ color: 0xeeeeee,
+            transparent: true,
+           opacity: 1});
         const mesh = new THREE.Mesh(geometry, material);
         geometry.scale(3, 3, 3);
         mesh.position.set(x, y, z);

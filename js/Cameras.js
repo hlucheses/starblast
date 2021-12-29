@@ -86,7 +86,10 @@ class Cameras {
                     this.CURRENT = this.BULLET;
                     break;
                 case "Digit5":
-                    this.CURRENT = this.HEROECAM;
+                    this.CURRENT = this.HEROCAM;
+                    break;
+                case "Digit6":
+                    this.CURRENT = this.DYNAMIC;
                     break;
             }
         } else {

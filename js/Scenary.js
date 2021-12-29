@@ -40,7 +40,15 @@ class Scenary {
         topRight: null,
         bottomLeft: null,
         bottomRight: null
+    }
+
+    static lights = {
+         topRightLight: null,
+        topLeftLight: null,
+        bottomRightLight: null,
+        bottomLeftLight: null
     };
+
 
     /**
      * Constutor estático, declarado abaixo da classe
@@ -193,11 +201,31 @@ class Scenary {
         return directionalLight;
     }
 
+    
     static setSpotlights() {
-        this.spotlights.topLeft = new Spotlight(-250, 50, -250, Math.PI / 1.5);
-        this.spotlights.bottomLeft = new Spotlight(-250, 50, 250, - Math.PI / 1.5);
-        this.spotlights.bottomRight = new Spotlight(250, 50, 250, - Math.PI / 4);
-        this.spotlights.topRight = new Spotlight(250, 50, -250, Math.PI / 4);
+        
+
+        this.lights.topRightLight = Spotlight.createLight((Math.PI / 4));
+        this.lights.topLeftLight= Spotlight.createLight((Math.PI / 1.5));
+        this.lights.bottomRightLight= Spotlight.createLight((- Math.PI / 4));
+        this.lights.bottomLeftLight = Spotlight.createLight((- Math.PI / 1.5));
+
+
+        this.spotlights.topLeft = new Spotlight(-250, 50, -250, (Math.PI / 1.5));
+        this.spotlights.bottomLeft = new Spotlight(-250, 50, 250, (- Math.PI / 1.5));
+        this.spotlights.bottomRight = new Spotlight(250, 50, 250, (- Math.PI / 4));
+        this.spotlights.topRight = new Spotlight(250, 50, -250, (Math.PI / 4));
+
+        this.lights.topRightLight.position.set(250, 50, -250);
+        this.lights.topLeftLight.position.set(-250, 50, -250);
+        this.lights.bottomRightLight.position.set(250, 50, 250);
+        this.lights.bottomLeftLight.position.set(-250, 50, 250);
+
+        this.lights.topLeftLight.target.position.set(0,16,0);
+        this.lights.topRightLight.target.position.set(0, 16, 0);
+        this.lights.bottomRightLight.target.position.set(0, 16, 0);
+        this.lights.bottomLeftLight.target.position.set(0, 16, 0);
+
     }
 }
 

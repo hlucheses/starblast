@@ -37,8 +37,16 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
+    //Luz Ambiente
     static ambientalLight =  Scenary.setAmbientalLight();
-
+  
+    //Spotlights
+    static spotlights = {
+        bottomRight: null,
+        bottomLeft: null,
+        topRight: null,
+        topLeft: null
+    };
 
     // Elementos da cena
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 16, 160);
@@ -47,6 +55,7 @@ class StarBlast {
 
     // Estado das teclas
     static keyStates = {};
+
 
     /**
      * Inicia o fluxo do programa
@@ -94,6 +103,38 @@ class StarBlast {
                     this.ambientalLight.intensity = 1;
                 }
             }
+
+           if(event.code == "Numpad1"){
+               //Top Left Spotlight
+               if (Scenary.lights.topLeftLight.intensity == 0){
+                   Scenary.lights.topLeftLight.intensity = 20;
+               } else{
+                   Scenary.lights.topLeftLight.intensity = 0;
+               }
+            } else if (event.code == "Numpad2"){
+               //Top Right Spotlight
+               if (Scenary.lights.topRightLight.intensity == 0){
+                   Scenary.lights.topRightLight.intensity = 20;
+                } else{
+                   Scenary.lights.topRightLight.intensity = 0;
+                }
+            } else if (event.code == "Numpad3"){
+            //Bottom Left Spotlight
+                if (Scenary.lights.bottomLeftLight.intensity == 0){
+                    Scenary.lights.bottomLeftLight.intensity = 20;
+                } else{
+                    Scenary.lights.bottomLeftLight.intensity = 0;
+                }
+            } else if (event.code == "Numpad4"){
+                console.log(Scenary.lights.bottomRightLight.intensity);
+            //Bottom Right Spotlight
+                if (Scenary.lights.bottomRightLight.intensity == 0){
+                    Scenary.lights.bottomRightLight.intensity = 20;
+            } else{
+                    Scenary.lights.bottomRightLight.intensity = 0;
+                }
+            }
+            
         });
 
         document.addEventListener('keyup', (event) => {
@@ -287,6 +328,11 @@ class StarBlast {
     static addSpotlights() {
         for (let[key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
+        }
+
+        for(let[key, light] of Object.entries(Scenary.lights)){
+            this.SCENE.add(light);
+            this.SCENE.add(light.target);
         }
     }
 }
