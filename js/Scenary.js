@@ -189,7 +189,7 @@ class Scenary {
     }
 
     static setAmbientalLight(){
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0 );
         return directionalLight;
     }
 

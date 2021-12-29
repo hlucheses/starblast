@@ -58,7 +58,11 @@ class Spaceship extends StarBlastObject {
 
         // À posicão são adicionados (velocidade) metros a cada frame
         this.design.position.add(this.speed);
-
+        Cameras.HEROECAM.position.set(
+            this.design.position.x,
+            this.design.position.y,
+            this.design.position.z
+        );
         // Verificar se atingiu um limite
         this.checkXLimits();
         this.checkZLimits();

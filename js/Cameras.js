@@ -16,11 +16,12 @@
  */
 
 class Cameras {
-    static FRONTAL = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
-    static SIDE = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.6, 2000);
-    static TOP = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-    static DYNAMIC = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
-    static BULLET = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 2000);
+    static FRONTAL = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1200);
+    static SIDE = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.6, 1200);
+    static TOP = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1200);
+    static DYNAMIC = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1200);
+    static BULLET = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1200);
+    static HEROECAM = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 1200)
 
     /**
      * Posicionamento e configuração das câmaras
@@ -39,9 +40,7 @@ class Cameras {
 
         /* Câmara de topo */
         this.TOP.position.set(0, 500, 5);
-        //this.TOP.zoom = (window.innerWidth * window.innerHeight) / 300000;
         this.TOP.rotation.set(Math.PI / 2, 0, 0);
-        //this.TOP.updateProjectionMatrix();
         this.TOP.lookAt(0, 0, 0);
 
         /* Câmara dinâmica */
@@ -53,6 +52,12 @@ class Cameras {
         this.BULLET.zoom = 50;
         this.BULLET.lookAt(0, 0, 0);
 
+        /*Camera da nave heroina*/
+        this.HEROECAM.position.set(0, 14, 160);
+        this.HEROECAM.zoom = 5;
+        this.HEROECAM.updateProjectionMatrix();
+        this.HEROECAM.scale.set(1, 1, 0.5);
+       
         // Definição da câmara inicial padrão
         this.CURRENT = this.FRONTAL;
 
@@ -81,7 +86,7 @@ class Cameras {
                     this.CURRENT = this.BULLET;
                     break;
                 case "Digit5":
-                    this.CURRENT = this.DYNAMIC;
+                    this.CURRENT = this.HEROECAM;
                     break;
             }
         } else {
@@ -117,6 +122,11 @@ class Cameras {
 
         this.CURRENT.lookAt(scene.position);
     }
+
+    /**Actualiza a posição da camera consoante a do player
+     * @params (x, y, z)
+     */
+    
 }
 
 // Inicializa a classe

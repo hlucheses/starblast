@@ -34,8 +34,7 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
-    static ambientalLight = {ON: false}; 
-    ambientalLight =  Scenary.setAmbientalLight();
+    static ambientalLight =  Scenary.setAmbientalLight();
 
 
     // Elementos da cena
@@ -86,12 +85,10 @@ class StarBlast {
             }
 
             if (event.code == "KeyQ"){
-                if(this.ambientalLight.ON == false){
-                    this.SCENE.add(this.ambientalLight);
-                    this.ambientalLight.ON = true;
+                if(this.ambientalLight.intensity == 1){
+                    this.ambientalLight.intensity = 0;
                 }else{
-                    this.SCENE.remove(this.ambientalLight);
-                    this.ambientalLight.ON = false;
+                    this.ambientalLight.intensity = 1;
                 }
             }
         });
@@ -114,6 +111,7 @@ class StarBlast {
 
         this.createScene();
         this.render();
+        this.SCENE.add(this.ambientalLight);
     }
 
     /**
