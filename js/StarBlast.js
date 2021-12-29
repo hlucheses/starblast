@@ -39,9 +39,8 @@ class StarBlast {
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
     static ambientalLight =  Scenary.setAmbientalLight();
 
-
     // Elementos da cena
-    static PLAYER_SPACESHIP = new PlayerSpaceship(0, 16, 160);
+    static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
     static ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES);
     static BULLETS = [];
 
@@ -121,8 +120,8 @@ class StarBlast {
      * Cria a cena (elementos físicos)
      */
     static createScene() {
+        this.addPlanesToScene();
         this.addWallsToScene();
-        this.addBoxToScene();
 
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
@@ -159,7 +158,7 @@ class StarBlast {
     /**
      * Adiciona as paredes à cena
      */
-    static addWallsToScene() {
+    static addPlanesToScene() {
         for (let [key, plane] of Object.entries(Scenary.planes)) {
             this.SCENE.add(plane);
         }
@@ -168,9 +167,13 @@ class StarBlast {
     /**
      * Adicionar a caixa à cena
      */
-    static addBoxToScene() {
+    static addWallsToScene() {
         for (let[key, wall] of Object.entries(Scenary.walls)) {
-            this.SCENE.add(wall);
+            this.SCENE.add(wall.design);
+
+            if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                this.SCENE.add(wall.boxHelper);
+            }
         }
     }
     /**

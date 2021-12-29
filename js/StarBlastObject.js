@@ -43,6 +43,8 @@ class StarBlastObject {
 
         this.speed = new THREE.Vector3(0, 0, 0);
         this.acceleration = new THREE.Vector3(0, 0, 0);
+
+        this.designParts = {};
     }
 
     /**
@@ -81,5 +83,18 @@ class StarBlastObject {
      */
     updateBoundingBox() {
         this.boundingBox.setFromObject(this.design);
+    }
+
+    /**
+     * Retorna um array com os três materiais necessários para a mesh
+     * @param {color} meshColor 
+     * @returns {array}
+     */
+    newMaterialArray(meshColor) {
+        return [
+            new THREE.MeshBasicMaterial({ color: meshColor }),
+            new THREE.MeshLambertMaterial({ color: meshColor }),
+            new THREE.MeshPhongMaterial({ color: meshColor })
+        ];
     }
 }

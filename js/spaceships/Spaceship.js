@@ -59,7 +59,6 @@ class Spaceship extends StarBlastObject {
         // À posicão são adicionados (velocidade) metros a cada frame
         this.design.position.add(this.speed);
         // Verificar se atingiu um limite
-        this.checkXLimits();
         this.checkZLimits();
 
         // Se a velocidade for menor que a máxima acelerar no sentido em questão
@@ -81,6 +80,9 @@ class Spaceship extends StarBlastObject {
 
         // Actualiza a posição das bounding boxes
         this.updateBoundingBox();
+
+        // Verifica se colidiu com a parede
+        Collision.checkAgainstWalls(this);
     }
 
     /**
@@ -140,21 +142,6 @@ class Spaceship extends StarBlastObject {
                     this.speed.z = 0;
                 }
             }
-        }
-    }
-
-    /**
-     * Verifica os limites no eixo de X
-     */
-    checkXLimits() {
-        if (this.design.position.x < Constants.LEFT_LIMIT) {
-            this.design.position.x = Constants.LEFT_LIMIT;
-            this.speed.x = 0;
-        }
-
-        if (this.design.position.x > Constants.RIGHT_LIMIT) {
-            this.design.position.x = Constants.RIGHT_LIMIT;
-            this.speed.x = 0;
         }
     }
 }

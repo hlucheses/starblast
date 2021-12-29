@@ -54,8 +54,8 @@
 
     /* Cenário */
 
-    // Tamanho das paredes
-    static WALL_SIZE = {height: 1200, width: 1200};
+    // Tamanho dos planos
+    static PLANES = {height: 1200, width: 1200};
 
     // Tamanho do espaço da cena
     static SPACE = {height: 1200, width: 1200, depth: 1200};
@@ -66,16 +66,16 @@
     static LIMITE_ESTRELAS = 0.6;
 
     // Mostrar bounding boxes
-    static SHOW_BOUNDING_BOX_HELPERS = false;
+    static SHOW_BOUNDING_BOX_HELPERS = true;
 
     // Constantes que determinam o tipo de spaceship
     static PLAYER = 1;
     static ENEMY = 2;
 
     //X e Y das paredes internas
-    static WALL_WIDTH = 10;
+    static WALL_WIDTH = 500;
     static WALL_HEIGHT = 100;
-    static WALL_DEPTH= 500;
+    static WALL_THICKNESS = 20;
 
     // Limite lateral das naves
     static LEFT_LIMIT = -120;
@@ -94,6 +94,23 @@
 
     // Aceleração gravítica (fazer em relação a metros)
     static GRAVITY = .013;
+
+    // Constantes referentes aos tipos de meshes
+    static MESH_TYPE = {
+        basic: 0,
+        lambert: 1,
+        phong: 2,
+        default: 0
+    };
+
+    // Constantes referentes à massa dos objectos
+    static MASS = {
+        player: 1,
+        enemy: 1,
+        bullet: .1,
+        spotlight: .1,
+        wall: 100000
+    }
 
     /**
      * Gera um número aleatório de start a end

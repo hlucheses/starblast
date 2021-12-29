@@ -74,7 +74,71 @@ class Collision {
     }
 
     /**
+     * Verifica colisões entre um objecto e uma parede
+     * HACK: O jogo não consegui interpretar a parede como
+     * um objecto então foi feito esse workaround.
+     * Posteriormente analisar de forma mais detalhada estas
+     * colisões
+     * @param {StarBlastObject} object 
+     */
+    static checkAgainstWalls(object) {
+
+        const restitution = .5; // Restituição da velocidade
+        let canvasSize = Constants.WALL_WIDTH / 2;
+
+        const posObj = object.design.position;
+        const yBoundaries = posObj.y >= -Constants.WALL_HEIGHT / 2 && posObj.y <= Constants.WALL_HEIGHT / 2;
+
+        const xBoundaries = posObj.x >= (-canvasSize - Constants.WALL_THICKNESS)
+            && posObj.x <= (canvasSize + Constants.WALL_THICKNESS);
+
+        const zBoundaries = posObj.z >= (-canvasSize - Constants.WALL_THICKNESS)
+            && posObj.z <= (canvasSize + Constants.WALL_THICKNESS);
+
+        const checkBoundaries = xBoundaries && yBoundaries && zBoundaries;
+
+        if (checkBoundaries) {
+
+            canvasSize -= Constants.WALL_THICKNESS / 2;
+            let bounced = false;
+            const obj = object;
+            let boxSize = new THREE.Vector3();
+            boxSize = object.boundingBox.getSize(boxSize);
+            const xBoxRadius = boxSize.x / 2;
+            const zBoxRadius = boxSize.z / 2;
+
+            // Check for left and right
+            if (posObj.x < -canvasSize + xBoxRadius) {
+                obj.speed.x = Math.abs(obj.speed.x) * restitution;
+                posObj.x = -canvasSize + xBoxRadius;
+                bounced = true;
+            } else if (posObj.x > canvasSize - xBoxRadius) {
+                obj.speed.x = -Math.abs(obj.speed.x) * restitution;
+                posObj.x = canvasSize - xBoxRadius;
+                bounced = true;
+            }
+
+            // Check for front and back
+            if (posObj.z < -canvasSize + zBoxRadius) {
+                obj.speed.z = Math.abs(obj.speed.z) * restitution;
+                posObj.z = -canvasSize + zBoxRadius;
+                bounced = true;
+            } else if (posObj.z > canvasSize - zBoxRadius) {
+                obj.speed.z = -Math.abs(obj.speed.z) * restitution;
+                posObj.z = canvasSize - zBoxRadius;
+                bounced = true;
+            }
+
+            if (bounced && object.name == "enemy") {
+                object.moveRandomly();
+            }
+        }
+
+    }
+
+    /**
      * Verifica colisão entre as balas
+     * @param {array}
      */
     static checkAmongBullets(bulletsArray) {
         for (var i = 0; i < bulletsArray.length - 1; i++) {
@@ -82,8 +146,8 @@ class Collision {
                 if (this.hasCollidedSphere(
                     bulletsArray[i].boundingSphere,
                     bulletsArray[j].boundingSphere)) {
-                    
-                        this.treatCollision(bulletsArray[i], bulletsArray[j]);
+
+                    this.treatCollision(bulletsArray[i], bulletsArray[j]);
                 }
             }
         }
@@ -152,17 +216,19 @@ class Collision {
         let speed = vRelativeVelocity.x * vCollisionNorm.x
             + vRelativeVelocity.y * vCollisionNorm.y
             + vRelativeVelocity.z * vCollisionNorm.z;
-        
-        if (speed < 0){
+
+        if (speed < 0) {
             return;
         }
 
-        objA.speed.x -= (speed * vCollisionNorm.x);
-        objA.speed.y -= (speed * vCollisionNorm.y);
-        objA.speed.z -= (speed * vCollisionNorm.z);
+        let impulse = 2 * speed / (objA.mass + objB.mass);
 
-        objB.speed.x += (speed * vCollisionNorm.x);
-        objB.speed.y += (speed * vCollisionNorm.y);
-        objB.speed.z += (speed * vCollisionNorm.z);
+        objA.speed.x -= (impulse * objB.mass * vCollisionNorm.x);
+        objA.speed.y -= (impulse * objB.mass * vCollisionNorm.y);
+        objA.speed.z -= (impulse * objB.mass * vCollisionNorm.z);
+
+        objB.speed.x += (impulse * objA.mass * vCollisionNorm.x);
+        objB.speed.y += (impulse * objA.mass * vCollisionNorm.y);
+        objB.speed.z += (impulse * objA.mass * vCollisionNorm.z);
     }
 }

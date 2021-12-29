@@ -16,9 +16,6 @@
  */
 
 class Bullet extends BulletDesign {
-
-
-
     /**
      * Define posição da bala
      * Inicializa o design
@@ -29,7 +26,7 @@ class Bullet extends BulletDesign {
     constructor(x, y, z, type) {
         super(x, y, z);
 
-
+        // Define a origem da bala (Player ou Enemy)
         this.type = type;
 
         // FIXME: Não consigo tornar isto em atributos estáticos
@@ -37,16 +34,15 @@ class Bullet extends BulletDesign {
         this.ACCELERATION = 2 * Constants.metersToPixels(1);
         this.BRAKING = .5 * Constants.metersToPixels(1);
 
+        this.mass = Constants.MASS.bullet;
+
         this.speed = new THREE.Vector3(0, .2, this.MAX_SPEED);
 
         if (this.type == Constants.PLAYER) {
             this.speed.z *= -1;
         }
 
-        this.alive = true;
         this.peaked = false;
-
-        
 
         // Cria a boundingBox
         this.boundingBox = this.createBoundingBox();
@@ -54,7 +50,7 @@ class Bullet extends BulletDesign {
         // Cria a esfera envolvente
         this.boundingSphere = this.createBoundingSphere();
 
-        this.rotationStep = 0;
+        this.spinStep = 0;
         this.collided = false;
     }
 
@@ -100,18 +96,19 @@ class Bullet extends BulletDesign {
 
         this.design.position.add(this.speed);
 
-        this.rotate();
+        this.spin();
         this.updateBoundingBox();
         this.updateBoundingSphere();
+        Collision.checkAgainstWalls(this);
     }
 
     /**
      * Faz as balas girarem em relação ao eixo do movimento
      * como pedido em enunciado
      */
-    rotate() {
-        this.rotationStep += .1;
-        var inclination = (Math.cos(this.rotationStep) * (2 * Math.PI));
+    spin() {
+        this.spinStep += .1;
+        var inclination = (Math.cos(this.spinStep) * (2 * Math.PI));
         this.design.rotation.z = ((this.type == 1) ? -1 : 1) * inclination;
     }
 
