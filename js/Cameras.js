@@ -38,7 +38,7 @@ class Cameras {
         this.SIDE.lookAt(0, 0, 0);
 
         /* Câmara de topo */
-        this.TOP.position.set(0, 460, 5);
+        this.TOP.position.set(0, 500, 5);
         //this.TOP.zoom = (window.innerWidth * window.innerHeight) / 300000;
         this.TOP.rotation.set(Math.PI / 2, 0, 0);
         //this.TOP.updateProjectionMatrix();

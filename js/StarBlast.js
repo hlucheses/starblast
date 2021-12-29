@@ -130,7 +130,8 @@ class StarBlast {
 
         this.addEnemiesToScene();
         this.SCENE.add(Scenary.getStars());
-        
+
+        this.addSpotlights();        
     }
 
     /**
@@ -279,6 +280,12 @@ class StarBlast {
                 
                 this.ENEMIES.splice(i, 1);
             }
+        }
+    }
+
+    static addSpotlights() {
+        for (let[key, spotlight] of Object.entries(Scenary.spotlights)) {
+            this.SCENE.add(spotlight.design);
         }
     }
 }

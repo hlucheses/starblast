@@ -35,6 +35,13 @@ class Scenary {
         bottom: null
     }
 
+    static spotlights = {
+        topLeft: null,
+        topRight: null,
+        bottomLeft: null,
+        bottomRight: null
+    };
+
     /**
      * Constutor estático, declarado abaixo da classe
      */
@@ -43,7 +50,8 @@ class Scenary {
         this.setWalls();
         this.initializeBox();
         this.setBox();
-        this.setAmbientalLight()
+        this.setAmbientalLight();
+        this.setSpotlights();
     }
 
     /**
@@ -183,6 +191,13 @@ class Scenary {
     static setAmbientalLight(){
         const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
         return directionalLight;
+    }
+
+    static setSpotlights() {
+        this.spotlights.topLeft = new Spotlight(-250, 50, -250, Math.PI / 1.5);
+        this.spotlights.bottomLeft = new Spotlight(-250, 50, 250, - Math.PI / 1.5);
+        this.spotlights.bottomRight = new Spotlight(250, 50, 250, - Math.PI / 4);
+        this.spotlights.topRight = new Spotlight(250, 50, -250, Math.PI / 4);
     }
 }
 
