@@ -26,6 +26,9 @@ function animateFora() {
     StarBlast.moveBullets();
     StarBlast.checkDead();
     StarBlast.updateCamera();
+    Cameras.HEROCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
+        StarBlast.PLAYER_SPACESHIP.design.position.y,
+        StarBlast.PLAYER_SPACESHIP.design.position.z);
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }

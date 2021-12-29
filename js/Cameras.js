@@ -21,7 +21,7 @@ class Cameras {
     static TOP = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1200);
     static DYNAMIC = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1200);
     static BULLET = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1200);
-    static HEROECAM = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 1200)
+    static HEROCAM = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 1200)
 
     /**
      * Posicionamento e configuração das câmaras
@@ -53,10 +53,10 @@ class Cameras {
         this.BULLET.lookAt(0, 0, 0);
 
         /*Camera da nave heroina*/
-        this.HEROECAM.position.set(0, 14, 160);
-        this.HEROECAM.zoom = 5;
-        this.HEROECAM.updateProjectionMatrix();
-        this.HEROECAM.scale.set(1, 1, 0.5);
+        this.HEROCAM.position.set(0, 14, 160);
+        this.HEROCAM.zoom = 5;
+        this.HEROCAM.updateProjectionMatrix();
+        this.HEROCAM.scale.set(1, 1, 0.5);
        
         // Definição da câmara inicial padrão
         this.CURRENT = this.FRONTAL;
@@ -126,7 +126,7 @@ class Cameras {
     /**Actualiza a posição da camera consoante a do player
      * @params (x, y, z)
      */
-    
+
 }
 
 // Inicializa a classe
