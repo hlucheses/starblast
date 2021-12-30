@@ -49,7 +49,7 @@ class WallDesign extends StarBlastObject {
         const materialArray = this.newMaterialArray(Constants.COLORS.walls);
 
         for (let i = 0; i < materialArray.length; i++) {
-            //materialArray[i].side = THREE.DoubleSide;
+            materialArray[i].side = THREE.DoubleSide;
             materialArray[i].transparent = true;
             materialArray[i].opacity = 0.36;
         }

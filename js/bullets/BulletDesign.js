@@ -38,7 +38,7 @@ class BulletDesign extends StarBlastObject {
 
     /**
      * Retorna a mesh que representa o corpo da bala
-     * @returns {{THREE.Mesh, array}
+     * @returns {{THREE.Mesh, array}}
      */
     addBody(x, y, z) {
         const geometry = new THREE.SphereGeometry(.6, 64, 64);

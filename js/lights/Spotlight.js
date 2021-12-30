@@ -16,9 +16,16 @@
  */
 
 class Spotlight extends SpotlightDesign {
+    
+    /**
+     * Posiciona o holofote na cena
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     * @param {number} rY 
+     */
     constructor(x, y, z, rY) {
         super(x, y, z, rY);
-
         this.mass = Constants.MASS.spotlight;
     }
 }

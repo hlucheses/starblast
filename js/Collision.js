@@ -128,10 +128,6 @@ class Collision {
                 posObj.z = canvasSize - zBoxRadius;
                 bounced = true;
             }
-
-            if (bounced && object.name == "enemy") {
-                object.moveRandomly();
-            }
         }
 
     }

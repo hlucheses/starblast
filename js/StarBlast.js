@@ -284,12 +284,19 @@ class StarBlast {
         }
     }
 
+    /**
+     * 
+     */
     static addSpotlights() {
         for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
         }
     }
 
+    /**
+     * Altera a iluminação da cena com base a uma tecla
+     * @param {string} eventCode 
+     */
     static checkLight(eventCode) {
         switch (eventCode) {
             case "KeyQ":
