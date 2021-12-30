@@ -68,6 +68,8 @@
     // Mostrar bounding boxes
     static SHOW_BOUNDING_BOX_HELPERS = false;
 
+    //Mostrar Helpers Lights
+    static SHOW_LIGHTS_HELPERS =  false;
     // Constantes que determinam o tipo de spaceship
     static PLAYER = 1;
     static ENEMY = 2;
