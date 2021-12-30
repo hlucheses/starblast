@@ -198,12 +198,15 @@ class Scenary {
         
 
         this.spotlights.topLeft = new Spotlight(-250, 50, -250, (Math.PI / 1.5));
-        this.spotlights.bottomLeft = new Spotlight(-250, 50, 250, (- Math.PI)+5);
+        this.spotlights.bottomLeft = new Spotlight(-250, 50, 250, (- Math.PI / 1.5));
         this.spotlights.bottomRight = new Spotlight(250, 50, 250, (- Math.PI / 4));
         this.spotlights.topRight = new Spotlight(250, 50, -250, (Math.PI / 4));
         
-        this.spotlights.bottomLeft.target.position.set(0, 0, 0);
-        //console.log(this.spotlights.bottomLeft.light.intensity);
+        
+        this.spotlights.topLeft.target = new THREE.Object3D(0, 0, 0);
+        this.spotlights.bottomLeft.target = new THREE.Object3D(0, 0, 0);
+        this.spotlights.bottomRight.target = new THREE.Object3D(0, 0, 0);
+        this.spotlights.topRight.target = new THREE.Object3D(0, 0, 0);
     }
 }
 

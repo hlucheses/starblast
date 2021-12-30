@@ -72,7 +72,7 @@ class SpotlightDesign {
         const penumbra = 0.5;
         const decay = 1.0;
 
-        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI/2, penumbra, decay);
+        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI/3, penumbra, decay);
         light.position.set(x, y, z);
         
         return light;

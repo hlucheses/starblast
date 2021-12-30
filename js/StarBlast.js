@@ -106,23 +106,23 @@ class StarBlast {
             if (event.code == "Numpad1") {
                 //Bottom Left Light
                 if(Scenary.spotlights.bottomLeft.light.intensity == 0) {
-                    Scenary.spotlights.bottomLeft.light.intensity = 20;
+                    Scenary.spotlights.bottomLeft.light.intensity = 10;
                 } else {
                     Scenary.spotlights.bottomLeft.light.intensity = 0;
                 }
-                console.log(Scenary.spotlights.bottomLeft.light.intensity);
+                
             }
             if (event.code == "Numpad2") {
                 //Bottom Right Light
                 if(Scenary.spotlights.bottomRight.light.intensity == 0) {
-                    Scenary.spotlights.bottomRight.light.intensity = 20;
+                    Scenary.spotlights.bottomRight.light.intensity = 10;
                 } else {
                     Scenary.spotlights.bottomRight.light.intensity = 0;
                 }
             }
             if (event.code == "Numpad4") {
                 if(Scenary.spotlights.topLeft.light.intensity == 0) {
-                    Scenary.spotlights.topLeft.light.intensity = 20;
+                    Scenary.spotlights.topLeft.light.intensity = 10;
                 } else {
                     Scenary.spotlights.topLeft.light.intensity = 0;
                 }
@@ -130,7 +130,7 @@ class StarBlast {
             if (event.code == "Numpad5") {
                 //Top Right Light
                 if(Scenary.spotlights.topRight.light.intensity == 0) {
-                    Scenary.spotlights.topRight.light.intensity = 20;
+                    Scenary.spotlights.topRight.light.intensity = 10;
                 } else {
                     Scenary.spotlights.topRight.light.intensity = 0;
                 }
