@@ -42,7 +42,6 @@ class SpotlightDesign extends StarBlastObject {
         this.design.scale.z = SCALE_CONSTANT;
 
         this.light = this.createLight(x, y, z);
-        this.design.add(this.light);
 
         this.setStartPosition(x, y, z);
     }
@@ -98,11 +97,11 @@ class SpotlightDesign extends StarBlastObject {
     }
 
     createLight(x, y, z){
-        const distance = 800;
+        const distance = 0;
         const penumbra = 0.5;
         const decay = 1.0;
 
-        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI/3, penumbra, decay);
+        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI/2, penumbra, decay);
         light.position.set(x, y, z);
         
         return light;

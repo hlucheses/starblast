@@ -200,10 +200,10 @@ class Scenary {
             Math.PI / 4
         );
 
-        this.spotlights.topLeft.target = new THREE.Object3D(0, 0, 0);
-        this.spotlights.bottomLeft.target = new THREE.Object3D(0, 0, 0);
-        this.spotlights.bottomRight.target = new THREE.Object3D(0, 0, 0);
-        this.spotlights.topRight.target = new THREE.Object3D(0, 0, 0);
+        this.spotlights.topLeft.light.target = new THREE.Object3D(-200, 200, -200);
+        this.spotlights.bottomLeft.light.target = new THREE.Object3D(0, 0, 0);
+        this.spotlights.bottomRight.light.target = new THREE.Object3D(0, 0, 0);
+        this.spotlights.topRight.light.target = new THREE.Object3D(0, 0, 0);
     }
 }
 

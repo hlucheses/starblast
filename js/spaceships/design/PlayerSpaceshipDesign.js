@@ -42,14 +42,14 @@ class PlayerSpaceshipDesign extends Spaceship {
         this.cannons.left = new Cannon(this.designParts.cannonLeft);
         this.cannons.middle = new Cannon(this.designParts.cannonMiddle);
 
-        this.cockpit = this.addCockpit(0, .774, 1.467);
-        this.body = this.addBody(0, 0, 0);
-        this.leftWing = this.addWing(-2.911, 0, 0.333, -Math.PI / 12);
-        this.rightWing = this.addWing(2.911, 0, 0.333, Math.PI / 12);
-        this.bigPropellant = this.addBigPropellant(0, 0, 6.776);
-        this.leftSmallPropellant = this.addSmallPropellant(-1.246, 0, 6.776);
-        this.rightSmallPropellant = this.addSmallPropellant(1.246, 0, 6.776);
-        this.centralPropellant = this.addCentralCannonHolder(0, -.6, 0);
+        this.designParts.cockpit = this.addCockpit(0, .774, 1.467);
+        this.designParts.body = this.addBody(0, 0, 0);
+        this.designParts.leftWing = this.addWing(-2.911, 0, 0.333, -Math.PI / 12);
+        this.designParts.rightWing = this.addWing(2.911, 0, 0.333, Math.PI / 12);
+        this.designParts.bigPropellant = this.addBigPropellant(0, 0, 6.776);
+        this.designParts.leftSmallPropellant = this.addSmallPropellant(-1.246, 0, 6.776);
+        this.designParts.rightSmallPropellant = this.addSmallPropellant(1.246, 0, 6.776);
+        this.designParts.centralPropellant = this.addCentralCannonHolder(0, -.6, 0);
     }
 
     /**
