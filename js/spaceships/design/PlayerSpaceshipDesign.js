@@ -15,6 +15,8 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
+
+// design em alteração
 class PlayerSpaceshipDesign extends Spaceship {
 
     /**
