@@ -1,48 +1,17 @@
-/**
- * StarBlast, jogo de naves espaciais.
- *
- * Este projecto é um projecto da cadeira de computação gráfica
- * como requisito parcial de avaliação do 4º ano de engenharia
- * informática (ISPTEC - Luanda, Angola).
- *
- * @link   https://github.com/hlucheses/starblast/
- * @file   Classe que representa o desenho da nave do player.
- * @author Andreia Vanessa Graça de Brito
- * @author Helder Lucheses Gonçalves da Costa
- * @author Miguel Gamboa Francisco Domingos
- * @since  27.12.2021
- * 
- * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
- */
-
-
-// design em alteração
-class PlayerSpaceshipDesign extends Spaceship {
-
-    /**
-     * Inicializa nave na posição (x, y, z) e as configurações iniciais
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     */
-    constructor(x, y, z) {
+class NeilA extends StarBlastObject {
+     constructor(x, y, z) {
         super(x, y, z);
-        this.initialDesign();
-    }
-
-    initialDesign() {
-        // Acabar
-        //this.design1();
-
-        this.design2();
+        this.cannons = {};
+        this.designParts = {};
+        this.design = new THREE.Object3D();
+        this.defaultCannonColor = 0x111f22;
+        this.init();
     }
 
     /**
      * Adicionar os componentes ao objecto principal (partes da nave)
      */
-    design1() {
-
-        this.defaultCannonColor = 0x111f22;
+    init() {
         this.designParts.cannonLeft = this.addSideCannon(-5.318, -1.575, -0.607, Math.PI / 36);
         this.designParts.cannonRight = this.addSideCannon(5.318, -1.575, -0.607, -Math.PI / 36);
         this.designParts.cannonMiddle = this.addCentralCannon(0, -1.955, -.743);
@@ -51,7 +20,6 @@ class PlayerSpaceshipDesign extends Spaceship {
         this.cannons.right = new Cannon(this.designParts.cannonRight);
         this.cannons.left = new Cannon(this.designParts.cannonLeft);
         this.cannons.middle = new Cannon(this.designParts.cannonMiddle);
-
 
         this.designParts.leftCannonHolder = this.addSideCannonHolder(-4.224, -.752, 2.055, 1);
         this.designParts.rightCannonHolder = this.addSideCannonHolder(4.224, -.685, 2.055, -1);
@@ -75,7 +43,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addCentralCannon(x, y, z) {
+     addCentralCannon(x, y, z) {
         const points = [];
         points.push(new THREE.Vector2(.48, .5));
         points.push(new THREE.Vector2(.92, -.82));
@@ -99,7 +67,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addSideCannon(x, y, z, rZ) {
+     addSideCannon(x, y, z, rZ) {
         const points = [];
         points.push(new THREE.Vector2(.5, 1));
         points.push(new THREE.Vector2(.5, -.7));
@@ -123,7 +91,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addCentralCannonRing(x, y, z) {
+     addCentralCannonRing(x, y, z) {
         const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
         const materialArray = this.newMaterialArray(0x00d5ff);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
@@ -145,7 +113,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} rY
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addSideCannonHolder(x, y, z, rY) {
+     addSideCannonHolder(x, y, z, rY) {
         const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
         const materialArray = this.newMaterialArray(0x00d5ff);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
@@ -165,7 +133,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addCentralCannonHolder(x, y, z) {
+     addCentralCannonHolder(x, y, z) {
         const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
         const materialArray = this.newMaterialArray(0x00d5ff);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
@@ -185,7 +153,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addCockpit(x, y, z) {
+     addCockpit(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
         const materialArray = this.newMaterialArray(0x00e3e6);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
@@ -205,7 +173,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addBody(x, y, z) {
+     addBody(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
         const materialArray = this.newMaterialArray(0x214f4f);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
@@ -227,7 +195,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} rY
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addWing(x, y, z, rY) {
+     addWing(x, y, z, rY) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
         const materialArray = this.newMaterialArray(0x214f4f);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
@@ -247,7 +215,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addBigPropellant(x, y, z) {
+     addBigPropellant(x, y, z) {
         const points = [];
         points.push(new THREE.Vector2(.26, .94));
         points.push(new THREE.Vector2(.82, -2.38));
@@ -271,7 +239,7 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addSmallPropellant(x, y, z) {
+     addSmallPropellant(x, y, z) {
         const points = [];
         points.push(new THREE.Vector2(.26, .94));
         points.push(new THREE.Vector2(.82, -2.38));
@@ -285,11 +253,5 @@ class PlayerSpaceshipDesign extends Spaceship {
         mesh.position.set(x, y, z);
         this.design.add(mesh);
         return {mesh, materialArray};
-    }
-
-    /* Design 2 */
-
-    design2() {
-        
     }
 }

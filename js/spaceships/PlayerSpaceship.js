@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class PlayerSpaceship extends PlayerSpaceshipDesign {
+class PlayerSpaceship extends Spaceship {
 
     /**
      * Inicializa nave na posição (x, y, z) e as configurações iniciais
@@ -27,6 +27,9 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
         super(x, y, z);
 
         this.type = Constants.PLAYER; // Tipo de nave
+
+        // Design inicial
+        this.initialDesign(x, y, z);
 
         // Cria a boundingBox
         this.boundingBox = this.createBoundingBox();
@@ -40,6 +43,16 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
 
         // Massa da nave
         this.mass = Constants.MASS.player;
+
+        
+    }
+
+    initialDesign(x, y, z) {
+        var design = new NeilA(x, y, z);
+        this.design = design.design;
+        this.defaultCannonColor = design.defaultCannonColor;
+        this.designParts = design.designParts;
+        this.cannons = design.cannons;
     }
 
     /**
