@@ -291,6 +291,8 @@ class StarBlast {
     static addSpotlights() {
         for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
+            const spotLightHelper = new THREE.SpotLightHelper( spotlight.design.light, 0xCA8508 );
+            this.SCENE.add(spotLightHelper);
             this.SCENE.add(spotlight.target);
         }
 
