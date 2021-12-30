@@ -19,6 +19,7 @@ class Cameras {
     static FRONTAL = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1200);
     static SIDE = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.6, 1200);
     static TOP = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1200);
+    static CANONCAM =  new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1200);
     static DYNAMIC = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1200);
     static BULLET = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1200);
     static HEROCAM = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 15, 1200)
@@ -31,6 +32,10 @@ class Cameras {
         /* Câmara frontal */
         this.FRONTAL.position.set(0, 5, 210);
         this.FRONTAL.lookAt(0, 0, 0);
+
+        /*Câmara Canhão */
+        this.CANONCAM.position.set(0, 5, 210);
+        this.CANONCAM.lookAt(0, 0, 0);
 
         /* Câmara lateral */
         this.SIDE.position.set(270, 5, 30);
@@ -53,7 +58,7 @@ class Cameras {
         this.BULLET.lookAt(0, 0, 0);
 
         /*Camera da nave heroina*/
-        this.HEROCAM.position.set(0, 14, 160);
+        this.HEROCAM.position.set(0, 5, 210);
         this.HEROCAM.zoom = 5;
         this.HEROCAM.updateProjectionMatrix();
         this.HEROCAM.scale.set(1, 1, 0.5);
@@ -76,7 +81,7 @@ class Cameras {
         if (typeof camera == "string") {
 
             switch (camera) {
-                case "Digit1":
+                case "Digit5":
                     this.CURRENT = this.TOP;
                     break;
                 case "Digit2":
@@ -85,12 +90,14 @@ class Cameras {
                 case "Digit3":
                     this.CURRENT = this.BULLET;
                     break;
-                case "Digit5":
+                case "Digit1":
                     this.CURRENT = this.DYNAMIC;
                     break;
                 case "Digit6":
                     this.CURRENT = this.HEROCAM;
                     break;
+                case "Digit7":
+                    this.CURRENT = this.CANONCAM;
             }
         } else {
             this.CURRENT = camera;

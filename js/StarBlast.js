@@ -30,8 +30,11 @@ function animateFora() {
         StarBlast.PLAYER_SPACESHIP.design.position.y,
         StarBlast.PLAYER_SPACESHIP.design.position.z);
     Cameras.FRONTAL.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-        StarBlast.PLAYER_SPACESHIP.design.position.y,
-        StarBlast.PLAYER_SPACESHIP.design.position.z);
+        StarBlast.PLAYER_SPACESHIP.design.position.y+10,
+        StarBlast.PLAYER_SPACESHIP.design.position.z+30);
+    Cameras.CANONCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
+            StarBlast.PLAYER_SPACESHIP.design.position.y,
+            StarBlast.PLAYER_SPACESHIP.design.position.z);
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
