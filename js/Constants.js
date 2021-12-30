@@ -57,6 +57,8 @@
     // Tamanho dos planos
     static PLANES = {height: 1200, width: 1200};
 
+    //Intensidade da luz
+    static INTENSIDADE = 1;
     // Tamanho do espaço da cena
     static SPACE = {height: 1200, width: 1200, depth: 1200};
 

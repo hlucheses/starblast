@@ -30,7 +30,7 @@ function animateFora() {
         StarBlast.PLAYER_SPACESHIP.design.position.y,
         StarBlast.PLAYER_SPACESHIP.design.position.z);
     Cameras.FRONTAL.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-        StarBlast.PLAYER_SPACESHIP.design.position.y+10,
+        StarBlast.PLAYER_SPACESHIP.design.position.y+5,
         StarBlast.PLAYER_SPACESHIP.design.position.z+30);
     Cameras.CANONCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
             StarBlast.PLAYER_SPACESHIP.design.position.y,
@@ -336,28 +336,28 @@ class StarBlast {
                 break;
             case "Numpad1":
                 if (Scenary.spotlights.bottomLeft.light.intensity == 0) {
-                    Scenary.spotlights.bottomLeft.light.intensity = 10;
+                    Scenary.spotlights.bottomLeft.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.bottomLeft.light.intensity = 0;
                 }
                 break;
             case "Numpad2":
                 if (Scenary.spotlights.bottomRight.light.intensity == 0) {
-                    Scenary.spotlights.bottomRight.light.intensity = 10;
+                    Scenary.spotlights.bottomRight.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.bottomRight.light.intensity = 0;
                 }
                 break;
             case "Numpad4":
                 if (Scenary.spotlights.topLeft.light.intensity == 0) {
-                    Scenary.spotlights.topLeft.light.intensity = 10;
+                    Scenary.spotlights.topLeft.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.topLeft.light.intensity = 0;
                 }
                 break;
             case "Numpad5":
                 if (Scenary.spotlights.topRight.light.intensity == 0) {
-                    Scenary.spotlights.topRight.light.intensity = 10;
+                    Scenary.spotlights.topRight.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.topRight.light.intensity = 0;
                 }
