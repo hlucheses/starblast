@@ -37,7 +37,8 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
-    static ambientalLight =  Scenary.setAmbientalLight();
+    static shadowing = Constants.MESH_TYPE.default;
+    static ambientalLight = Scenary.setAmbientalLight();
 
     // Elementos da cena
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
@@ -86,13 +87,7 @@ class StarBlast {
                 this.toggleWireframe();
             }
 
-            if (event.code == "KeyQ"){
-                if(this.ambientalLight.intensity == 1){
-                    this.ambientalLight.intensity = 0;
-                }else{
-                    this.ambientalLight.intensity = 1;
-                }
-            }
+            this.checkLight(event.code);
         });
 
         document.addEventListener('keyup', (event) => {
@@ -120,10 +115,12 @@ class StarBlast {
      * Cria a cena (elementos físicos)
      */
     static createScene() {
+
         this.addPlanesToScene();
         this.addWallsToScene();
 
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
+
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
             this.SCENE.add(this.PLAYER_SPACESHIP.boxHelper);
         }
@@ -131,7 +128,7 @@ class StarBlast {
         this.addEnemiesToScene();
         this.SCENE.add(Scenary.getStars());
 
-        this.addSpotlights();        
+        this.addSpotlights();
     }
 
     /**
@@ -168,7 +165,7 @@ class StarBlast {
      * Adicionar a caixa à cena
      */
     static addWallsToScene() {
-        for (let[key, wall] of Object.entries(Scenary.walls)) {
+        for (let [key, wall] of Object.entries(Scenary.walls)) {
             this.SCENE.add(wall.design);
 
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
@@ -276,20 +273,85 @@ class StarBlast {
         for (var i = 0; i < this.ENEMIES.length; i++) {
             if (this.ENEMIES[i].lives <= 0) {
 
-                if (Constants.SHOW_BOUNDING_BOX_HELPERS)  {
+                if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                     this.SCENE.remove(this.ENEMIES[i].boxHelper);
                 }
 
                 this.SCENE.remove(this.ENEMIES[i].design);
-                
+
                 this.ENEMIES.splice(i, 1);
             }
         }
     }
 
     static addSpotlights() {
-        for (let[key, spotlight] of Object.entries(Scenary.spotlights)) {
+        for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
+        }
+    }
+
+    static checkLight(eventCode) {
+        switch (eventCode) {
+            case "KeyQ":
+                this.ambientalLight.intensity ^= 1;
+                break;
+            case "KeyW":
+                // Ativar cálculo de sombreamento
+                if (this.shadowing == Constants.MESH_TYPE.basic) {
+                    this.changeShadowing(Constants.MESH_TYPE.lambert);
+                } else {
+                    this.changeShadowing(Constants.MESH_TYPE.basic);
+                }
+                break;
+            case "KeyE":
+                // Alternar entre phong e lambert
+                if (this.shadowing != Constants.MESH_TYPE.basic) {
+                    if (this.shadowing == Constants.MESH_TYPE.lambert) {
+                        this.changeShadowing(Constants.MESH_TYPE.phong);
+                    } else {
+                        this.changeShadowing(Constants.MESH_TYPE.lambert);
+                    }
+                }
+                break;
+        }
+    }
+
+    static changeShadowing(type) {
+
+        for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
+            for (let [key, spotlightPart] of Object.entries(spotlight.designParts)) {
+                spotlightPart.mesh.material = spotlightPart.materialArray[type];
+            }
+        }
+
+        for (let [key, wall] of Object.entries(Scenary.walls)) {
+            for (let [key, wallPart] of Object.entries(wall.designParts)) {
+                wallPart.mesh.material = wallPart.materialArray[type];
+            }
+        }
+
+        for (var i = 0; i < this.BULLETS.length; i++) {
+            for (let [key, bulletPart] of Object.entries(this.BULLETS[i].designParts)) {
+                bulletPart.mesh.material = bulletPart.materialArray[type];
+            }
+        }
+
+        for (var i = 0; i < this.ENEMIES.length; i++) {
+            for (let [key, enemyPart] of Object.entries(this.ENEMIES[i].designParts)) {
+                enemyPart.mesh.material = enemyPart.materialArray[type];
+            }
+        }
+
+        Constants.MESH_TYPE.default = type;
+        this.shadowing = type;
+
+        // A nave do player é apenas lambert
+        if (type == Constants.MESH_TYPE.phong) {
+            type = Constants.MESH_TYPE.lambert;
+        }
+
+        for (let [key, playerPart] of Object.entries(this.PLAYER_SPACESHIP.designParts)) {
+            playerPart.mesh.material = playerPart.materialArray[type];
         }
     }
 }

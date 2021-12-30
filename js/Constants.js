@@ -66,7 +66,7 @@
     static LIMITE_ESTRELAS = 0.6;
 
     // Mostrar bounding boxes
-    static SHOW_BOUNDING_BOX_HELPERS = true;
+    static SHOW_BOUNDING_BOX_HELPERS = false;
 
     // Constantes que determinam o tipo de spaceship
     static PLAYER = 1;
@@ -102,6 +102,8 @@
         phong: 2,
         default: 0
     };
+
+    static DEFAULT_SHADOWING = Constants.MESH_TYPE.basic;
 
     // Constantes referentes à massa dos objectos
     static MASS = {

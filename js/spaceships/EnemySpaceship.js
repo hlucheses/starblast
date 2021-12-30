@@ -73,8 +73,6 @@ class EnemySpaceship extends EnemySpaceshipDesign {
                 y: -1,
                 z: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + 10 + dimensions.z / 2, Constants.ENEMY_FRONT_LIMIT)
             }
-            
-            console.log(posicao);
 
             enemiesArray.push(new EnemySpaceship(posicao.x, posicao.y, posicao.z));
 
