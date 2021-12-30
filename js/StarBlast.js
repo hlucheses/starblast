@@ -299,8 +299,12 @@ class StarBlast {
             this.SCENE.add(spotlight.design);
             this.SCENE.add(spotlight.light);
             const spotLightHelper = new THREE.SpotLightHelper( spotlight.light, 0xCA8508 );
-            spotlight.light.target = new THREE.Object3D(-200, 0, 0);
-            this.SCENE.add(spotLightHelper);
+            spotlight.light.target = new THREE.Object3D(0, 0, 0);
+            
+            if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                this.SCENE.add(spotLightHelper);
+            }
+            
             this.SCENE.add(spotlight.light.target);
         }
 
