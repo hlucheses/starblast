@@ -30,20 +30,33 @@ class PlayerSpaceshipDesign extends Spaceship {
         this.initialDesign();
     }
 
+    initialDesign() {
+        // Acabar
+        //this.design1();
+
+        this.design2();
+    }
+
     /**
      * Adicionar os componentes ao objecto principal (partes da nave)
      */
-    initialDesign() {
+    design1() {
 
-        this.designParts.cannonLeft = this.addSideCannonHolder(-4.224, -.685, 2.055, 40.25);
-        this.designParts.cannonRight = this.addSideCannonHolder(4.224, -.685, 2.055, -40.25);
-        this.designParts.cannonMiddle = this.addCentralCannonRing(0, -1.565, .685);
+        this.defaultCannonColor = 0x111f22;
+        this.designParts.cannonLeft = this.addSideCannon(-5.318, -1.575, -0.607, Math.PI / 36);
+        this.designParts.cannonRight = this.addSideCannon(5.318, -1.575, -0.607, -Math.PI / 36);
+        this.designParts.cannonMiddle = this.addCentralCannon(0, -1.955, -.743);
 
         // Canhões usados para fazer os disparos
         this.cannons.right = new Cannon(this.designParts.cannonRight);
         this.cannons.left = new Cannon(this.designParts.cannonLeft);
         this.cannons.middle = new Cannon(this.designParts.cannonMiddle);
 
+
+        this.designParts.leftCannonHolder = this.addSideCannonHolder(-4.224, -.752, 2.055, 1);
+        this.designParts.rightCannonHolder = this.addSideCannonHolder(4.224, -.685, 2.055, -1);
+        this.designParts.centralCannonRing = this.addCentralCannonRing(0, -1.565, 0);
+        this.designParts.centralCannonHolder = this.addCentralCannonHolder(0, -.6, 0);
         this.designParts.cockpit = this.addCockpit(0, .774, 1.467);
         this.designParts.body = this.addBody(0, 0, 0);
         this.designParts.leftWing = this.addWing(-2.911, 0, 0.333, -Math.PI / 12);
@@ -64,14 +77,14 @@ class PlayerSpaceshipDesign extends Spaceship {
      */
     addCentralCannon(x, y, z) {
         const points = [];
-        points.push(new THREE.Vector2(.78, .05));
-        points.push(new THREE.Vector2(1.2, -.92));
-        points.push(new THREE.Vector2(0, -.5));
-        const geometry = new THREE.LatheGeometry(points);
+        points.push(new THREE.Vector2(.48, .5));
+        points.push(new THREE.Vector2(.92, -.82));
+        points.push(new THREE.Vector2(0, -.42));
+        const geometry = new THREE.LatheGeometry(points, 30, 0,  2 * Math.PI);
         const materialArray = this.newMaterialArray(0x3b4545);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
-        geometry.scale(.55, 2.98, .55);
+        geometry.scale(.8, 2.189, .8);
         geometry.rotateX(-Math.PI / 2);
         mesh.position.set(x, y, z);
         this.design.add(mesh);
@@ -86,17 +99,17 @@ class PlayerSpaceshipDesign extends Spaceship {
      * @param {number} z 
      * @returns {{THREE.Mesh, array}} mesh
      */
-    addSideCannon(x, y, z) {
+    addSideCannon(x, y, z, rZ) {
         const points = [];
-        points.push(new THREE.Vector2(.78, .05));
-        points.push(new THREE.Vector2(-.76, -.92));
-        points.push(new THREE.Vector2(0, -.5));
-        const geometry = new THREE.LatheGeometry(points);
-        const materialArray = this.newMaterialArray(0x3b4545);
+        points.push(new THREE.Vector2(.5, 1));
+        points.push(new THREE.Vector2(.5, -.7));
+        points.push(new THREE.Vector2(0, 0));
+        const geometry = new THREE.LatheGeometry(points, 30, 0, 2 * Math.PI);
+        const materialArray = this.newMaterialArray(0x111f22);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
-        geometry.scale(.55, 5.753, .55);
-        geometry.rotateX(-Math.PI / 2);
+        geometry.scale(1, 4.59, 1);
+        mesh.rotation.set(Math.PI / 2, 0, rZ);
         mesh.position.set(x, y, z);
         this.design.add(mesh);
         return {mesh, materialArray};
@@ -139,7 +152,7 @@ class PlayerSpaceshipDesign extends Spaceship {
 
         geometry.scale(.3, 3.232, .3);
         mesh.position.set(x, y, z);
-        mesh.rotation.set(Math.PI / 2, rY * Math.PI / 180, -Math.PI / 2);
+        mesh.rotation.set(Math.PI / 2, rY * Math.PI / 4.8, -Math.PI / 2);
         this.design.add(mesh);
         return {mesh, materialArray};
     }
@@ -272,5 +285,11 @@ class PlayerSpaceshipDesign extends Spaceship {
         mesh.position.set(x, y, z);
         this.design.add(mesh);
         return {mesh, materialArray};
+    }
+
+    /* Design 2 */
+
+    design2() {
+        
     }
 }

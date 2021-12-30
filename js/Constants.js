@@ -43,7 +43,7 @@
             fourth: 0x201313
         },
         cannons: {
-            default: 0x00d5ff,
+            default: 0x111f22,
             selected: 0xff0000,
         },
         walls: '#FFFFFF',

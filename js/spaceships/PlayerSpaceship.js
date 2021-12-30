@@ -90,9 +90,9 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
     checkCannon(keyCode) {
 
         if (keyCode == "KeyZ" || keyCode == "KeyX" || keyCode == "KeyC") {
-            this.cannons.left.setColor(Constants.COLORS.cannons.default);
-            this.cannons.right.setColor(Constants.COLORS.cannons.default);
-            this.cannons.middle.setColor(Constants.COLORS.cannons.default);
+            this.cannons.left.setColor(this.defaultCannonColor);
+            this.cannons.right.setColor(this.defaultCannonColor);
+            this.cannons.middle.setColor(this.defaultCannonColor);
         } else {
             return;
         }
