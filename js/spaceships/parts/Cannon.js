@@ -19,10 +19,10 @@
 
     /**
      * Inicia com o design do canhão
-     * @param {THREE.mesh} mesh 
+     * @param {{THREE.Mesh, array}} design 
      */
-    constructor (mesh) {
-        this.mesh = mesh;
+    constructor (design) {
+        this.design = design;
         this.bullets = {};     
     }
 
@@ -31,7 +31,9 @@
      * @param {hexadecimal number} color 
      */
     setColor(color) {
-        this.mesh.material.color.set(color);
+        for (let i = 0; i < this.design.materialArray.length; i++) {
+            this.design.materialArray[i].color.set(color);
+        }
     }
 
     /**
@@ -41,7 +43,7 @@
      */
     shoot(type) {
         var worldPosition = new THREE.Vector3();
-        this.mesh.getWorldPosition(worldPosition);
+        this.design.mesh.getWorldPosition(worldPosition);
         return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type);
     }
 }

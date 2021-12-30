@@ -15,22 +15,22 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
- class EnemySpaceship extends EnemySpaceshipDesign {
-    
+class EnemySpaceship extends EnemySpaceshipDesign {
+
     /**
      * Inicializa nave na posição (x, y, z) e as configurações iniciais
      * @param {number} x 
      * @param {number} y 
      * @param {number} z 
      */
-     constructor(x, y, z) {
+    constructor(x, y, z) {
         super(x, y, z);
 
         // Tipo de nave 2 = nave inimiga
         this.type = Constants.ENEMY;
 
         // Variável que verifica se a nave já atingiu o destino em cada eixo
-        this.targetBool = {x: false, y: true, z: false};
+        this.targetBool = { x: false, y: true, z: false };
 
         this.boundingBox = this.createBoundingBox();
 
@@ -44,6 +44,10 @@
         // Limites da nave
         this.frontLimit = Constants.ENEMY_FRONT_LIMIT;
         this.backLimit = Constants.ENEMY_BACK_LIMIT;
+
+        // Massa da nave
+        this.mass = Constants.MASS.enemy;
+        this.randomMovement = 0;
     }
 
     /**
@@ -54,16 +58,22 @@
      */
     static generateRandom(numberOfEnemies) {
 
-        if (numberOfEnemies < 1) {
-            throw "Number of enemies must be > 0";
+        if (numberOfEnemies < 0) {
+            throw "Number of enemies must be >= 0";
         }
+
+        let dimensions = EnemySpaceshipDesign.getDimensions();
 
         var enemiesArray = [];
 
         for (var i = 0; i < numberOfEnemies; i++) {
-            var posicao = {x: Constants.randomNumber(Constants.LEFT_LIMIT, Constants.RIGHT_LIMIT),
-                            y: -1,
-                            z: Constants.randomNumber(Constants.ENEMY_BACK_LIMIT, Constants.ENEMY_FRONT_LIMIT)}
+            var posicao = {
+                x: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + dimensions.x / 2 + 10,
+                    Constants.WALL_WIDTH / 2 - dimensions.x / 2 - 10),
+                y: -1,
+                z: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + 10 + dimensions.z / 2, Constants.ENEMY_FRONT_LIMIT)
+            }
+
             enemiesArray.push(new EnemySpaceship(posicao.x, posicao.y, posicao.z));
 
             /* Evita que sejam geradas duas naves que se interceptam */
@@ -89,8 +99,9 @@
     moveRandomly() {
 
         // Se já chegou ao destino, computa um novo
-        if (this.checkTarget()) {
+        if (this.checkTarget() || this.randomMovement == 100) {
             this.newTarget();
+            this.randomMovement = 0;
         } else {
 
             // Se a posição está antes do destino e ainda não chegou ao alvo em X
@@ -104,7 +115,7 @@
                     this.acceleration.setX(this.ACCELERATION);
                     this.moving.setX(1);
                 }
-            // Se a posição está depois do destino e ainda não chegou ao alvo em X
+                // Se a posição está depois do destino e ainda não chegou ao alvo em X
             } else if (this.design.position.x >= this.target.x && !this.targetBool.x) {
                 if (this.status.x < 0) { // Se está antes do destino
                     // Informa que já chegou ao alvo em X e para
@@ -128,7 +139,7 @@
                     this.acceleration.setZ(this.ACCELERATION);
                     this.moving.setZ(1);
                 }
-            // Se a posição está depois do destino e ainda não chegou ao alvo em X
+                // Se a posição está depois do destino e ainda não chegou ao alvo em X
             } else if (this.design.position.z >= this.target.z && !this.targetBool.z) {
                 if (this.status.z < 0) {// Se está antes do destino
                     // Informa que já chegou ao alvo em X e para
@@ -142,6 +153,7 @@
             }
         }
 
+        this.randomMovement++;
         this.move();
     }
 
@@ -150,7 +162,7 @@
      * @returns {Bullet} bala disparada
      */
     shootRandomly() {
-        var numero = Constants.randomNumber(1, 160);    
+        var numero = Constants.randomNumber(1, 160);
 
         if (numero == 1) {
             numero = Constants.randomNumber(1, 2);
@@ -170,14 +182,17 @@
      */
     newTarget() {
 
+        let dimensions = EnemySpaceshipDesign.getDimensions();
+
         // Define que ainda não chegou ao destino
         this.targetBool.x = false;
         this.targetBool.z = false;
 
         // Calcula um novo destino aleatório dentro dos limites estabelecidos
-        this.target.x = Constants.randomNumber(Constants.LEFT_LIMIT, Constants.RIGHT_LIMIT);
+        this.target.x = Constants.randomNumber(-Constants.WALL_WIDTH / 2 + dimensions.x / 2,
+            Constants.WALL_WIDTH / 2 - dimensions.x / 2);
         this.target.y = 0;
-        this.target.z = Constants.randomNumber(Constants.ENEMY_BACK_LIMIT, Constants.ENEMY_FRONT_LIMIT);
+        this.target.z = Constants.randomNumber(-Constants.WALL_WIDTH / 2 + dimensions.z / 2, Constants.ENEMY_FRONT_LIMIT);
 
         // Dá em que estado a nave está em relação à posição destino
         this.status = this.getStatus();
@@ -207,14 +222,10 @@
      * Verifica os limites no eixo de Z
      */
     checkZLimits() {
-        if (this.design.position.z < this.backLimit) {
-            this.design.position.z = this.backLimit;
-            this.speed.z = 0;
-        }
-
         if (this.design.position.z > this.frontLimit) {
             this.design.position.z = this.frontLimit;
             this.speed.z = 0;
+            this.moveRandomly();
         }
     }
 }

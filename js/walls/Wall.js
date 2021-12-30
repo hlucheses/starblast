@@ -6,7 +6,7 @@
  * informática (ISPTEC - Luanda, Angola).
  *
  * @link   https://github.com/hlucheses/starblast/
- * @file   Classe que representa os holofotes da cena.
+ * @file   Classe que representa as paredes da cena.
  * @author Andreia Vanessa Graça de Brito
  * @author Helder Lucheses Gonçalves da Costa
  * @author Miguel Gamboa Francisco Domingos
@@ -15,19 +15,27 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class Spotlight extends SpotlightDesign {
-    
+
+class Wall extends WallDesign {
+
     /**
-     * Posiciona o holofote na cena
+     * Define posição da parede
+     * Inicializa o design
      * @param {number} x 
      * @param {number} y 
      * @param {number} z 
-     * @param {number} rY 
+     * @param {number} rY
      */
-    constructor(x, y, z, rY) {
+    constructor(x, y, z, rY = 0) {
         super(x, y, z, rY);
-        this.mass = Constants.MASS.spotlight;
-    }
 
-    
+        // Cria a boundingBox
+        /*
+            FIXME: Não se consegui fazer colisões com as paredes usando bounding boxes
+        */
+        this.boundingBox = this.createBoundingBox();
+
+        // Massa da parede
+        this.mass = Constants.MASS.wall;
+    }
 }

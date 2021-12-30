@@ -37,19 +37,11 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
-    //Luz Ambiente
-    static ambientalLight =  Scenary.setAmbientalLight();
-  
-    //Spotlights
-    static spotlights = {
-        bottomRight: null,
-        bottomLeft: null,
-        topRight: null,
-        topLeft: null
-    };
+    static shadowing = Constants.MESH_TYPE.default;
+    static ambientalLight = Scenary.setAmbientalLight();
 
     // Elementos da cena
-    static PLAYER_SPACESHIP = new PlayerSpaceship(0, 16, 160);
+    static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
     static ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES);
     static BULLETS = [];
 
@@ -96,46 +88,7 @@ class StarBlast {
                 this.toggleWireframe();
             }
 
-            if (event.code == "KeyQ"){
-                if(this.ambientalLight.intensity == 1){
-                    this.ambientalLight.intensity = 0;
-                }else{
-                    this.ambientalLight.intensity = 1;
-                }
-            }
-            if (event.code == "Numpad1") {
-                //Bottom Left Light
-                if(Scenary.spotlights.bottomLeft.light.intensity == 0) {
-                    Scenary.spotlights.bottomLeft.light.intensity = 10;
-                } else {
-                    Scenary.spotlights.bottomLeft.light.intensity = 0;
-                }
-                
-            }
-            if (event.code == "Numpad2") {
-                //Bottom Right Light
-                if(Scenary.spotlights.bottomRight.light.intensity == 0) {
-                    Scenary.spotlights.bottomRight.light.intensity = 10;
-                } else {
-                    Scenary.spotlights.bottomRight.light.intensity = 0;
-                }
-            }
-            if (event.code == "Numpad4") {
-                if(Scenary.spotlights.topLeft.light.intensity == 0) {
-                    Scenary.spotlights.topLeft.light.intensity = 10;
-                } else {
-                    Scenary.spotlights.topLeft.light.intensity = 0;
-                }
-            }
-            if (event.code == "Numpad5") {
-                //Top Right Light
-                if(Scenary.spotlights.topRight.light.intensity == 0) {
-                    Scenary.spotlights.topRight.light.intensity = 10;
-                } else {
-                    Scenary.spotlights.topRight.light.intensity = 0;
-                }
-            }
-            
+            this.checkLight(event.code);
         });
 
         document.addEventListener('keyup', (event) => {
@@ -163,10 +116,12 @@ class StarBlast {
      * Cria a cena (elementos físicos)
      */
     static createScene() {
+
+        this.addPlanesToScene();
         this.addWallsToScene();
-        this.addBoxToScene();
 
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
+
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
             this.SCENE.add(this.PLAYER_SPACESHIP.boxHelper);
         }
@@ -174,8 +129,7 @@ class StarBlast {
         this.addEnemiesToScene();
         this.SCENE.add(Scenary.getStars());
 
-        this.addSpotlights(); 
-        
+        this.addSpotlights();
     }
 
     /**
@@ -202,7 +156,7 @@ class StarBlast {
     /**
      * Adiciona as paredes à cena
      */
-    static addWallsToScene() {
+    static addPlanesToScene() {
         for (let [key, plane] of Object.entries(Scenary.planes)) {
             this.SCENE.add(plane);
         }
@@ -211,9 +165,13 @@ class StarBlast {
     /**
      * Adicionar a caixa à cena
      */
-    static addBoxToScene() {
-        for (let[key, wall] of Object.entries(Scenary.walls)) {
-            this.SCENE.add(wall);
+    static addWallsToScene() {
+        for (let [key, wall] of Object.entries(Scenary.walls)) {
+            this.SCENE.add(wall.design);
+
+            if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                this.SCENE.add(wall.boxHelper);
+            }
         }
     }
     /**
@@ -316,22 +274,123 @@ class StarBlast {
         for (var i = 0; i < this.ENEMIES.length; i++) {
             if (this.ENEMIES[i].lives <= 0) {
 
-                if (Constants.SHOW_BOUNDING_BOX_HELPERS)  {
+                if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                     this.SCENE.remove(this.ENEMIES[i].boxHelper);
                 }
 
                 this.SCENE.remove(this.ENEMIES[i].design);
-                
+
                 this.ENEMIES.splice(i, 1);
             }
         }
     }
 
+    /**
+     * 
+     */
     static addSpotlights() {
-        for (let[key, spotlight] of Object.entries(Scenary.spotlights)) {
+        for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
             this.SCENE.add(spotlight.target);
         }
 
+    }
+
+    /**
+     * Altera a iluminação da cena com base a uma tecla
+     * @param {string} eventCode 
+     */
+    static checkLight(eventCode) {
+
+        switch (eventCode) {
+            case "KeyQ":
+                this.ambientalLight.intensity ^= 1;
+                break;
+            case "KeyW":
+                // Ativar cálculo de sombreamento
+                if (this.shadowing == Constants.MESH_TYPE.basic) {
+                    this.changeShadowing(Constants.MESH_TYPE.lambert);
+                } else {
+                    this.changeShadowing(Constants.MESH_TYPE.basic);
+                }
+                break;
+            case "KeyE":
+                // Alternar entre phong e lambert
+                if (this.shadowing != Constants.MESH_TYPE.basic) {
+                    if (this.shadowing == Constants.MESH_TYPE.lambert) {
+                        this.changeShadowing(Constants.MESH_TYPE.phong);
+                    } else {
+                        this.changeShadowing(Constants.MESH_TYPE.lambert);
+                    }
+                }
+                break;
+            case "Numpad1":
+                if (Scenary.spotlights.bottomLeft.light.intensity == 0) {
+                    Scenary.spotlights.bottomLeft.light.intensity = 10;
+                } else {
+                    Scenary.spotlights.bottomLeft.light.intensity = 0;
+                }
+                break;
+            case "Numpad2":
+                if (Scenary.spotlights.bottomRight.light.intensity == 0) {
+                    Scenary.spotlights.bottomRight.light.intensity = 10;
+                } else {
+                    Scenary.spotlights.bottomRight.light.intensity = 0;
+                }
+                break;
+            case "Numpad4":
+                if (Scenary.spotlights.topLeft.light.intensity == 0) {
+                    Scenary.spotlights.topLeft.light.intensity = 10;
+                } else {
+                    Scenary.spotlights.topLeft.light.intensity = 0;
+                }
+                break;
+            case "Numpad5":
+                if (Scenary.spotlights.topRight.light.intensity == 0) {
+                    Scenary.spotlights.topRight.light.intensity = 10;
+                } else {
+                    Scenary.spotlights.topRight.light.intensity = 0;
+                }
+                break;
+        }
+    }
+
+    static changeShadowing(type) {
+
+        for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
+            for (let [key, spotlightPart] of Object.entries(spotlight.designParts)) {
+                spotlightPart.mesh.material = spotlightPart.materialArray[type];
+            }
+        }
+
+        for (let [key, wall] of Object.entries(Scenary.walls)) {
+            for (let [key, wallPart] of Object.entries(wall.designParts)) {
+                wallPart.mesh.material = wallPart.materialArray[type];
+            }
+        }
+
+        for (var i = 0; i < this.BULLETS.length; i++) {
+            for (let [key, bulletPart] of Object.entries(this.BULLETS[i].designParts)) {
+                bulletPart.mesh.material = bulletPart.materialArray[type];
+            }
+        }
+
+        for (var i = 0; i < this.ENEMIES.length; i++) {
+            for (let [key, enemyPart] of Object.entries(this.ENEMIES[i].designParts)) {
+                enemyPart.mesh.material = enemyPart.materialArray[type];
+            }
+        }
+
+        Constants.MESH_TYPE.default = type;
+        this.shadowing = type;
+
+        // A nave do player é apenas lambert
+        if (type == Constants.MESH_TYPE.phong) {
+            type = Constants.MESH_TYPE.lambert;
+        }
+
+        for (let [key, playerPart] of Object.entries(this.PLAYER_SPACESHIP.designParts)) {
+            playerPart.mesh.material = playerPart.materialArray[type];
+        }
     }
 }

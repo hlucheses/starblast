@@ -46,19 +46,18 @@ class Scenary {
      * Constutor estático, declarado abaixo da classe
      */
     static staticConstructor() {
+        this.initializePlanes();
+        this.setPlanes();
         this.initializeWalls();
-        this.setWalls();
-        this.initializeBox();
-        this.setBox();
         this.setAmbientalLight();
         this.setSpotlights();
     }
 
     /**
-     * Inicializa 6 paredes (formar uma caixa)
+     * Inicializa 6 planos (formar uma caixa)
      */
-    static initializeWalls() {
-        var geometry = new THREE.PlaneGeometry(Constants.WALL_SIZE.width, Constants.WALL_SIZE.height);
+    static initializePlanes() {
+        var geometry = new THREE.PlaneGeometry(Constants.SPACE.width, Constants.SPACE.height);
         var material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
             color: Constants.COLORS.world
@@ -74,41 +73,18 @@ class Scenary {
 
     /**
      * Coloca as paredes internas
-     * 
      */
-
-    static initializeBox(){
-        var geometry = new THREE.BoxGeometry(Constants.WALL_WIDTH, Constants.WALL_HEIGHT, Constants.WALL_DEPTH);
-        var material =  new THREE.MeshBasicMaterial({
-            side: THREE.DoubleSide,
-            color: Constants.COLORS.walls,
-            transparent: true,
-            opacity: 0.36
-        });
-
-        this.walls.left = new THREE.Mesh(geometry, material);
-        this.walls.right = new THREE.Mesh(geometry, material);
-        this.walls.top = new THREE.Mesh(geometry, material);
-        this.walls.bottom = new THREE.Mesh(geometry, material);
+    static initializeWalls() {
+        this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
+        this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
+        this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
+        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2);
     }
 
-
     /**
-     * Colocar as paredes pra formar a caixa
+     * Coloca os planos nas extremidades do espaço
      */
-
-    static setBox(){
-        this.walls.left.position.set(-250, 0, 0);
-        this.walls.right.position.set(250, 0, 0);
-        this.walls.top.position.set(0, 0, -250);
-        this.walls.top.rotation.set(0, Math.PI/2, 0);
-        this.walls.bottom.position.set(0, 0, 250);
-        this.walls.bottom.rotation.set(0, Math.PI/2, 0);
-    }
-    /**
-     * Coloca as paredes nas extremidades do espaço
-     */
-    static setWalls() {
+    static setPlanes() {
         this.planes.left.position.set(-Constants.SPACE.width / 2, 0, 0);
         this.planes.left.rotation.set(0, Math.PI / 2, 0);
 
@@ -188,21 +164,42 @@ class Scenary {
         return starsGroup;
     }
 
-    static setAmbientalLight(){
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0 );
+    static setAmbientalLight() {
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0);
         return directionalLight;
     }
 
     
     static setSpotlights() {
-        
 
-        this.spotlights.topLeft = new Spotlight(-250, 50, -250, (Math.PI / 1.5));
-        this.spotlights.bottomLeft = new Spotlight(-250, 50, 250, (- Math.PI / 1.5));
-        this.spotlights.bottomRight = new Spotlight(250, 50, 250, (- Math.PI / 4));
-        this.spotlights.topRight = new Spotlight(250, 50, -250, (Math.PI / 4));
-        
-        
+        this.spotlights.topLeft = new Spotlight(
+            -Constants.WALL_WIDTH / 2,
+            Constants.WALL_HEIGHT / 2,
+            -Constants.WALL_WIDTH / 2,
+            Math.PI / 1.5
+        );
+
+        this.spotlights.bottomLeft = new Spotlight(
+            -Constants.WALL_WIDTH / 2,
+            Constants.WALL_HEIGHT / 2,
+            Constants.WALL_WIDTH / 2,
+            -Math.PI / 1.5
+        );
+
+        this.spotlights.bottomRight = new Spotlight(
+            Constants.WALL_WIDTH / 2,
+            Constants.WALL_HEIGHT / 2,
+            Constants.WALL_WIDTH / 2,
+            -Math.PI / 4
+        );
+
+        this.spotlights.topRight = new Spotlight(
+            Constants.WALL_WIDTH / 2,
+            Constants.WALL_HEIGHT / 2,
+            -Constants.WALL_WIDTH / 2,
+            Math.PI / 4
+        );
+
         this.spotlights.topLeft.target = new THREE.Object3D(0, 0, 0);
         this.spotlights.bottomLeft.target = new THREE.Object3D(0, 0, 0);
         this.spotlights.bottomRight.target = new THREE.Object3D(0, 0, 0);

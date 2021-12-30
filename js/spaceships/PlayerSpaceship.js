@@ -37,6 +37,9 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
         this.cannons.current = null;
 
         this.lastBullet = null;
+
+        // Massa da nave
+        this.mass = Constants.MASS.player;
     }
 
     /**
@@ -73,11 +76,6 @@ class PlayerSpaceship extends PlayerSpaceshipDesign {
      * Verifica os limites no eixo de Z
      */
     checkZLimits() {
-        if (this.design.position.z > this.backLimit) {
-            this.design.position.z = this.backLimit;
-            this.speed.z = 0;
-        }
-
         if (this.design.position.z < this.frontLimit) {
             this.design.position.z = this.frontLimit;
             this.speed.z = 0;
