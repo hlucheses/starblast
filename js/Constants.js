@@ -90,7 +90,7 @@
     static ENEMY_BACK_LIMIT = -60;  
     
     // Limite longitudenal da nave do player
-    static PLAYER_FRONT_LIMIT = 20;
+    static PLAYER_FRONT_LIMIT = 140;
     static PLAYER_BACK_LIMIT = 180;
 
     // Número inicial de vidas

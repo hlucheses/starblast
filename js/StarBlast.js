@@ -26,15 +26,6 @@ function animateFora() {
     StarBlast.moveBullets();
     StarBlast.checkDead();
     StarBlast.updateCamera();
-    Cameras.HEROCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-        StarBlast.PLAYER_SPACESHIP.design.position.y,
-        StarBlast.PLAYER_SPACESHIP.design.position.z);
-    Cameras.FRONTAL.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-        StarBlast.PLAYER_SPACESHIP.design.position.y+5,
-        StarBlast.PLAYER_SPACESHIP.design.position.z+30);
-    Cameras.CANONCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-            StarBlast.PLAYER_SPACESHIP.design.position.y,
-            StarBlast.PLAYER_SPACESHIP.design.position.z);
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
@@ -115,7 +106,10 @@ class StarBlast {
 
         this.createScene();
         this.render();
+        this.ambientalLight.position.set(0, 500, 0);
+        this.ambientalLight.target.position.set(0, 0, 0);
         this.SCENE.add(this.ambientalLight);
+        this.SCENE.add(this.ambientalLight.target);
     }
 
     /**
@@ -270,6 +264,15 @@ class StarBlast {
         if (Cameras.CURRENT == Cameras.DYNAMIC) {
             Cameras.rotate(this.SCENE);
         }
+        Cameras.HEROCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
+            StarBlast.PLAYER_SPACESHIP.design.position.y,
+            StarBlast.PLAYER_SPACESHIP.design.position.z);
+        Cameras.FRONTAL.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
+            StarBlast.PLAYER_SPACESHIP.design.position.y+5,
+            StarBlast.PLAYER_SPACESHIP.design.position.z+30);
+        Cameras.CANONCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
+                StarBlast.PLAYER_SPACESHIP.design.position.y,
+                StarBlast.PLAYER_SPACESHIP.design.position.z);
     }
 
     /**
