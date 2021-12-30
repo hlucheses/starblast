@@ -114,12 +114,26 @@ class StarBlast {
             }
             if (event.code == "Numpad2") {
                 //Bottom Right Light
+                if(Scenary.spotlights.bottomRight.light.intensity == 0) {
+                    Scenary.spotlights.bottomRight.light.intensity = 20;
+                } else {
+                    Scenary.spotlights.bottomRight.light.intensity = 0;
+                }
             }
             if (event.code == "Numpad4") {
-                //Top Left Light
+                if(Scenary.spotlights.topLeft.light.intensity == 0) {
+                    Scenary.spotlights.topLeft.light.intensity = 20;
+                } else {
+                    Scenary.spotlights.topLeft.light.intensity = 0;
+                }
             }
             if (event.code == "Numpad5") {
                 //Top Right Light
+                if(Scenary.spotlights.topRight.light.intensity == 0) {
+                    Scenary.spotlights.topRight.light.intensity = 20;
+                } else {
+                    Scenary.spotlights.topRight.light.intensity = 0;
+                }
             }
             
         });
@@ -316,6 +330,7 @@ class StarBlast {
     static addSpotlights() {
         for (let[key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
+            this.SCENE.add(spotlight.target);
         }
 
     }

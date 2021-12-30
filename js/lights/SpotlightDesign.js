@@ -19,7 +19,7 @@ class SpotlightDesign {
         this.design.scale.y = SCALE_CONSTANT;
         this.design.scale.z = SCALE_CONSTANT;
 
-        this.light = this.createLight(x, y, z, rY);
+        this.light = this.createLight(x, y, z);
         this.design.add(this.light);
 
         this.setStartPosition(x, y, z);
@@ -67,14 +67,13 @@ class SpotlightDesign {
         this.design.position.z = z;
     }
 
-    createLight(x, y, z, angle){
+    createLight(x, y, z){
         const distance = 800;
         const penumbra = 0.5;
         const decay = 1.0;
 
-        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI, penumbra, decay);
+        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI/2, penumbra, decay);
         light.position.set(x, y, z);
-        light.rotation.set(0, 16, 0);
         
         return light;
     }
