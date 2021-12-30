@@ -105,27 +105,30 @@ class StarBlast {
             }
 
            if(event.code == "Numpad1"){
+               //Bottom Left Spotlight
+               if (Scenary.lights.bottomLeftLight.intensity == 0){
+                   Scenary.lights.bottomLeftLight.intensity = 20;
+               } else{
+                   Scenary.lights.bottomLeftLight.intensity = 0;
+               }
+            } 
+            if (event.code == "Numpad2"){
                //Top Left Spotlight
                if (Scenary.lights.topLeftLight.intensity == 0){
                    Scenary.lights.topLeftLight.intensity = 20;
-               } else{
-                   Scenary.lights.topLeftLight.intensity = 0;
-               }
-            } else if (event.code == "Numpad2"){
-               //Top Right Spotlight
-               if (Scenary.lights.topRightLight.intensity == 0){
-                   Scenary.lights.topRightLight.intensity = 20;
                 } else{
-                   Scenary.lights.topRightLight.intensity = 0;
+                   Scenary.lights.topLeftLight.intensity = 0;
                 }
-            } else if (event.code == "Numpad3"){
+            } 
+            /*if (event.code == "Numpad3"){
             //Bottom Left Spotlight
                 if (Scenary.lights.bottomLeftLight.intensity == 0){
                     Scenary.lights.bottomLeftLight.intensity = 20;
                 } else{
                     Scenary.lights.bottomLeftLight.intensity = 0;
                 }
-            } else if (event.code == "Numpad4"){
+            } 
+            /*if (event.code == "Numpad4"){
                 console.log(Scenary.lights.bottomRightLight.intensity);
             //Bottom Right Spotlight
                 if (Scenary.lights.bottomRightLight.intensity == 0){
@@ -133,7 +136,7 @@ class StarBlast {
             } else{
                     Scenary.lights.bottomRightLight.intensity = 0;
                 }
-            }
+            }*/
             
         });
 
@@ -173,7 +176,8 @@ class StarBlast {
         this.addEnemiesToScene();
         this.SCENE.add(Scenary.getStars());
 
-        this.addSpotlights();        
+        this.addSpotlights(); 
+        
     }
 
     /**
@@ -330,9 +334,9 @@ class StarBlast {
             this.SCENE.add(spotlight.design);
         }
 
-        for(let[key, light] of Object.entries(Scenary.lights)){
-            this.SCENE.add(light);
-            this.SCENE.add(light.target);
-        }
+         for(let[key, light] of Object.entries(Scenary.lights)){
+             this.SCENE.add(light);
+             this.SCENE.add(light.target);
+         }
     }
 }

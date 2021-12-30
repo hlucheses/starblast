@@ -8,7 +8,7 @@ class Spotlight extends SpotlightDesign {
         const penumbra = 0.5;
         const decay = 1.0;
 
-        const light = new THREE.SpotLight(0xffffff, 0, distance, angle, penumbra, decay);
+        const light = new THREE.SpotLight(0xffffff, 20, distance, angle, penumbra, decay);
         
         return light;
     }
