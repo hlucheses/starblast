@@ -97,4 +97,10 @@ class StarBlastObject {
             new THREE.MeshPhongMaterial({ color: meshColor })
         ];
     }
+
+    getDimensions() {
+        let dimensions = new THREE.Vector3();
+        this.boundingBox.getSize(dimensions);
+        return dimensions;
+    }
 }

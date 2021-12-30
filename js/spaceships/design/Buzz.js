@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class EnemySpaceshipDesign extends Spaceship {
+class Buzz extends StarBlastObject {
 
     /**
      * Inicializa nave na posição (x, y, z) e as configurações iniciais
@@ -25,30 +25,21 @@ class EnemySpaceshipDesign extends Spaceship {
      */
     constructor(x, y, z) {
         super(x, y, z);
-        this.initialDesign();
-
-        // Gira em relação à cena
-        this.design.rotation.y = Math.PI;
-    }
-
-    static getDimensions() {
-        let sample = new EnemySpaceshipDesign(0, 0, 0);
-        let dimensions = new THREE.Vector3();
-        sample.boundingBox = sample.createBoundingBox();
-        sample.boundingBox.getSize(dimensions);
-        return dimensions;
+        this.cannons = {};
+        this.designParts = {};
+        this.design = new THREE.Object3D();
+        this.defaultCannonColor = 0x111f22;
+        this.init();
     }
 
     /**
      * Adicionar os componentes ao objecto principal (partes da nave)
      */
-    initialDesign() {
+    init() {
 
         /*
             HACK: Tem de haver naves diferentes, as cores são usadas enquanto não há
         */
-        var colors = [0x75e30d, 0x850000];
-        this.cor = colors[Constants.randomNumber(0, 1)];
 
         this.designParts.cannonLeft = this.addCannon(-2.422, -0.112, 2.793);
         this.designParts.cannonRight = this.addCannon(2.422, -0.112, 2.793);
@@ -91,7 +82,7 @@ class EnemySpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(.06, -1.74));
 
         const geometry = new THREE.LatheGeometry(points);
-        const materialArray = this.newMaterialArray(this.cor);
+        const materialArray = this.newMaterialArray(0x850000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.553, 0.997, .052);
@@ -186,7 +177,7 @@ class EnemySpaceshipDesign extends Spaceship {
         points.push(new THREE.Vector2(.92, -1.4));
         points.push(new THREE.Vector2(0, -1.96));
         const geometry = new THREE.LatheGeometry(points);
-        const materialArray = this.newMaterialArray(this.cor);
+        const materialArray = this.newMaterialArray(0x850000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(2.020, 3.021, .62);

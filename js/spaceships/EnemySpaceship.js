@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class EnemySpaceship extends EnemySpaceshipDesign {
+class EnemySpaceship extends Spaceship {
 
     /**
      * Inicializa nave na posição (x, y, z) e as configurações iniciais
@@ -23,8 +23,10 @@ class EnemySpaceship extends EnemySpaceshipDesign {
      * @param {number} y 
      * @param {number} z 
      */
-    constructor(x, y, z) {
+    constructor(type, x, y, z) {
         super(x, y, z);
+
+        this.initialDesign(type, x, y, z);
 
         // Tipo de nave 2 = nave inimiga
         this.type = Constants.ENEMY;
@@ -50,9 +52,33 @@ class EnemySpaceship extends EnemySpaceshipDesign {
         this.randomMovement = 0;
     }
 
+    initialDesign(type, x, y, z) {
+        var design = null;
+
+        switch (type) {
+            case Constants.SPACESHIP_TYPE.neilAII:
+                design = new NeilAII(x, y, z);
+                break;
+            case Constants.SPACESHIP_TYPE.buzz:
+                design = new Buzz(x, y, z);
+                break;
+            default:
+                design = new Buzz(x, y, z);
+                break;
+        }
+
+        // Gira em relação à cena
+        this.design = design.design;
+        this.design.rotation.y = Math.PI;
+        this.defaultCannonColor = design.defaultCannonColor;
+        this.designParts = design.designParts;
+        this.cannons = design.cannons;
+    }
+
     /**
      * Põe inimigos em posições aleatórias na cena
      * Retorna as referências aos inimigos (num vetor)
+     * FIXME: A verificação das intercepções da loop infinito
      * @param {number} numberOfEnemies > 0
      * @returns {array}
      */
@@ -62,30 +88,43 @@ class EnemySpaceship extends EnemySpaceshipDesign {
             throw "Number of enemies must be >= 0";
         }
 
-        let dimensions = EnemySpaceshipDesign.getDimensions();
-
         var enemiesArray = [];
 
         for (var i = 0; i < numberOfEnemies; i++) {
+
+            var enemyKind = Constants.randomNumber(1, 2);
+            var newEnemy = new EnemySpaceship(enemyKind);
+
+            enemiesArray.push(newEnemy);
+
+            let dimensions = newEnemy.getDimensions();
+
+            let samePosition = false;
+
+            //do {
+            /* Evita que sejam geradas duas naves que se interceptam */
+            /*for (var j = i - 1; j >= 0; j--) {
+
+                if (Collision.hasCollided(
+                    enemiesArray[i].boundingBox,
+                    enemiesArray[j].boundingBox
+                )) {
+                    samePosition = true;
+                }
+            }*/
+
             var posicao = {
                 x: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + dimensions.x / 2 + 10,
                     Constants.WALL_WIDTH / 2 - dimensions.x / 2 - 10),
                 y: -1,
                 z: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + 10 + dimensions.z / 2, Constants.ENEMY_FRONT_LIMIT)
-            }
+            };
 
-            enemiesArray.push(new EnemySpaceship(posicao.x, posicao.y, posicao.z));
+            newEnemy.design.position.set(posicao.x, posicao.y, posicao.z);
+            //} while (samePosition);
 
-            /* Evita que sejam geradas duas naves que se interceptam */
-            for (var j = i - 1; j >= 0; j--) {
-                if (Collision.hasCollided(
-                    enemiesArray[i].boundingBox,
-                    enemiesArray[j].boundingBox
-                )) {
-                    i--;
-                    enemiesArray.pop();
-                }
-            }
+
+            //}
         }
 
         return enemiesArray;
@@ -182,7 +221,7 @@ class EnemySpaceship extends EnemySpaceshipDesign {
      */
     newTarget() {
 
-        let dimensions = EnemySpaceshipDesign.getDimensions();
+        let dimensions = this.getDimensions();
 
         // Define que ainda não chegou ao destino
         this.targetBool.x = false;

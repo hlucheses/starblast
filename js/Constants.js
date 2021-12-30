@@ -44,9 +44,15 @@
         },
         cannons: {
             default: 0x111f22,
-            selected: 0xff0000,
+            selected: 0xaaaaaa,
         },
         walls: '#FFFFFF',
+    }
+
+    static SPACESHIP_TYPE = {
+        neilA: 0,
+        neilAII: 1,
+        buzz: 2
     }
 
     // Número de inimigos
@@ -72,6 +78,7 @@
 
     //Mostrar Helpers Lights
     static SHOW_LIGHTS_HELPERS =  false;
+
     // Constantes que determinam o tipo de spaceship
     static PLAYER = 1;
     static ENEMY = 2;

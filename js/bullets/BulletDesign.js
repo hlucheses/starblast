@@ -42,7 +42,7 @@ class BulletDesign extends StarBlastObject {
      */
     addBody(x, y, z) {
         const geometry = new THREE.SphereGeometry(.6, 64, 64);
-        const materialArray = this.newMaterialArray(0x0000ff);
+        const materialArray = this.newMaterialArray(0x333333);
 
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 

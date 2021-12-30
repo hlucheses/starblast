@@ -47,6 +47,8 @@ class Spaceship extends StarBlastObject {
 
         // Número inicial de vidas
         this.lives = Constants.STARTING_LIVES;
+
+        this.designClass = null;
     }
 
     /**
