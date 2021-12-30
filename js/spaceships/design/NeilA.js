@@ -5,6 +5,7 @@ class NeilA extends StarBlastObject {
         this.designParts = {};
         this.design = new THREE.Object3D();
         this.defaultCannonColor = 0x111f22;
+        this.mass = 1;
         this.init();
     }
 
@@ -23,16 +24,24 @@ class NeilA extends StarBlastObject {
 
         this.designParts.leftCannonHolder = this.addSideCannonHolder(-4.224, -.752, 2.055, 1);
         this.designParts.rightCannonHolder = this.addSideCannonHolder(4.224, -.685, 2.055, -1);
+
         this.designParts.centralCannonRing = this.addCentralCannonRing(0, -1.565, 0);
         this.designParts.centralCannonHolder = this.addCentralCannonHolder(0, -.6, 0);
+
+        this.designParts.leftSideCannonBigRing = this.addCannonBigRing(-5.351, -1.565, -1.543);
+        this.designParts.leftSideCannonSmallRing = this.addCannonSmallRing(-5.351, -1.565, -0.652);
+        this.designParts.rightSideCannonBigRing = this.addCannonBigRing(5.351, -1.565, -1.543);
+        this.designParts.rightSideCannonSmallRing = this.addCannonSmallRing(5.351, -1.565, -0.652);
+
         this.designParts.cockpit = this.addCockpit(0, .774, 1.467);
         this.designParts.body = this.addBody(0, 0, 0);
+
         this.designParts.leftWing = this.addWing(-2.911, 0, 0.333, -Math.PI / 12);
         this.designParts.rightWing = this.addWing(2.911, 0, 0.333, Math.PI / 12);
+
         this.designParts.bigPropellant = this.addBigPropellant(0, 0, 6.776);
         this.designParts.leftSmallPropellant = this.addSmallPropellant(-1.246, 0, 6.776);
         this.designParts.rightSmallPropellant = this.addSmallPropellant(1.246, 0, 6.776);
-        this.designParts.centralPropellant = this.addCentralCannonHolder(0, -.6, 0);
     }
 
     /**
@@ -253,5 +262,29 @@ class NeilA extends StarBlastObject {
         mesh.position.set(x, y, z);
         this.design.add(mesh);
         return {mesh, materialArray};
+    }
+
+    addCannonBigRing(x, y, z) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0x00e3e6);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.71, .621, .71);
+        mesh.position.set(x, y, z);
+        mesh.rotation.set(Math.PI / 2, Math.PI / 2, 0);
+        this.design.add(mesh);
+        return { mesh, materialArray };
+    }
+
+    addCannonSmallRing(x, y, z) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0x00e3e6);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.55, .621, .55);
+        mesh.position.set(x, y, z);
+        mesh.rotation.set(Math.PI / 2, Math.PI / 2, 0);
+        this.design.add(mesh);
+        return { mesh, materialArray };
     }
 }

@@ -6,6 +6,7 @@ class NeilAII extends StarBlastObject {
         this.designParts = {};
         this.design = new THREE.Object3D();
         this.defaultCannonColor = 0x001c2e;
+        this.mass = 1;
         this.init();
     }
 

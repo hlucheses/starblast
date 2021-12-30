@@ -29,6 +29,7 @@ class Buzz extends StarBlastObject {
         this.designParts = {};
         this.design = new THREE.Object3D();
         this.defaultCannonColor = 0x111f22;
+        this.mass = 1.5;
         this.init();
     }
 

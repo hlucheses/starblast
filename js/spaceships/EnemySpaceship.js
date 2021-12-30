@@ -68,6 +68,7 @@ class EnemySpaceship extends Spaceship {
         }
 
         // Gira em relação à cena
+        this.mass = design.mass;
         this.design = design.design;
         this.design.rotation.y = Math.PI;
         this.defaultCannonColor = design.defaultCannonColor;

@@ -49,7 +49,7 @@ class PlayerSpaceship extends Spaceship {
 
     initialDesign(x, y, z) {
         var design = new NeilA(x, y, z);
-        this.designClass = design;
+        this.mass = design.mass;
         this.design = design.design;
         this.defaultCannonColor = design.defaultCannonColor;
         this.designParts = design.designParts;
