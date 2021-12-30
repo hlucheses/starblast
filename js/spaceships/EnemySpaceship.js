@@ -58,6 +58,7 @@ class EnemySpaceship extends Spaceship {
         switch (type) {
             case Constants.SPACESHIP_TYPE.neilAII:
                 design = new NeilAII(x, y, z);
+                this.lives = 15;
                 break;
             case Constants.SPACESHIP_TYPE.buzz:
                 design = new Buzz(x, y, z);
