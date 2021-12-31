@@ -50,6 +50,12 @@ class EnemySpaceship extends Spaceship {
         // Massa da nave
         this.mass = Constants.MASS.enemy;
         this.randomMovement = 0;
+
+        this.eCannons = [];
+
+        for (let [key, cannon] of Object.entries(this.cannons)) {
+            this.eCannons.push(cannon);
+        }
     }
 
     initialDesign(type, x, y, z) {
@@ -203,16 +209,11 @@ class EnemySpaceship extends Spaceship {
      * @returns {Bullet} bala disparada
      */
     shootRandomly() {
-        var numero = Constants.randomNumber(1, 160);
+        var numero = Constants.randomNumber(1, 100);
 
         if (numero == 1) {
-            numero = Constants.randomNumber(1, 2);
-
-            if (numero == 1) {
-                return this.cannons.left.shoot(this.type);
-            } else {
-                return this.cannons.right.shoot(this.type);
-            }
+            numero = Constants.randomNumber(0, this.eCannons.length - 1);
+            return this.eCannons[numero].shoot(this.type);
         }
 
         return null;

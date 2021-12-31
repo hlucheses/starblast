@@ -41,9 +41,9 @@
      * O tipo ajuda a determinar o sentido da bala
      * @param {number}
      */
-    shoot(type) {
+    shoot(type, ySpeed = Constants.randomNumber(18, 30) / 100) {
         var worldPosition = new THREE.Vector3();
         this.design.mesh.getWorldPosition(worldPosition);
-        return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type);
+        return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type, ySpeed);
     }
 }

@@ -39,6 +39,11 @@ class PlayerSpaceship extends Spaceship {
         this.backLimit = Constants.PLAYER_BACK_LIMIT;
         this.cannons.current = null;
 
+        this.shootingPressed = true;
+        this.shootingHeight = .2;
+        this.shootingStep = .2;
+
+
         this.lastBullet = null;
 
         // Massa da nave
@@ -131,12 +136,12 @@ class PlayerSpaceship extends Spaceship {
      * Dá um tiro usando um canhão
      * @returns {Bullet}
      */
-    shoot() {
+    shoot(y) {
         if (this.cannons.current == null) {
             return;
         }
 
-        this.lastBullet = this.cannons.current.shoot(Constants.PLAYER);
+        this.lastBullet = this.cannons.current.shoot(Constants.PLAYER, y);
 
         return this.lastBullet;
     }

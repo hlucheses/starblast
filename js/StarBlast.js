@@ -78,16 +78,8 @@ class StarBlast {
             // Este código é igual ao que está em inimigo
             if (event.code == "Space") {
 
-                var bullet = this.PLAYER_SPACESHIP.shoot();
-
-                if (bullet != null) {
-                    this.BULLETS.push(bullet);
-                    this.SCENE.add(bullet.design);
-
-                    if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
-                        this.SCENE.add(bullet.boxHelper);
-                    }
-                }
+                this.PLAYER_SPACESHIP.shootingPressed = true;
+                this.PLAYER_SPACESHIP.shootingHeight += this.PLAYER_SPACESHIP.shootingStep;
             }
 
             if (event.code == "Digit4") {
@@ -99,6 +91,26 @@ class StarBlast {
 
         document.addEventListener('keyup', (event) => {
             this.keyStates[event.code] = false;
+
+            if (event.code == "Space" && this.PLAYER_SPACESHIP.shootingPressed) {
+
+                this.PLAYER_SPACESHIP.shootingPressed = false;
+
+                var bullet = this.PLAYER_SPACESHIP.shoot(this.PLAYER_SPACESHIP.shootingHeight);
+
+
+                this.PLAYER_SPACESHIP.shootingHeight = 0;
+
+
+                if (bullet != null) {
+                    this.BULLETS.push(bullet);
+                    this.SCENE.add(bullet.design);
+
+                    if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                        this.SCENE.add(bullet.boxHelper);
+                    }
+                }
+            }
         });
 
         // Redimensionar o projecto ao redimensionar a janela

@@ -92,7 +92,7 @@ class Spaceship extends StarBlastObject {
      */
     hover() {
         this.hoveringStep += Constants.randomNumber(10, 30) / 1000;
-        this.design.position.setY(.5 * (Math.cos(this.hoveringStep)));
+        this.design.position.setY(2 * (Math.cos(this.hoveringStep)));
     }
 
     /**

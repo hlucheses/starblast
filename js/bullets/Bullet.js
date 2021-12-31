@@ -23,7 +23,7 @@ class Bullet extends BulletDesign {
      * @param {number} y 
      * @param {number} z 
      */
-    constructor(x, y, z, type) {
+    constructor(x, y, z, type, ySpeed) {
         super(x, y, z);
 
         // Define a origem da bala (Player ou Enemy)
@@ -36,7 +36,11 @@ class Bullet extends BulletDesign {
 
         this.mass = Constants.MASS.bullet;
 
-        this.speed = new THREE.Vector3(0, .2, this.MAX_SPEED);
+        if (ySpeed > .5) {
+            ySpeed = .5;
+        }
+
+        this.speed = new THREE.Vector3(0, ySpeed, this.MAX_SPEED);
 
         if (this.type == Constants.PLAYER) {
             this.speed.z *= -1;
