@@ -69,6 +69,10 @@ class EnemySpaceship extends Spaceship {
             case Constants.SPACESHIP_TYPE.buzz:
                 design = new Buzz(x, y, z);
                 break;
+            case Constants.SPACESHIP_TYPE.alanB:
+                design = new AlanB(x, y, z);
+                this.lives = 5;
+                break;
             default:
                 design = new Buzz(x, y, z);
                 break;
@@ -100,7 +104,7 @@ class EnemySpaceship extends Spaceship {
 
         for (var i = 0; i < numberOfEnemies; i++) {
 
-            var enemyKind = Constants.randomNumber(1, 2);
+            var enemyKind = Constants.randomNumber(1, 3);
             var newEnemy = new EnemySpaceship(enemyKind);
 
             enemiesArray.push(newEnemy);
@@ -108,18 +112,6 @@ class EnemySpaceship extends Spaceship {
             let dimensions = newEnemy.getDimensions();
 
             let samePosition = false;
-
-            //do {
-            /* Evita que sejam geradas duas naves que se interceptam */
-            /*for (var j = i - 1; j >= 0; j--) {
-
-                if (Collision.hasCollided(
-                    enemiesArray[i].boundingBox,
-                    enemiesArray[j].boundingBox
-                )) {
-                    samePosition = true;
-                }
-            }*/
 
             var posicao = {
                 x: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + dimensions.x / 2 + 10,
@@ -129,10 +121,6 @@ class EnemySpaceship extends Spaceship {
             };
 
             newEnemy.design.position.set(posicao.x, posicao.y, posicao.z);
-            //} while (samePosition);
-
-
-            //}
         }
 
         return enemiesArray;
@@ -209,12 +197,21 @@ class EnemySpaceship extends Spaceship {
      * @returns {Bullet} bala disparada
      */
     shootRandomly() {
-        var numero = Constants.randomNumber(1, 100);
 
-        if (numero == 1) {
-            numero = Constants.randomNumber(0, this.eCannons.length - 1);
-            return this.eCannons[numero].shoot(this.type);
+        /*if (this.eCannons.length < 1) {
+            throw "Exception: All enemies must have cannons!";
+        }*/
+
+        if (this.eCannons.length > 0) {
+
+            var numero = Constants.randomNumber(1, 100);
+
+            if (numero == 1) {
+                numero = Constants.randomNumber(0, this.eCannons.length - 1);
+                return this.eCannons[numero].shoot(this.type);
+            }
         }
+        
 
         return null;
     }

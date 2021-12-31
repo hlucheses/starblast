@@ -52,7 +52,8 @@
     static SPACESHIP_TYPE = {
         neilA: 0,
         neilAII: 1,
-        buzz: 2
+        buzz: 2,
+        alanB: 3
     }
 
     // Número de inimigos
