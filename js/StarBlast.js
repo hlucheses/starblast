@@ -31,11 +31,12 @@ function animateFora() {
         StarBlast.PLAYER_SPACESHIP.design.position.y,
         StarBlast.PLAYER_SPACESHIP.design.position.z);
     Cameras.FRONTAL.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-        StarBlast.PLAYER_SPACESHIP.design.position.y+5,
-        StarBlast.PLAYER_SPACESHIP.design.position.z+30);
+        StarBlast.PLAYER_SPACESHIP.design.position.y + 5,
+        StarBlast.PLAYER_SPACESHIP.design.position.z + 30);
     Cameras.CANONCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-            StarBlast.PLAYER_SPACESHIP.design.position.y,
-            StarBlast.PLAYER_SPACESHIP.design.position.z);
+        StarBlast.PLAYER_SPACESHIP.design.position.y,
+        StarBlast.PLAYER_SPACESHIP.design.position.z);
+    StarBlast.updateDOM();
     StarBlast.render();
     requestAnimationFrame(animateFora);
 }
@@ -49,9 +50,13 @@ class StarBlast {
 
     // Elementos da cena
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
+    static PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
     static ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES);
     static BULLETS = [];
     static DESINTEGRATING_PARTS = [];
+    static POINTS = 0;
+    static GAME_OVER = false;
+    static TIMESTAMP = Date.now();
 
     // Estado das teclas
     static keyStates = {};
@@ -61,6 +66,7 @@ class StarBlast {
      * Inicia o fluxo do programa
      */
     static init() {
+
         this.RENDERER.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.RENDERER.domElement);
 
@@ -295,6 +301,14 @@ class StarBlast {
         for (var i = 0; i < this.ENEMIES.length; i++) {
             if (this.ENEMIES[i].lives <= 0) {
 
+                /*
+                    Cálculo de pontos (Revisar)
+                */
+
+                let totalSeconds = Math.floor(((Date.now() - this.TIMESTAMP) / 1000));
+
+                this.POINTS += this.ENEMIES[i].typeOfEnemy * (300 - totalSeconds);
+
                 if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                     this.SCENE.remove(this.ENEMIES[i].boxHelper);
                 }
@@ -323,13 +337,13 @@ class StarBlast {
         for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             this.SCENE.add(spotlight.design);
             this.SCENE.add(spotlight.light);
-            const spotLightHelper = new THREE.SpotLightHelper( spotlight.light, 0xCA8508 );
+            const spotLightHelper = new THREE.SpotLightHelper(spotlight.light, 0xCA8508);
             spotlight.light.target = new THREE.Object3D(0, 0, 0);
-            
+
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                 this.SCENE.add(spotLightHelper);
             }
-            
+
             this.SCENE.add(spotlight.light.target);
         }
 
@@ -447,6 +461,45 @@ class StarBlast {
                 this.DESINTEGRATING_PARTS.splice(i, 1);
                 i--;
             }
+        }
+    }
+
+    static updateDOM() {
+        const topItems = document.getElementById("topItems");
+        
+        if (!this.GAME_OVER) {
+
+            const points = document.getElementById("noPoints");
+            const enemies = document.getElementById("noEnemies");
+            const timeAvailable = document.getElementById("timeAvailable");
+            const hearts = document.getElementById("hearts");
+
+            let totalSeconds = Math.floor(((Date.now() - this.TIMESTAMP) / 1000));
+            let remainingSeconds = (300 - totalSeconds);
+
+            if (remainingSeconds < 0) {
+                this.GAME_OVER = true;
+            }
+
+            let saida = "";
+            for (let i = 0; i < this.PLAYER_STARTING_LIVES; i++) {
+                if (this.PLAYER_SPACESHIP.lives > i) {
+                    saida += '<i class="fas fa-heart"></i>';
+                } else {
+                    saida += '<i class="far fa-heart"></i>'
+                }
+            }
+
+            if (this.PLAYER_SPACESHIP.lives < 1) {
+                this.GAME_OVER = true;
+            }
+
+            points.innerHTML = this.POINTS;
+            enemies.innerHTML = this.ENEMIES.length;
+            timeAvailable.innerHTML = remainingSeconds + " seconds";
+            hearts.innerHTML = saida;
+        } else {
+            topItems.innerHTML = "<span color='red'>GAME OVER</span>";
         }
     }
 }

@@ -15,6 +15,13 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}   
  */
 
+@font-face {
+    font-family: 'SpaceMission';
+    src: url('../fonts/SpaceMission-rgyw9.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0;
     overflow: hidden;
@@ -29,4 +36,29 @@ body {
     z-index: 100;
     display: block;
     color: white;
+}
+
+#topItems {
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    width: 100%;
+    height: 15%;
+    padding: 2em;
+    right: 1em;
+    font-family: 'SpaceMission';
+    font-size: large;
+    letter-spacing: .2em;
+    text-align: right;
+    justify-content: space-between;
+}
+
+#topItems span span {
+    color: #850000
+}
+
+#hearts {
+    color: #f00;
 }

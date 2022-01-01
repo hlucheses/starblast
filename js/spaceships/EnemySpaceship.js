@@ -78,6 +78,8 @@ class EnemySpaceship extends Spaceship {
                 break;
         }
 
+        this.typeOfEnemy = type;
+
         this.mass = design.mass;
         this.design = design.design;
 

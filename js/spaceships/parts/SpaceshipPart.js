@@ -9,11 +9,11 @@ class SpaceshipPart extends StarBlastObject {
     }
 
     move() {
-        if (this.speed.y == 0) {
+        if (Constants.vectorLength(this.speed) == 0) {
             this.speed.set(
-                Constants.randomNumber(25, 2000) / 1000,
-                Constants.randomNumber(25, 2000) / 1000,
-                Constants.randomNumber(25, 2000) / 1000
+                Constants.randomNumber(-2000, 2000) / 1000,
+                Constants.randomNumber(-2000, 2000) / 1000,
+                Constants.randomNumber(-2000, 2000) / 1000
             );
         } else {
             this.design.position.add(this.speed);

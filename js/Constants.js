@@ -51,9 +51,9 @@
 
     static SPACESHIP_TYPE = {
         neilA: 0,
-        neilAII: 1,
-        buzz: 2,
-        alanB: 3
+        buzz: 1,
+        alanB: 2,
+        neilAII: 3,
     };
 
     static BULLET_TYPE = {

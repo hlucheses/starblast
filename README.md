@@ -1,7 +1,6 @@
 # starblast
 
 ### TODO:
-+ Desintegrar após morte
 + Níveis
 + Nave Boss
 + Cenários para cada nível
