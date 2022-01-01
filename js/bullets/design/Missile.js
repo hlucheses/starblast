@@ -66,7 +66,7 @@
         points.push(new THREE.Vector2(0, -.2));
 
         const geometry = new THREE.LatheGeometry(points, 30, 0, 2 * Math.PI);
-        const materialArray = this.newMaterialArray(0x3b4545);
+        const materialArray = this.newMaterialArray(0x850000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.6, 1.953, .6);

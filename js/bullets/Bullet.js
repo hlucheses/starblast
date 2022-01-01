@@ -30,8 +30,6 @@ class Bullet extends StarBlastObject {
 
         this.impact = 0;
 
-        this.initialDesign(typeOfBullet, x, y, z);
-
         // Define a origem da bala (Player ou Enemy)
         this.type = type;
 
@@ -64,7 +62,8 @@ class Bullet extends StarBlastObject {
         this.collided = false;
         this.isBullet = true;
 
-        //var axis = new THREE.Vector3(x, y, z).normalize();
+
+        this.initialDesign(typeOfBullet, x, y, z);
     }
 
     initialDesign(type, x, y, z) {
@@ -84,8 +83,14 @@ class Bullet extends StarBlastObject {
                 break;
         }
 
+        
         this.mass = design.mass;
         this.design = design.design;
+        
+        if (this.type != Constants.ENEMY) {
+            this.design.rotation.y = Math.PI;
+        }
+
         this.designParts = design.designParts;
         this.design.position.set(x, y, z);
     }
@@ -140,7 +145,7 @@ class Bullet extends StarBlastObject {
         this.updateBoundingSphere();
 
         
-            this.spin();
+        this.spin();
 
         Collision.checkAgainstWalls(this);
     }
@@ -165,6 +170,7 @@ class Bullet extends StarBlastObject {
                 break;
             default:
                 this.design.rotateX(Math.PI / 12);
+                break;
         }
 
     }
@@ -202,11 +208,12 @@ class Bullet extends StarBlastObject {
         // Rotacao em X é o ângulo de speed.y com j
         let magnitudeSpeed = Constants.vectorLength(this.speed);
         let cosArgument = this.speed.y / magnitudeSpeed;
+        let defaultAngle = -Math.PI / 2;
 
-        this.design.rotation.set(
-            -Math.PI/2 + Math.acos(cosArgument),
-            this.design.rotation.y,
-            this.design.rotation.z
-        );
+        if (this.type == Constants.ENEMY) {
+            defaultAngle *= -1;
+        }
+
+        this.design.rotation.x = defaultAngle + Math.acos(cosArgument);
     }
 }

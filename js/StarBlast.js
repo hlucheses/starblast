@@ -25,6 +25,7 @@ function animateFora() {
     StarBlast.shoot();
     StarBlast.moveBullets();
     StarBlast.checkDead();
+    StarBlast.moveDestructedParts();
     StarBlast.updateCamera();
     Cameras.HEROCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
         StarBlast.PLAYER_SPACESHIP.design.position.y,
@@ -50,6 +51,7 @@ class StarBlast {
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
     static ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES);
     static BULLETS = [];
+    static DESINTEGRATING_PARTS = [];
 
     // Estado das teclas
     static keyStates = {};
@@ -262,6 +264,7 @@ class StarBlast {
                 this.SCENE.remove(this.BULLETS[i].design);
 
                 this.BULLETS.splice(i, 1);
+                i--;
             }
         }
 
@@ -298,7 +301,17 @@ class StarBlast {
 
                 this.SCENE.remove(this.ENEMIES[i].design);
 
+                let partsArray = this.ENEMIES[i].getParts();
+
+                for (let j = 0; j < partsArray.length; j++) {
+                    this.SCENE.add(partsArray[j].design);
+                }
+
+                /* Inicializar as partes desintegradas */
+                this.DESINTEGRATING_PARTS = this.DESINTEGRATING_PARTS.concat(partsArray);
+
                 this.ENEMIES.splice(i, 1);
+                i--;
             }
         }
     }
@@ -407,6 +420,10 @@ class StarBlast {
             }
         }
 
+        for (var i = 0; i < this.DESINTEGRATING_PARTS.length; i++) {
+            this.DESINTEGRATING_PARTS[i].mesh.material = this.DESINTEGRATING_PARTS[i].materialArray[type];
+        }
+
         Constants.MESH_TYPE.default = type;
         this.shadowing = type;
 
@@ -417,6 +434,19 @@ class StarBlast {
 
         for (let [key, playerPart] of Object.entries(this.PLAYER_SPACESHIP.designParts)) {
             playerPart.mesh.material = playerPart.materialArray[type];
+        }
+    }
+
+    static moveDestructedParts() {
+        for (let i = 0; i < this.DESINTEGRATING_PARTS.length; i++) {
+            this.DESINTEGRATING_PARTS[i].move();
+
+            if (this.DESINTEGRATING_PARTS[i].design.position.y < -Constants.SPACE.height / 2) {
+                this.SCENE.remove(this.DESINTEGRATING_PARTS[i].design);
+
+                this.DESINTEGRATING_PARTS.splice(i, 1);
+                i--;
+            }
         }
     }
 }

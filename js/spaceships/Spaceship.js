@@ -47,8 +47,6 @@ class Spaceship extends StarBlastObject {
 
         // Número inicial de vidas
         this.lives = Constants.STARTING_LIVES;
-
-        this.designClass = null;
     }
 
     /**
@@ -145,5 +143,20 @@ class Spaceship extends StarBlastObject {
                 }
             }
         }
+    }
+
+    getParts() {
+        let arr = [];
+        
+        for (let [key, part] of Object.entries(this.designParts)) {
+            arr.push(new SpaceshipPart(
+                this.design.position,
+                this.design.rotation,
+                part.mesh,
+                part.materialArray
+            ));
+        }
+
+        return arr;
     }
 }
