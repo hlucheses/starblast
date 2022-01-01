@@ -1,6 +1,6 @@
 class NeilA extends StarBlastObject {
-     constructor(x, y, z) {
-        super(x, y, z);
+     constructor() {
+        super(0, 0, 0);
         this.cannons = {};
         this.designParts = {};
         this.design = new THREE.Object3D();
@@ -18,9 +18,9 @@ class NeilA extends StarBlastObject {
         this.designParts.cannonMiddle = this.addCentralCannon(0, -1.955, -.743);
 
         // Canhões usados para fazer os disparos
-        this.cannons.right = new Cannon(this.designParts.cannonRight);
-        this.cannons.left = new Cannon(this.designParts.cannonLeft);
-        this.cannons.middle = new Cannon(this.designParts.cannonMiddle);
+        this.cannons.right = new Cannon(this.designParts.cannonRight, Constants.BULLET_TYPE.missile);
+        this.cannons.left = new Cannon(this.designParts.cannonLeft, Constants.BULLET_TYPE.missile);
+        this.cannons.middle = new Cannon(this.designParts.cannonMiddle, Constants.BULLET_TYPE.cannonBall);
 
         this.designParts.leftCannonHolder = this.addSideCannonHolder(-4.224, -.752, 2.055, 1);
         this.designParts.rightCannonHolder = this.addSideCannonHolder(4.224, -.685, 2.055, -1);

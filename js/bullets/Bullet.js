@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class Bullet extends BulletDesign {
+class Bullet extends StarBlastObject {
     /**
      * Define posição da bala
      * Inicializa o design
@@ -23,8 +23,14 @@ class Bullet extends BulletDesign {
      * @param {number} y 
      * @param {number} z 
      */
-    constructor(x, y, z, type, ySpeed) {
+    constructor(x, y, z, type, ySpeed, typeOfBullet) {
         super(x, y, z);
+
+        this.typeOfBullet = typeOfBullet;
+
+        this.impact = 0;
+
+        this.initialDesign(typeOfBullet, x, y, z);
 
         // Define a origem da bala (Player ou Enemy)
         this.type = type;
@@ -56,6 +62,32 @@ class Bullet extends BulletDesign {
 
         this.spinStep = 0;
         this.collided = false;
+        this.isBullet = true;
+
+        //var axis = new THREE.Vector3(x, y, z).normalize();
+    }
+
+    initialDesign(type, x, y, z) {
+        var design = null;
+
+        switch (type) {
+            case Constants.BULLET_TYPE.cannonBall:
+                design = new CannonBall();
+                this.impact = 1;
+                break;
+            case Constants.BULLET_TYPE.missile:
+                design = new Missile();
+                this.impact = 2;
+                break;
+            default:
+                design = new CannonBall();
+                break;
+        }
+
+        this.mass = design.mass;
+        this.design = design.design;
+        this.designParts = design.designParts;
+        this.design.position.set(x, y, z);
     }
 
     /**
@@ -100,9 +132,16 @@ class Bullet extends BulletDesign {
 
         this.design.position.add(this.speed);
 
-        this.spin();
+        if (this.typeOfBullet == Constants.BULLET_TYPE.missile) {
+            this.rotateMissile();
+        }
+
         this.updateBoundingBox();
         this.updateBoundingSphere();
+
+        
+            this.spin();
+
         Collision.checkAgainstWalls(this);
     }
 
@@ -111,9 +150,23 @@ class Bullet extends BulletDesign {
      * como pedido em enunciado
      */
     spin() {
-        this.spinStep += .1;
-        var inclination = (Math.cos(this.spinStep) * (2 * Math.PI));
-        this.design.rotation.z = ((this.type == 1) ? -1 : 1) * inclination;
+        switch (this.typeOfBullet) {
+            case Constants.BULLET_TYPE.cannonBall:
+                if (!this.collided) {
+                    this.design.rotateX(Math.PI / 12);
+                }
+                break;
+            case Constants.BULLET_TYPE.missile:
+                if (!this.collided) {
+                    this.design.rotateZ(Math.PI / 12);
+                } else {
+                    this.design.rotateX(Math.PI / 12);
+                }
+                break;
+            default:
+                this.design.rotateX(Math.PI / 12);
+        }
+
     }
 
     /**
@@ -123,7 +176,7 @@ class Bullet extends BulletDesign {
     createBoundingSphere() {
         const center = new THREE.Vector3();
         this.boundingBox.getCenter(center);
-        
+
         var bsphere = new THREE.Sphere(center);
         bsphere = this.boundingBox.getBoundingSphere(bsphere);
         return bsphere;
@@ -139,5 +192,21 @@ class Bullet extends BulletDesign {
         const center = new THREE.Vector3();
         this.boundingBox.getCenter(center);
         this.boundingSphere.center.copy(center);
+    }
+
+    rotateMissile() {
+        // Vetor i: (1, 0, 0)
+        // Vetor j: (0, 1, 0)
+        // Vetor k: (0, 0, 1)
+
+        // Rotacao em X é o ângulo de speed.y com j
+        let magnitudeSpeed = Constants.vectorLength(this.speed);
+        let cosArgument = this.speed.y / magnitudeSpeed;
+
+        this.design.rotation.set(
+            -Math.PI/2 + Math.acos(cosArgument),
+            this.design.rotation.y,
+            this.design.rotation.z
+        );
     }
 }

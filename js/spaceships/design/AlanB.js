@@ -1,6 +1,6 @@
 class AlanB extends StarBlastObject {
-    constructor(x, y, z) {
-        super(x, y, z);
+    constructor() {
+        super(0, 0, 0);
         this.cannons = {};
         this.designParts = {};
         this.design = new THREE.Object3D();
@@ -27,8 +27,8 @@ class AlanB extends StarBlastObject {
         this.designParts.leftWingPipe = this.addWingPipe(-2.299, -.104, 3.423);
         this.designParts.RightWingPipe = this.addWingPipe(2.299, -.104, 3.423);
 
-        this.cannons.right = new Cannon(this.designParts.RightWingPipe);
-        this.cannons.left = new Cannon(this.designParts.leftWingPipe);
+        this.cannons.right = new Cannon(this.designParts.RightWingPipe, Constants.BULLET_TYPE.missile);
+        this.cannons.left = new Cannon(this.designParts.leftWingPipe, Constants.BULLET_TYPE.missile);
 
         this.designParts.leftPropellant = this.addPropellant(-.656, 0, 4.485);
         this.designParts.rightPropellant = this.addPropellant(.656, 0, 4.485);

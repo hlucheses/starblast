@@ -26,7 +26,7 @@ class EnemySpaceship extends Spaceship {
     constructor(type, x, y, z) {
         super(x, y, z);
 
-        this.initialDesign(type, x, y, z);
+        this.initialDesign(type, x = 0, y = 0, z = 0);
 
         // Tipo de nave 2 = nave inimiga
         this.type = Constants.ENEMY;
@@ -63,28 +63,31 @@ class EnemySpaceship extends Spaceship {
 
         switch (type) {
             case Constants.SPACESHIP_TYPE.neilAII:
-                design = new NeilAII(x, y, z);
+                design = new NeilAII();
                 this.lives = 15;
                 break;
             case Constants.SPACESHIP_TYPE.buzz:
-                design = new Buzz(x, y, z);
+                design = new Buzz();
                 break;
             case Constants.SPACESHIP_TYPE.alanB:
-                design = new AlanB(x, y, z);
+                design = new AlanB();
                 this.lives = 5;
                 break;
             default:
-                design = new Buzz(x, y, z);
+                design = new Buzz();
                 break;
         }
 
-        // Gira em relação à cena
         this.mass = design.mass;
         this.design = design.design;
+
+        // Gira em relação à cena
         this.design.rotation.y = Math.PI;
+        
         this.defaultCannonColor = design.defaultCannonColor;
         this.designParts = design.designParts;
         this.cannons = design.cannons;
+        this.design.position.set(x, y, z);
     }
 
     /**
@@ -110,8 +113,6 @@ class EnemySpaceship extends Spaceship {
             enemiesArray.push(newEnemy);
 
             let dimensions = newEnemy.getDimensions();
-
-            let samePosition = false;
 
             var posicao = {
                 x: Constants.randomNumber(-Constants.WALL_WIDTH / 2 + dimensions.x / 2 + 10,

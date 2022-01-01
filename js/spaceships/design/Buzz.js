@@ -23,8 +23,8 @@ class Buzz extends StarBlastObject {
      * @param {number} y 
      * @param {number} z 
      */
-    constructor(x, y, z) {
-        super(x, y, z);
+    constructor() {
+        super(0, 0, 0);
         this.cannons = {};
         this.designParts = {};
         this.design = new THREE.Object3D();
@@ -46,8 +46,8 @@ class Buzz extends StarBlastObject {
         this.designParts.cannonRight = this.addCannon(2.422, -0.112, 2.793);
 
         // Canhões usados para fazer os disparos
-        this.cannons.left = new Cannon(this.designParts.cannonLeft);
-        this.cannons.right = new Cannon(this.designParts.cannonRight);
+        this.cannons.left = new Cannon(this.designParts.cannonLeft, Constants.BULLET_TYPE.cannonBall);
+        this.cannons.right = new Cannon(this.designParts.cannonRight, Constants.BULLET_TYPE.cannonBall);
 
         this.designParts.leftWing = this.addWing(-1.805, -0.013, 3.062, 1.1772245805);
         this.designParts.rightWing = this.addWing(1.805, -.013, 3.062, -1.1772245805);

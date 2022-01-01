@@ -54,7 +54,12 @@
         neilAII: 1,
         buzz: 2,
         alanB: 3
-    }
+    };
+
+    static BULLET_TYPE = {
+        cannonBall: 0,
+        missile: 1
+    };
 
     // Número de inimigos
     static NUMBER_OF_ENEMIES = 7;

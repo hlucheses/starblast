@@ -21,9 +21,10 @@
      * Inicia com o design do canhão
      * @param {{THREE.Mesh, array}} design 
      */
-    constructor (design) {
+    constructor (design, typeOfBullet) {
         this.design = design;
-        this.bullets = {};     
+        this.bullets = {};
+        this.typeOfBullet = typeOfBullet;     
     }
 
     /**
@@ -44,6 +45,6 @@
     shoot(type, ySpeed = Constants.randomNumber(18, 30) / 100) {
         var worldPosition = new THREE.Vector3();
         this.design.mesh.getWorldPosition(worldPosition);
-        return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type, ySpeed);
+        return new Bullet(worldPosition.x, worldPosition.y, worldPosition.z, type, ySpeed, this.typeOfBullet); 
     }
 }

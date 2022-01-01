@@ -22,7 +22,7 @@
  */
 function animateFora() {
     StarBlast.moveSpaceships();
-    StarBlast.shoot();
+    //StarBlast.shoot();
     StarBlast.moveBullets();
     StarBlast.checkDead();
     StarBlast.updateCamera();

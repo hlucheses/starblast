@@ -15,7 +15,7 @@
  * @contact {20180296@isptec.co.ao, helder@lucheses.com, miguel@indiouz.com}
  */
 
-class BulletDesign extends StarBlastObject {
+class CannonBall extends StarBlastObject {
 
     /**
      * Define posição da bala
@@ -24,15 +24,18 @@ class BulletDesign extends StarBlastObject {
      * @param {number} y 
      * @param {number} z 
      */
-    constructor(x, y, z) {
-        super(x, y, z);
-        this.initialDesign();
+     constructor() {
+        super(0, 0, 0);
+        this.designParts = {};
+        this.design = new THREE.Object3D();
+        this.mass = .1;
+        this.init();
     }
 
     /**
      * Adicionar os componentes ao objecto principal
      */
-    initialDesign() {
+    init() {
         this.designParts.body = this.addBody(0, 0, 0);
     }
 

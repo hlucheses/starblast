@@ -65,7 +65,7 @@ class Collision {
 
                     // Impedir que as naves se movimentem no eixo vertical
                     spaceshipArray[i].speed.y = 0;
-                    spaceshipArray[i].lives--;
+                    spaceshipArray[i].lives -= bulletsArray[j].impact;
 
                     bulletsArray[j].collided = true;
                 }
@@ -128,6 +128,12 @@ class Collision {
                 posObj.z = canvasSize - zBoxRadius;
                 bounced = true;
             }
+
+            if (bounced) {
+                if (object.isBullet) {
+                    object.collided = true;
+                }
+            }
         }
 
     }
@@ -139,11 +145,22 @@ class Collision {
     static checkAmongBullets(bulletsArray) {
         for (var i = 0; i < bulletsArray.length - 1; i++) {
             for (var j = i + 1; j < bulletsArray.length; j++) {
-                if (this.hasCollidedSphere(
-                    bulletsArray[i].boundingSphere,
-                    bulletsArray[j].boundingSphere)) {
 
+                let collided = false;
+
+                if (bulletsArray[i].typeOfBullet == Constants.BULLET_TYPE.cannonBall
+                    && bulletsArray[j].typeOfBullet == Constants.BULLET_TYPE.cannonBall) {
+
+                    collided = this.hasCollidedSphere(bulletsArray[i].boundingSphere, bulletsArray[j].boundingSphere);
+                } else {
+                    collided = this.hasCollided(bulletsArray[i].boundingBox, bulletsArray[j].boundingBox);
+                }
+
+                if (collided) {
                     this.treatCollision(bulletsArray[i], bulletsArray[j]);
+
+                    bulletsArray[i].collided = true;
+                    bulletsArray[j].collided = true;
                 }
             }
         }

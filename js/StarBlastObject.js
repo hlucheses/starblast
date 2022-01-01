@@ -43,6 +43,7 @@ class StarBlastObject {
 
         this.speed = new THREE.Vector3(0, 0, 0);
         this.acceleration = new THREE.Vector3(0, 0, 0);
+        this.isBullet = false;
 
         this.designParts = {};
     }
