@@ -27,6 +27,9 @@ class AlanB extends StarBlastObject {
         this.designParts.leftWingPipe = this.addWingPipe(-2.299, -.104, 3.423);
         this.designParts.RightWingPipe = this.addWingPipe(2.299, -.104, 3.423);
 
+        this.cannons.right = new Cannon(this.designParts.RightWingPipe);
+        this.cannons.left = new Cannon(this.designParts.leftWingPipe);
+
         this.designParts.leftPropellant = this.addPropellant(-.656, 0, 4.485);
         this.designParts.rightPropellant = this.addPropellant(.656, 0, 4.485);
     }
@@ -37,7 +40,7 @@ class AlanB extends StarBlastObject {
         points.push(new THREE.Vector2(3.82, -1.4));
         points.push(new THREE.Vector2(.06, -1.74));
         const geometry = new THREE.LatheGeometry(points, 20, 0, 2 * Math.PI);
-        const materialArray = this.newMaterialArray(0xff0000);
+        const materialArray = this.newMaterialArray(0x666666);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.355, .604, .067);
@@ -63,7 +66,7 @@ class AlanB extends StarBlastObject {
         points.push(new THREE.Vector2(3.82, -1.4));
         points.push(new THREE.Vector2(.06, -1.74));
         const geometry = new THREE.LatheGeometry(points, 20, 0, 2 * Math.PI);
-        const materialArray = this.newMaterialArray(0xffffff);
+        const materialArray = this.newMaterialArray(0x1f0000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.343, .997, .085);
@@ -75,7 +78,7 @@ class AlanB extends StarBlastObject {
 
     addBigWindow(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const materialArray = this.newMaterialArray(0x000000);
+        const materialArray = this.newMaterialArray(0xcd6666);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(0.925, 0.273, 0.193);
@@ -86,7 +89,7 @@ class AlanB extends StarBlastObject {
 
     addSmallWindow(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const materialArray = this.newMaterialArray(0x000000);
+        const materialArray = this.newMaterialArray(0xcd6666);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.571, 0.272, .193);
@@ -106,7 +109,7 @@ class AlanB extends StarBlastObject {
     addRearBody(x, y, z) {
         const geometry = new THREE.BoxGeometry(3.670, .534, 4.242);
 
-        const materialArray = this.newMaterialArray(0xffffff);
+        const materialArray = this.newMaterialArray(0x1f0000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         mesh.position.set(x, y, z);
@@ -124,7 +127,7 @@ class AlanB extends StarBlastObject {
      */
     addBody(x, y, z) {
         const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const materialArray = this.newMaterialArray(0xffffff);
+        const materialArray = this.newMaterialArray(0x1f0000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(1.920, 1.176, 3.007);
@@ -140,7 +143,7 @@ class AlanB extends StarBlastObject {
         points.push(new THREE.Vector2(.44, -4.32));
         points.push(new THREE.Vector2(0, -1.96));
         const geometry = new THREE.LatheGeometry(points, 21, Math.PI / 120, 2 * Math.PI);
-        const materialArray = this.newMaterialArray(0x1f0000);
+        const materialArray = this.newMaterialArray(0x850000);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.987, .749, 1.021);
@@ -164,7 +167,7 @@ class AlanB extends StarBlastObject {
         points.push(new THREE.Vector2(.82, -2.36));
         points.push(new THREE.Vector2(.58, -4.96));
         const geometry = new THREE.LatheGeometry(points);
-        const materialArray = this.newMaterialArray(0x850000);
+        const materialArray = this.newMaterialArray(0x666666);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
         geometry.scale(.687, 0.285, .696);
