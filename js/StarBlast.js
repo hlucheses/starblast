@@ -61,13 +61,15 @@ class StarBlast {
     // Estado das teclas
     static keyStates = {};
 
-
     /**
      * Inicia o fluxo do programa
      */
     static init() {
 
         this.RENDERER.setSize(window.innerWidth, window.innerHeight);
+        this.RENDERER.shadowMap.enabled = true;
+        this.RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
+        
         document.body.appendChild(this.RENDERER.domElement);
 
         // Eventos ao pressionar a tecla
@@ -338,13 +340,10 @@ class StarBlast {
             this.SCENE.add(spotlight.design);
             this.SCENE.add(spotlight.light);
             const spotLightHelper = new THREE.SpotLightHelper(spotlight.light, 0xCA8508);
-            spotlight.light.target = new THREE.Object3D(0, 0, 0);
 
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                 this.SCENE.add(spotLightHelper);
-            }
-
-            this.SCENE.add(spotlight.light.target);
+            }   
         }
 
     }

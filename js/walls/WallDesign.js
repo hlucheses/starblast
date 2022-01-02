@@ -27,24 +27,26 @@ class WallDesign extends StarBlastObject {
     constructor(x, y, z, rY) {
         super(x, y, z, rY);
 
-        this.design.rotation.y = rY;
-
-        this.initialDesign();
+        this.initialDesign(rY);
+        this.prepareShadowingRecieve();
     }
 
     /**
      * Adicionar os componentes ao objecto principal
      */
-     initialDesign() {
-        this.designParts.body = this.addBody(0, 0, 0);
+     initialDesign(rY) {
+        this.designParts.body = this.addBody(0, 0, 0, rY);
     }
 
     /**
      * Retorna a mesh que representa o corpo da parede
      * @returns {{THREE.Mesh, array}}
      */
-     addBody(x, y, z) {
-        const geometry = new THREE.BoxGeometry(Constants.WALL_WIDTH, Constants.WALL_HEIGHT, Constants.WALL_THICKNESS);
+     addBody(x, y, z, rY) {
+        const WIDTH = (rY == 0) ? Constants.WALL_WIDTH : Constants.WALL_THICKNESS;
+        const THICKNESS = (rY == 0) ? Constants.WALL_THICKNESS : Constants.WALL_WIDTH;
+        
+        const geometry = new THREE.BoxGeometry(WIDTH, Constants.WALL_HEIGHT, THICKNESS);
 
         const materialArray = this.newMaterialArray(Constants.COLORS.walls);
 

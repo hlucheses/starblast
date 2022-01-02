@@ -117,7 +117,7 @@
         basic: 0,
         lambert: 1,
         phong: 2,
-        default: 0
+        default: 1
     };
 
     static DEFAULT_SHADOWING = Constants.MESH_TYPE.basic;

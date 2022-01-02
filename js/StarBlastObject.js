@@ -104,4 +104,18 @@ class StarBlastObject {
         this.boundingBox.getSize(dimensions);
         return dimensions;
     }
+
+    prepareShadowing() {
+        for (let [key, part] of Object.entries(this.designParts)) {
+            part.mesh.castShadow = true;
+            part.mesh.receiveShadow = false;
+        }
+    }
+
+    prepareShadowingRecieve() {
+        for (let [key, part] of Object.entries(this.designParts)) {
+            part.mesh.receiveShadow = true;
+            part.mesh.castShadow = false;
+        }
+    }
 }

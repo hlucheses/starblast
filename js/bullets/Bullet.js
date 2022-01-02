@@ -62,8 +62,9 @@ class Bullet extends StarBlastObject {
         this.collided = false;
         this.isBullet = true;
 
-
         this.initialDesign(typeOfBullet, x, y, z);
+        
+        this.prepareShadowing();
     }
 
     initialDesign(type, x, y, z) {

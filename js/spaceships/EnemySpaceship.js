@@ -56,6 +56,8 @@ class EnemySpaceship extends Spaceship {
         for (let [key, cannon] of Object.entries(this.cannons)) {
             this.eCannons.push(cannon);
         }
+
+        this.prepareShadowing();
     }
 
     initialDesign(type, x, y, z) {

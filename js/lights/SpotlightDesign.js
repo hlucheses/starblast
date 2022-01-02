@@ -41,8 +41,6 @@ class SpotlightDesign extends StarBlastObject {
         this.design.scale.y = SCALE_CONSTANT;
         this.design.scale.z = SCALE_CONSTANT;
 
-        
-
         this.setStartPosition(x, y, z);
     }
 
@@ -88,7 +86,12 @@ class SpotlightDesign extends StarBlastObject {
     addBulb(x, y, z) {
         const geometry = new THREE.SphereGeometry(1.5, 64, 64);
         const materialArray = this.newMaterialArray(0xeeeeee);
+
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        for (let i = 0; i < materialArray.length; i++) {
+            materialArray[i].transparent = true;
+        }
 
         geometry.scale(3, 3, 3);
         mesh.position.set(x, y, z);

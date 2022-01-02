@@ -16,7 +16,7 @@
  */
 
 class Spotlight extends SpotlightDesign {
-    
+
     /**
      * Posiciona o holofote na cena
      * @param {number} x 
@@ -31,14 +31,32 @@ class Spotlight extends SpotlightDesign {
         this.light = this.createLight(x, y, z);
     }
 
-    createLight(x, y, z){
-        const distance = 0;
+    createLight(x, y, z) {
+        const distance = 2000;
         const penumbra = 0.5;
         const decay = 1.0;
 
-        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI/2, penumbra, decay);
-        light.position.set(x, y, z);
+        const light = new THREE.SpotLight(0xffffff, 0, distance, Math.PI / 4, penumbra, decay);
+
+        light.target.position.set(-this.design.position.x, 0, -this.design.position.z);
+        //light.target.updateMatrixWorld();
+        light.castShadow = true;
+        light.shadow.bias = -0.0001;
+        light.shadow.mapSize.width = 1024;
+        light.shadow.mapSize.height = 1024;
+        light.shadow.camera.near = 1;
+        light.shadow.camera.far = 3000;
+        light.shadow.camera.left = 3000;
+        light.shadow.camera.right = 3000;
+        light.shadow.camera.top = 3000;
+        light.shadow.camera.bottom = 3000;
+        light.intensity = 1;
         
+        const xSignal = Constants.getSignal(this.design.position.x);
+        const zSignal = Constants.getSignal(this.design.position.z);
+
+        light.position.set(x - xSignal * 8, y, z + zSignal * 9);
+
         return light;
     }
 }

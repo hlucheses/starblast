@@ -36,10 +36,10 @@ class Scenary {
     }
 
     static spotlights = {
-        topLeft: null,
+        //topLeft: null,
         topRight: null,
-        bottomLeft: null,
-        bottomRight: null
+        //bottomLeft: null,
+        //bottomRight: null
     }
 
     /**
@@ -171,7 +171,6 @@ class Scenary {
 
     
     static setSpotlights() {
-
         this.spotlights.topLeft = new Spotlight(
             -Constants.WALL_WIDTH / 2,
             Constants.WALL_HEIGHT / 2,
@@ -199,11 +198,6 @@ class Scenary {
             -Constants.WALL_WIDTH / 2,
             Math.PI / 4
         );
-
-        this.spotlights.topLeft.light.target = new THREE.Object3D(-200, 200, -200);
-        this.spotlights.bottomLeft.light.target = new THREE.Object3D(0, 0, 0);
-        this.spotlights.bottomRight.light.target = new THREE.Object3D(0, 0, 0);
-        this.spotlights.topRight.light.target = new THREE.Object3D(0, 0, 0);
     }
 }
 

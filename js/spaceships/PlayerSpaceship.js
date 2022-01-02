@@ -50,6 +50,7 @@ class PlayerSpaceship extends Spaceship {
         this.mass = Constants.MASS.player;
         this.lives = 5;
         
+        this.prepareShadowing();
     }
 
     initialDesign(x, y, z) {
