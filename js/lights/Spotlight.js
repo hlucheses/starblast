@@ -42,14 +42,10 @@ class Spotlight extends SpotlightDesign {
         //light.target.updateMatrixWorld();
         light.castShadow = true;
         light.shadow.bias = -0.0001;
-        light.shadow.mapSize.width = 1024;
-        light.shadow.mapSize.height = 1024;
+        light.shadow.mapSize.width = 512;
+        light.shadow.mapSize.height = 512;
         light.shadow.camera.near = 1;
-        light.shadow.camera.far = 3000;
-        light.shadow.camera.left = 3000;
-        light.shadow.camera.right = 3000;
-        light.shadow.camera.top = 3000;
-        light.shadow.camera.bottom = 3000;
+        light.shadow.camera.far = 2000;
         light.intensity = 1;
         
         const xSignal = Constants.getSignal(this.design.position.x);

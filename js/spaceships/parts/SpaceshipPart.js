@@ -6,8 +6,6 @@ class SpaceshipPart extends StarBlastObject {
         this.design.add(mesh);
         this.design.rotation.copy(rotation);
         this.mass = .5;
-
-        this.prepareShadowing();
     }
 
     move() {

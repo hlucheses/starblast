@@ -20,7 +20,7 @@
  * São definidas as animações do programa
  * FIX: É suposto as animações também pertencerem à classe StarBlast
  */
-function animateFora() {
+function animate() {
     StarBlast.moveSpaceships();
     StarBlast.shoot();
     StarBlast.moveBullets();
@@ -38,7 +38,7 @@ function animateFora() {
         StarBlast.PLAYER_SPACESHIP.design.position.z);
     StarBlast.updateDOM();
     StarBlast.render();
-    requestAnimationFrame(animateFora);
+    requestAnimationFrame(animate);
 }
 
 class StarBlast {
