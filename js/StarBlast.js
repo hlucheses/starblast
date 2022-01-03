@@ -50,8 +50,8 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
-    static shadowing = Constants.MESH_TYPE.default;
-    static ambientalLight = Scenary.setAmbientalLight();
+    static shadowing;
+    static ambientalLight;
     // Elementos da cena
     static PLAYER_SPACESHIP;
     static PLAYER_STARTING_LIVES;
@@ -80,6 +80,8 @@ class StarBlast {
         this.DESINTEGRATING_PARTS = [];
         this.PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
         this.PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
+        this.shadowing = Constants.MESH_TYPE.default;
+        this.ambientalLight = Scenary.setAmbientalLight();
 
         this.RENDERER.setSize(window.innerWidth, window.innerHeight);
         this.RENDERER.shadowMap.enabled = false;
@@ -525,6 +527,7 @@ class StarBlast {
 
             if (remainingSeconds < 0) {
                 this.GAME_OVER = true;
+                this.gameOver();
             }
 
             if (this.PLAYER_SPACESHIP.lives < 1) {
