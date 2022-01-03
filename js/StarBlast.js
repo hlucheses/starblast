@@ -52,7 +52,6 @@ class StarBlast {
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
     static shadowing = Constants.MESH_TYPE.default;
     static ambientalLight = Scenary.setAmbientalLight();
-
     // Elementos da cena
     static PLAYER_SPACESHIP;
     static PLAYER_STARTING_LIVES;
@@ -66,7 +65,7 @@ class StarBlast {
 
     // Estado das teclas
     static keyStates = {};
-
+    
     /**
      * Inicia o fluxo do programa
      */
@@ -154,6 +153,7 @@ class StarBlast {
             this.RENDERER.setSize(window.innerWidth, window.innerHeight);
         });
 
+        Scenary.getLevel(this.LEVEL);
         this.createScene();
         this.render();
         this.SCENE.add(this.ambientalLight);
@@ -163,10 +163,9 @@ class StarBlast {
      * Cria a cena (elementos físicos)
      */
     static createScene() {
-
+        
         this.addPlanesToScene();
         this.addWallsToScene();
-
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
 
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
@@ -176,6 +175,7 @@ class StarBlast {
         this.addEnemiesToScene();
 
         this.SCENE.add(Scenary.getStars());
+        this.SCENE.add(Scenary.getPlanets());
 
         this.addSpotlights();
     }
@@ -221,7 +221,7 @@ class StarBlast {
     static addWallsToScene() {
         for (let [key, wall] of Object.entries(Scenary.walls)) {
             this.SCENE.add(wall.design);
-
+            
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                 this.SCENE.add(wall.boxHelper);
             }
@@ -558,6 +558,7 @@ class StarBlast {
     }
 
     static finish() {
+        this.GAME_OVER = false;
         while(this.SCENE.children.length > 0){ 
             this.SCENE.remove(this.SCENE.children[0]); 
         }

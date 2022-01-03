@@ -19,6 +19,8 @@ class Scenary {
 
     // TODO: tornar as estrelas em pontos luminosos
     // static stars = [];
+
+
     static planes = {
         left: null,
         right: null,
@@ -36,21 +38,30 @@ class Scenary {
     }
 
     static spotlights = {
-        //topLeft: null,
+        topLeft: null,
         topRight: null,
-        //bottomLeft: null,
-        //bottomRight: null
+        bottomLeft: null,
+        bottomRight: null
     }
 
+    static l = null;
     /**
      * Constutor estático, declarado abaixo da classe
      */
-    static staticConstructor() {
+    static staticConstructor(level) {
         this.initializePlanes();
         this.setPlanes();
-        this.initializeWalls();
+        this.initializeWalls(level);
         this.setAmbientalLight();
         this.setSpotlights();
+    }
+    static setLevel(nivel) {
+        this.l = nivel;
+    }
+    static getLevel(nivel) {
+        
+        this.setLevel(nivel);
+
     }
 
     /**
@@ -74,11 +85,12 @@ class Scenary {
     /**
      * Coloca as paredes internas
      */
-    static initializeWalls() {
-        this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
-        this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
-        this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
-        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2);
+    static initializeWalls(level) {
+        console.log(this.l);
+        this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2, level);
+        this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2, level);
+        this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2, level);
+        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2, level); 
     }
 
     /**
@@ -164,6 +176,63 @@ class Scenary {
         return starsGroup;
     }
 
+    static getPlanets() {
+        var planetGroup = new THREE.Group();
+        var raio, planetColor;
+        for (var i = 1; i <= Constants.NUMBER_OF_PLANETS; i++) {
+            var x = Constants.randomNumber(-Constants.SPACE.width / 2, Constants.SPACE.width / 2);
+            var y = Constants.randomNumber(-Constants.SPACE.height / 2, Constants.SPACE.height / 2);
+            var z = Constants.randomNumber(-Constants.SPACE.depth / 2, Constants.SPACE.depth / 2);
+            raio = Math.floor(Math.random() * 6);
+            planetColor = Constants.COLORS.planets[Constants.randomNumber(0, Constants.COLORS.planets.length - 1)];
+    
+             // O plano onde será colocada o planeta
+             var planoAtual = Constants.randomNumber(1, 3);
+
+             /* 
+                 Representa em que lado o planeta será colocado
+                 -1: esquerda, baixo, atrás
+                 1: direita, cima, à frente
+                 {(esquerda, direita), (cima, baixo), (à frente, atrás)}
+             */
+             var extremidade;
+ 
+             // Escolhe aleatoriamente 1 ou -1
+             do {
+                 extremidade = Constants.randomNumber(-1, 1);
+             } while (extremidade == 0);
+             
+ 
+             switch (planoAtual) {
+                 case 1: // Largura
+                     x = Constants.randomNumber(
+                         extremidade * Constants.SPACE.width / 2,
+                         extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
+                     );
+                     break;
+                 case 2: // Altura
+                     y = Constants.randomNumber(
+                         extremidade * Constants.SPACE.width / 2,
+                         extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
+                     );
+                     break;
+                 case 3: // Profundidade
+                     z = Constants.randomNumber(
+                         extremidade * Constants.SPACE.width / 2,
+                         extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
+                     );
+                     break;
+             }
+
+            var planet = new THREE.Mesh(new THREE.SphereGeometry(raio, 20, 20), new THREE.MeshBasicMaterial({
+                color: planetColor
+            }));
+            planet.position.set(x, y, z);
+            planetGroup.add(planet);
+        }
+        return planetGroup;
+    
+    }
     static setAmbientalLight() {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0);
         return directionalLight;
