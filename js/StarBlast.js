@@ -509,12 +509,7 @@ class StarBlast {
             }
 
             if (this.PLAYER_SPACESHIP.lives < 1) {
-                if (remainingSeconds > 60) {
-                    this.TIMESTAMP -= 60;
-                    this.PLAYER_SPACESHIP.lives++;
-                } else {
-                    this.GAME_OVER = true;
-                }
+                this.GAME_OVER = true;
             }
 
             let saida = "";
