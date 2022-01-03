@@ -55,7 +55,14 @@
             default: 0x111f22,
             selected: 0xaaaaaa,
         },
-        walls: '#FFFFFF',
+        walls: {
+           default:  '#FFFFFF',
+           scenary2: '#ccccff',
+           scenary3: '#4d79ff',
+           boss: '#000033',
+
+        },
+        planets: ['#451804', '#e77d11', '#9fc164', '#e9eff9', '#4f4cb0', '#d8c596', '#451804', '#fda600'],    
     }
 
     static SPACESHIP_TYPE = {
@@ -85,6 +92,8 @@
 
     // Número de estrelas
     static NUMBER_OF_STARS = 5000;
+    //Numero de planetas
+    static NUMBER_OF_PLANETS = 300;
     // Define a distância mínima das estrelas ao centro da cena em %
     static LIMITE_ESTRELAS = 0.6;
 

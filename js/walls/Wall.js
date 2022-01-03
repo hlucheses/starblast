@@ -26,8 +26,8 @@ class Wall extends WallDesign {
      * @param {number} z 
      * @param {number} rY
      */
-    constructor(x, y, z, rY = 0) {
-        super(x, y, z, rY);
+    constructor(x, y, z, rY = 0, level) {
+        super(x, y, z, rY, level);
 
         // Cria a boundingBox
         /*
