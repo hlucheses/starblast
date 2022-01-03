@@ -40,8 +40,8 @@ class Bullet extends StarBlastObject {
 
         this.mass = Constants.MASS.bullet;
 
-        if (ySpeed > .5) {
-            ySpeed = .5;
+        if (ySpeed > .6) {
+            ySpeed = .6;
         }
 
         this.speed = new THREE.Vector3(0, ySpeed, this.MAX_SPEED);

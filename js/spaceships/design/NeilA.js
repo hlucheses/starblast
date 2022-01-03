@@ -167,6 +167,11 @@ class NeilA extends StarBlastObject {
         const materialArray = this.newMaterialArray(0x00e3e6);
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
+        for (let i = 0; i < materialArray.length; i++) {
+            materialArray[i].transparent = true;
+            materialArray[i].opacity = 0.5;
+        }
+
         geometry.scale(2.839, 0.837, 1.381);
         geometry.rotateY(-Math.PI / 2);
         mesh.position.set(x, y, z);

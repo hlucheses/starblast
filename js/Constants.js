@@ -29,6 +29,15 @@
         SPACESHIP_MAX_SPEED = this.metersToPixels(80);
     }*/
 
+
+    // Modo de jogo
+    static TESTING = 0;
+    static RELEASE = 1;
+
+    static GAME_MODE = this.RELEASE;
+
+    static GAME_TIME = 360;
+
     // 1 pixel equivale a PIXELS_TO_METERS metros
     static PIXELS_TO_METERS = 40;
 

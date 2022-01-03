@@ -51,9 +51,10 @@ class StarBlast {
     // Elementos da cena
     static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
     static PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
-    static ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES);
+    static ENEMIES = [];
     static BULLETS = [];
     static DESINTEGRATING_PARTS = [];
+    static LEVEL = 1;
     static POINTS = 0;
     static GAME_OVER = false;
     static TIMESTAMP = Date.now();
@@ -67,9 +68,9 @@ class StarBlast {
     static init() {
 
         this.RENDERER.setSize(window.innerWidth, window.innerHeight);
-        this.RENDERER.shadowMap.enabled = true;
+        this.RENDERER.shadowMap.enabled = false;
         this.RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
-        
+
         document.body.appendChild(this.RENDERER.domElement);
 
         // Eventos ao pressionar a tecla
@@ -155,6 +156,7 @@ class StarBlast {
         }
 
         this.addEnemiesToScene();
+        
         this.SCENE.add(Scenary.getStars());
 
         this.addSpotlights();
@@ -171,8 +173,13 @@ class StarBlast {
      * Adiciona os inimigos à cena
      */
     static addEnemiesToScene() {
+        if (Constants.GAME_MODE == Constants.TESTING) {
+            this.ENEMIES = EnemySpaceship.generateRandom(Constants.NUMBER_OF_ENEMIES)
+        } else {
+            this.ENEMIES = Level.generateEnemies(this.LEVEL);
+        }
+
         for (var i = 0; i < this.ENEMIES.length; i++) {
-            this.ENEMIES.id = i;
             this.SCENE.add(this.ENEMIES[i].design);
 
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
@@ -282,7 +289,11 @@ class StarBlast {
         }
 
         // Verificar colisões
-        Collision.checkBulletsSpaceships(this.BULLETS, [...(this.ENEMIES), this.PLAYER_SPACESHIP]);
+        if (this.GAME_OVER == false) {
+            Collision.checkBulletsSpaceships(this.BULLETS, [...(this.ENEMIES), this.PLAYER_SPACESHIP]);
+        }
+
+
         Collision.checkAmongBullets(this.BULLETS);
     }
 
@@ -309,7 +320,7 @@ class StarBlast {
 
                 let totalSeconds = Math.floor(((Date.now() - this.TIMESTAMP) / 1000));
 
-                this.POINTS += this.ENEMIES[i].typeOfEnemy * (300 - totalSeconds);
+                this.POINTS += this.ENEMIES[i].typeOfEnemy * (Constants.GAME_TIME - totalSeconds) + 50 * this.PLAYER_SPACESHIP.lives;
 
                 if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                     this.SCENE.remove(this.ENEMIES[i].boxHelper);
@@ -330,6 +341,22 @@ class StarBlast {
                 i--;
             }
         }
+
+        /* Verifica nível */
+        if (Constants.GAME_MODE == Constants.RELEASE
+            && this.GAME_OVER == false) {
+            if (this.ENEMIES.length == 0) {
+                this.LEVEL++;
+                this.addEnemiesToScene();
+                this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
+
+                if (this.PLAYER_SPACESHIP.lives == this.PLAYER_STARTING_LIVES) {
+                    this.POINTS += Constants.GAME_TIME;
+                } else {
+                    this.PLAYER_SPACESHIP.lives++;
+                }
+            }
+        }
     }
 
     /**
@@ -343,7 +370,7 @@ class StarBlast {
 
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                 this.SCENE.add(spotLightHelper);
-            }   
+            }
         }
 
     }
@@ -465,19 +492,29 @@ class StarBlast {
 
     static updateDOM() {
         const topItems = document.getElementById("topItems");
-        
+
         if (!this.GAME_OVER) {
 
             const points = document.getElementById("noPoints");
             const enemies = document.getElementById("noEnemies");
             const timeAvailable = document.getElementById("timeAvailable");
             const hearts = document.getElementById("hearts");
+            const level = document.getElementById("level");
 
             let totalSeconds = Math.floor(((Date.now() - this.TIMESTAMP) / 1000));
-            let remainingSeconds = (300 - totalSeconds);
+            let remainingSeconds = (Constants.GAME_TIME - totalSeconds);
 
             if (remainingSeconds < 0) {
                 this.GAME_OVER = true;
+            }
+
+            if (this.PLAYER_SPACESHIP.lives < 1) {
+                if (remainingSeconds > 60) {
+                    this.TIMESTAMP -= 60;
+                    this.PLAYER_SPACESHIP.lives++;
+                } else {
+                    this.GAME_OVER = true;
+                }
             }
 
             let saida = "";
@@ -489,14 +526,11 @@ class StarBlast {
                 }
             }
 
-            if (this.PLAYER_SPACESHIP.lives < 1) {
-                this.GAME_OVER = true;
-            }
-
             points.innerHTML = this.POINTS;
             enemies.innerHTML = this.ENEMIES.length;
             timeAvailable.innerHTML = remainingSeconds + " seconds";
             hearts.innerHTML = saida;
+            level.innerHTML = "LEVEL " + this.LEVEL;
         } else {
             topItems.innerHTML = "<span color='red'>GAME OVER</span>";
         }
