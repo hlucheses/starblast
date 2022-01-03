@@ -168,7 +168,9 @@
         }
     };
 
-    document.getElementById('exit').onclick = exit();
+    exitBtn.addEventListener('click', (event) => {
+        exit();
+    });
 
     document.addEventListener('keypress', (event) => {
         console.log(event.code);

@@ -561,14 +561,18 @@ class StarBlast {
     }
 
     static finish() {
-        this.GAME_OVER = false;
+        const topItemsContent = '<span id="level"></span><span>POINTS: <span id="noPoints"></span></span><span>REMAINING ENEMIES: <span id="noEnemies"></span></span><span>REMAINING TIME: <span id="timeAvailable"></span></span><span><span id="hearts"></span></span>'
+
+        const topItems = document.getElementById("topItems");
+        topItems.innerHTML = topItemsContent;
+        
         while(this.SCENE.children.length > 0){ 
             this.SCENE.remove(this.SCENE.children[0]); 
         }
     }
 
     static play() {
-        this.TIMESTAMP += (this.PAUSE_TIMESTAMP - this.TIMESTAMP);
+        this.TIMESTAMP += (Date.now() - this.PAUSE_TIMESTAMP);
         isPlay = true;
         animate();
     }
