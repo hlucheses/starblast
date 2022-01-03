@@ -21,12 +21,32 @@
 <head>
     <meta charset="utf-8">
     <title>Star Blast</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <link rel="stylesheet" href="css/estilo.css">
-    <link href="fonts/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="vendor/fontawesome/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="topItems">
+    <div id="start">
+        <div id="buttons">
+            <button id="playButton">
+                PLAY
+            </button>
+            <button id="teacherMode" class="newGame">
+                TEACHER MODE
+            </button>
+            <button class="newGame">
+                SCOREBOARD
+            </button>
+            <button class="newGame">
+                HELP
+            </button>
+            <button id="exit" style="display: none;">
+                EXIT
+            </button>
+        </div>
+    </div>
+    <div id="topItems" style="display: none;">
         <span id="level"></span>
         <span>POINTS: <span id="noPoints"></span></span>
         <span>REMAINING ENEMIES: <span id="noEnemies"></span></span>
@@ -85,10 +105,82 @@
 <!-- Main -->
 <script src="js/StarBlast.js"></script>
 
+<script>
+    // Manipulação do DOM
+    let isPlay = false;
+    let started = false;
+    let startedStyle = "background: none;position: absolute;height: 100%;width: 100%;z-index: 100;background-position: center;background-repeat: no-repeat;ackground-size: cover;";
+    let topItemsStyle = "position: absolute;z-index: 100;display: flex;flex-direction: column;color: #fff;width: 100%;height: 15%;padding: 2em;right: 1em;font-family: 'SpaceMission';font-size: large;letter-spacing: .2em;text-align: right;justify-content: space-between;";
+    let newGameStyle = "background-image: url('img/bckg.jpg');position: absolute;height: 100%;width: 100%;z-index: 100;background-position: center;background-repeat: no-repeat;ackground-size: cover;";
+    const startDiv = document.getElementById('start');
+    const topItems = document.getElementById('topItems');
+    const exitBtn = document.getElementById('exit');
+
+    document.getElementById('playButton').onclick = function () {
+
+
+
+        startDiv.setAttribute('style', 'display: none');
+        topItems.setAttribute('style', topItemsStyle);
+
+        if (!started) {
+            const elements = document.getElementsByClassName('newGame');
+
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].setAttribute('style', 'display: none');
+            }
+            exitBtn.setAttribute('style', 'display: block');
+            isPlay = true;
+            started = true;
+            Constants.GAME_MODE = Constants.RELEASE;
+            StarBlast.init();
+            animate();
+        } else {
+            isPlay = true;
+            animate();
+        }
+    };
+
+    document.getElementById('teacherMode').onclick = function () {
+        startDiv.setAttribute('style', 'display: none;');
+        topItems.setAttribute('style', topItemsStyle);
+
+        if (!started) {
+            const elements = document.getElementsByClassName('newGame');
+
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].setAttribute('style', 'display: none');
+            }
+            exitBtn.setAttribute('style', 'display: block');
+            isPlay = true;
+            started = true;
+            Constants.GAME_MODE = Constants.TESTING;
+            StarBlast.init();
+            animate();
+        } else {
+            isPlay = true;
+            animate();
+        }
+    };
+
+    document.getElementById('exit').onclick = function () {
+        StarBlast.finish();
+        const elements = document.getElementsByClassName('newGame');
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].setAttribute('style', 'display: block');
+        }
+        exitBtn.setAttribute('style', 'display: none');
+        startDiv.setAttribute('style', newGameStyle);
+        isPlay = false;
+        started = false;
+    }
+</script>
+
 <!-- É aqui que o Dasher, o Rudolph e o Prancer nascem -->
 <script>
-    StarBlast.init();
-    animate();
+    //StarBlast.init();
+    //animate();
 </script>
 
 </html>

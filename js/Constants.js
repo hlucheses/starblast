@@ -34,9 +34,9 @@
     static TESTING = 0;
     static RELEASE = 1;
 
-    static GAME_MODE = this.RELEASE;
+    static GAME_MODE = this.TESTING;
 
-    static GAME_TIME = 360;
+    static GAME_TIME = 180;
 
     // 1 pixel equivale a PIXELS_TO_METERS metros
     static PIXELS_TO_METERS = 40;

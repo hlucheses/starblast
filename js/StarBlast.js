@@ -21,6 +21,11 @@
  * FIX: É suposto as animações também pertencerem à classe StarBlast
  */
 function animate() {
+
+    if (!isPlay) {
+        return;
+    }
+
     StarBlast.moveSpaceships();
     StarBlast.shoot();
     StarBlast.moveBullets();
@@ -49,15 +54,15 @@ class StarBlast {
     static ambientalLight = Scenary.setAmbientalLight();
 
     // Elementos da cena
-    static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
-    static PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
-    static ENEMIES = [];
-    static BULLETS = [];
-    static DESINTEGRATING_PARTS = [];
-    static LEVEL = 1;
-    static POINTS = 0;
-    static GAME_OVER = false;
-    static TIMESTAMP = Date.now();
+    static PLAYER_SPACESHIP;
+    static PLAYER_STARTING_LIVES;
+    static ENEMIES;
+    static BULLETS;
+    static DESINTEGRATING_PARTS;
+    static LEVEL;
+    static POINTS;
+    static GAME_OVER;
+    static TIMESTAMP;
 
     // Estado das teclas
     static keyStates = {};
@@ -66,6 +71,16 @@ class StarBlast {
      * Inicia o fluxo do programa
      */
     static init() {
+
+        this.TIMESTAMP = Date.now();
+        this.GAME_OVER = false;
+        this.LEVEL = 1;
+        this.POINTS = 0;
+        this.ENEMIES = [];
+        this.BULLETS = [];
+        this.DESINTEGRATING_PARTS = [];
+        this.PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
+        this.PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
 
         this.RENDERER.setSize(window.innerWidth, window.innerHeight);
         this.RENDERER.shadowMap.enabled = false;
@@ -98,6 +113,10 @@ class StarBlast {
             }
 
             this.checkLight(event.code);
+
+            if (event.code == "Escape") {
+                this.pause();
+            }
         });
 
         document.addEventListener('keyup', (event) => {
@@ -111,7 +130,6 @@ class StarBlast {
 
 
                 this.PLAYER_SPACESHIP.shootingHeight = 0;
-
 
                 if (bullet != null) {
                     this.BULLETS.push(bullet);
@@ -156,7 +174,7 @@ class StarBlast {
         }
 
         this.addEnemiesToScene();
-        
+
         this.SCENE.add(Scenary.getStars());
 
         this.addSpotlights();
@@ -528,6 +546,20 @@ class StarBlast {
             level.innerHTML = "LEVEL " + this.LEVEL;
         } else {
             topItems.innerHTML = "<span color='red'>GAME OVER</span>";
+        }
+    }
+
+    static pause() {
+        isPlay = false;
+        const startDiv = document.getElementById('start');
+        const topItems = document.getElementById('topItems');
+        startDiv.setAttribute('style', startedStyle);
+        topItems.setAttribute('style', 'display: none');
+    }
+
+    static finish() {
+        while(this.SCENE.children.length > 0){ 
+            this.SCENE.remove(this.SCENE.children[0]); 
         }
     }
 }
