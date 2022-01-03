@@ -63,6 +63,7 @@
         buzz: 1,
         alanB: 2,
         neilAII: 3,
+        michaelC: 4
     };
 
     static BULLET_TYPE = {

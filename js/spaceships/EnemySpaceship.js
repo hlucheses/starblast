@@ -75,6 +75,10 @@ class EnemySpaceship extends Spaceship {
                 design = new AlanB();
                 this.lives = 5;
                 break;
+            case Constants.SPACESHIP_TYPE.michaelC:
+                design = new MichaelC();
+                this.lives = 40;
+                break;
             default:
                 design = new Buzz();
                 break;
@@ -86,7 +90,7 @@ class EnemySpaceship extends Spaceship {
         this.design = design.design;
 
         // Gira em relação à cena
-        this.design.rotation.y = Math.PI;
+        this.design.rotation.y = (type == Constants.SPACESHIP_TYPE.michaelC) ? 0 : Math.PI;
         
         this.defaultCannonColor = design.defaultCannonColor;
         this.designParts = design.designParts;

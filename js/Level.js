@@ -116,6 +116,10 @@ class Level {
             for (let i = 0; i < level.noNeil; i++) {
                 enemiesArray.push(this.generateSpaceship(Constants.SPACESHIP_TYPE.neilAII));
             }
+
+            for (let i = 0; i < level.noBoss; i++) {
+                enemiesArray.push(this.generateSpaceship(Constants.SPACESHIP_TYPE.michaelC));
+            }
         }
 
         return enemiesArray;

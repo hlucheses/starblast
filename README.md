@@ -1,7 +1,6 @@
 # starblast
 
 ### TODO:
-+ Níveis
 + Nave Boss
 + Cenários para cada nível
     - Cenário do nível 1 mantém-se
@@ -11,8 +10,6 @@
 + Novos Holofotes
 + Fogo a sair dos propulsores
     - Luzes de travagem
-+ Favicon
-+ Menu
 + Scoreboard
 + Medidor da intensidade do tiro
 + Game Over (Tela)
