@@ -81,6 +81,13 @@ class Spaceship extends StarBlastObject {
         // Actualiza a posição das bounding boxes
         this.updateBoundingBox();
 
+
+        if (this.type == Constants.ENEMY) {
+            if (this.typeOfEnemy == Constants.SPACESHIP_TYPE.michaelC) {
+                this.designParts.machineGun.mesh.rotateY(Math.PI / 45);
+            }
+        }
+
         // Verifica se colidiu com a parede
         Collision.checkAgainstWalls(this);
     }

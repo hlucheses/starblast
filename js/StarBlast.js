@@ -65,7 +65,7 @@ class StarBlast {
 
     // Estado das teclas
     static keyStates = {};
-    
+
     /**
      * Inicia o fluxo do programa
      */
@@ -73,7 +73,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 1;
+        this.LEVEL = 18;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -91,8 +91,10 @@ class StarBlast {
         document.addEventListener('keydown', (event) => {
             this.keyStates[event.code] = true;
 
-            Cameras.changeCurrent(event.code);
-
+            if (this.GAME_OVER == false) {
+                Cameras.changeCurrent(event.code);
+            }
+            
             if (Cameras.CURRENT == Cameras.BULLET) {
                 Cameras.updateBulletCam(this.PLAYER_SPACESHIP.lastBullet);
             }
@@ -163,7 +165,7 @@ class StarBlast {
      * Cria a cena (elementos físicos)
      */
     static createScene() {
-        
+
         this.addPlanesToScene();
         this.addWallsToScene();
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
@@ -221,7 +223,7 @@ class StarBlast {
     static addWallsToScene() {
         for (let [key, wall] of Object.entries(Scenary.walls)) {
             this.SCENE.add(wall.design);
-            
+
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                 this.SCENE.add(wall.boxHelper);
             }
@@ -261,16 +263,15 @@ class StarBlast {
      */
     static shoot() {
         for (var i = 0; i < this.ENEMIES.length; i++) {
-            var bullet = this.ENEMIES[i].shootRandomly();
+            var bullets = this.ENEMIES[i].shootRandomly();
 
-            if (bullet != null) {
-
+            for (let j = 0; j < bullets.length; j++) {
                 if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
-                    this.SCENE.add(bullet.boxHelper);
+                    this.SCENE.add(bullets[j].boxHelper);
                 }
 
-                this.SCENE.add(bullet.design);
-                this.BULLETS.push(bullet);
+                this.SCENE.add(bullets[j].design);
+                this.BULLETS.push(bullets[j]);
             }
         }
     }
@@ -567,14 +568,17 @@ class StarBlast {
         topItems.innerHTML = topItemsContent;
 
         Cameras.CURRENT = Cameras.FRONTAL;
-        
-        while(this.SCENE.children.length > 0){ 
-            this.SCENE.remove(this.SCENE.children[0]); 
+
+        while (this.SCENE.children.length > 0) {
+            this.SCENE.remove(this.SCENE.children[0]);
         }
+
+        gameOverDiv.setAttribute('style', 'display: none');
     }
 
     static gameOver() {
         Cameras.CURRENT = Cameras.DYNAMIC;
+        gameOverDiv.setAttribute('style', gameOverStyle);
     }
 
     static play() {

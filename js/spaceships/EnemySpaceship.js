@@ -211,18 +211,27 @@ class EnemySpaceship extends Spaceship {
             throw "Exception: All enemies must have cannons!";
         }*/
 
+        
+
         if (this.eCannons.length > 0) {
 
             var numero = Constants.randomNumber(1, 100);
+            let bullets = [];
 
             if (numero == 1) {
-                numero = Constants.randomNumber(0, this.eCannons.length - 1);
-                return this.eCannons[numero].shoot(this.type);
-            }
-        }
-        
+                
 
-        return null;
+                for (let i = 0; i < this.eCannons.length; i++) {
+                    numero = Constants.randomNumber(1, 2);
+
+                    if (numero == 1) {
+                        bullets.push(this.eCannons[i].shoot(this.type));
+                    }
+                }
+            }
+
+            return bullets;
+        }
     }
 
     /**
