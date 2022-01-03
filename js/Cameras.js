@@ -114,6 +114,7 @@ class Cameras {
             this.BULLET.position.lerp(offset, 0.2);
             this.BULLET.lookAt(object.design.position);
         } else {
+            object = null;
             this.CURRENT = this.FRONTAL;
         }
     }
