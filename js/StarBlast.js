@@ -311,7 +311,6 @@ class StarBlast {
             Collision.checkBulletsSpaceships(this.BULLETS, [...(this.ENEMIES), this.PLAYER_SPACESHIP]);
         }
 
-
         Collision.checkAmongBullets(this.BULLETS);
     }
 
@@ -529,6 +528,7 @@ class StarBlast {
 
             if (this.PLAYER_SPACESHIP.lives < 1) {
                 this.GAME_OVER = true;
+                this.gameOver();
             }
 
             let saida = "";
@@ -565,10 +565,16 @@ class StarBlast {
 
         const topItems = document.getElementById("topItems");
         topItems.innerHTML = topItemsContent;
+
+        Cameras.CURRENT = Cameras.FRONTAL;
         
         while(this.SCENE.children.length > 0){ 
             this.SCENE.remove(this.SCENE.children[0]); 
         }
+    }
+
+    static gameOver() {
+        Cameras.CURRENT = Cameras.DYNAMIC;
     }
 
     static play() {

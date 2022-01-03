@@ -172,12 +172,25 @@
         exit();
     });
 
-    document.addEventListener('keypress', (event) => {
-        console.log(event.code);
+    let escapeWasDown = false;
+    document.addEventListener('keydown', (event) => {
         if (started == true) {
-            
+
             if (event.code == "Escape") {
                 if (!isPlay) {
+                    escapeWasDown = true;
+                }
+            }
+        }
+    });
+
+    document.addEventListener('keyup', (event) => {
+        if (started == true) {
+            if (event.code == "Escape" && escapeWasDown) {
+                if (!isPlay) {
+                    startDiv.setAttribute('style', 'display: none');
+                    topItems.setAttribute('style', topItemsStyle);
+                    escapeWasDown = false;
                     StarBlast.play();
                 }
             }
