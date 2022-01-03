@@ -30,7 +30,7 @@ class MichaelC extends StarBlastObject {
         this.designParts.rightCannonPipe = this.addCannonPipe(3.890, -.496, -.673);
 
         this.designParts.leftBigCannon = this.addBigCannon(2.889, 1.328, -2.514);
-        this.designParts.rightBigCannon = this.addBigCannon(2.889, 1.328, -2.514);
+        this.designParts.rightBigCannon = this.addBigCannon(-2.889, 1.328, -2.514);
 
         this.cannons.right = new Cannon(this.designParts.rightCannonPipe, Constants.BULLET_TYPE.missile);
         this.cannons.left = new Cannon(this.designParts.leftCannonPipe, Constants.BULLET_TYPE.missile);
@@ -62,8 +62,8 @@ class MichaelC extends StarBlastObject {
     
         this.designParts.machineGunCannonTop = this.addMachineGunCannon(0, -2.292, .724);
         this.designParts.machineGunCannonBottom = this.addMachineGunCannon(0, -3.194, .724);
-        this.designParts.machineGunCannonLeft = this.addMachineGunCannon(-2.774, .724, .46);
-        this.designParts.machineGunCannonRight = this.addMachineGunCannon(-2.774, .724, -.46);
+        this.designParts.machineGunCannonLeft = this.addMachineGunCannon(.46, -2.774, .724);
+        this.designParts.machineGunCannonRight = this.addMachineGunCannon( -.46, -2.774, .724,);
 
         this.cannons.machineLeft = new Cannon(this.designParts.machineGunCannonLeft, Constants.BULLET_TYPE.cannonBall);
         this.cannons.machineRight = new Cannon(this.designParts.machineGunCannonRight, Constants.BULLET_TYPE.cannonBall);

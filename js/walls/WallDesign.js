@@ -25,7 +25,9 @@ class WallDesign extends StarBlastObject {
      * @param {number} rY
      */
     constructor(x, y, z, rY, level) {
-        super(x, y, z, rY, level);
+        super(x, y, z);
+
+        this.level = level;
 
         this.initialDesign(rY, level);
         this.prepareShadowingRecieve();
@@ -35,7 +37,7 @@ class WallDesign extends StarBlastObject {
      * Adicionar os componentes ao objecto principal
      */
      initialDesign(rY) {
-        this.designParts.body = this.addBody(0, 0, 0, rY, level);
+        this.designParts.body = this.addBody(0, 0, 0, rY, this.level);
     }
 
     /**
@@ -43,6 +45,7 @@ class WallDesign extends StarBlastObject {
      * @returns {{THREE.Mesh, array}}
      */
      addBody(x, y, z, rY, level) {
+        
         let wallColor;
         const WIDTH = (rY == 0) ? Constants.WALL_WIDTH : Constants.WALL_THICKNESS;
         const THICKNESS = (rY == 0) ? Constants.WALL_THICKNESS : Constants.WALL_WIDTH;
@@ -55,8 +58,10 @@ class WallDesign extends StarBlastObject {
             wallColor = Constants.COLORS.walls.scenary2;
         } else if ( level >= 9 && level <= 17){
             wallColor = Constants.COLORS.walls.scenary2;
-        } else {
+        } else if ( level == 18 ){
             wallColor = Constants.COLORS.walls.scenary3;
+        } else {
+            wallColor = Constants.COLORS.walls.default;
         }
 
     

@@ -55,13 +55,13 @@ class Scenary {
         this.setAmbientalLight();
         this.setSpotlights();
     }
+
     static setLevel(nivel) {
         this.l = nivel;
     }
-    static getLevel(nivel) {
-        
-        this.setLevel(nivel);
 
+    static getLevel(nivel) {
+        this.setLevel(nivel);
     }
 
     /**
@@ -87,10 +87,10 @@ class Scenary {
      */
     static initializeWalls(level) {
         console.log(this.l);
-        this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2, level);
-        this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2, level);
-        this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2, level);
-        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2, level); 
+        this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
+        this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
+        this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
+        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2); 
     }
 
     /**
@@ -267,6 +267,31 @@ class Scenary {
             -Constants.WALL_WIDTH / 2,
             Math.PI / 4
         );
+    }
+
+    static changeWallsColor(level) {
+
+        let wallColor = null;
+
+        if (level > 0 && level < 4){
+            wallColor = Constants.COLORS.walls.default;
+        } else if ( level >= 4 && level <= 8){
+            wallColor = Constants.COLORS.walls.scenary2;
+        } else if ( level >= 9 && level <= 17){
+            wallColor = Constants.COLORS.walls.scenary2;
+        } else if ( level == 18 ){
+            wallColor = Constants.COLORS.walls.scenary3;
+        } else {
+            wallColor = Constants.COLORS.walls.default;
+        }
+
+        console.log(wallColor);
+
+        for (let [key, wall] of Object.entries(Scenary.walls)) {
+            for (let [key, wallPart] of Object.entries(wall.designParts)) {
+                wallPart.mesh.material.color.set(wallColor);
+            }
+        }
     }
 }
 

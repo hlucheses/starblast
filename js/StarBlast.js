@@ -73,7 +73,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 18;
+        this.LEVEL = 1;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -153,7 +153,7 @@ class StarBlast {
             this.RENDERER.setSize(window.innerWidth, window.innerHeight);
         });
 
-        Scenary.getLevel(this.LEVEL);
+        Scenary.changeWallsColor(this.LEVEL);
         this.createScene();
         this.render();
         this.SCENE.add(this.ambientalLight);
@@ -366,6 +366,7 @@ class StarBlast {
             if (this.ENEMIES.length == 0) {
                 this.LEVEL++;
                 this.addEnemiesToScene();
+                Scenary.changeWallsColor(this.LEVEL);
                 this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
 
                 if (this.PLAYER_SPACESHIP.lives == this.PLAYER_STARTING_LIVES) {

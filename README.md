@@ -3,7 +3,6 @@
 ### TODO:
 + Cenários para cada nível
     - (Andreia a fazer melhorias)
-    - Ativar mudança
 + Novos Holofotes
 + Fogo a sair dos propulsores
     - Luzes de travagem
