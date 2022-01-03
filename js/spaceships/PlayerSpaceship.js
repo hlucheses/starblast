@@ -48,7 +48,7 @@ class PlayerSpaceship extends Spaceship {
 
         // Massa da nave
         this.mass = Constants.MASS.player;
-        this.lives = 5;
+        this.lives = 7;
         
         this.prepareShadowing();
     }
