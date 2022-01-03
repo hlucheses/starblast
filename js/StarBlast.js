@@ -73,7 +73,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 1;
+        this.LEVEL = 3;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -152,8 +152,6 @@ class StarBlast {
 
             this.RENDERER.setSize(window.innerWidth, window.innerHeight);
         });
-
-        Scenary.getLevel(this.LEVEL);
         this.createScene();
         this.render();
         this.SCENE.add(this.ambientalLight);
@@ -365,6 +363,7 @@ class StarBlast {
             && this.GAME_OVER == false) {
             if (this.ENEMIES.length == 0) {
                 this.LEVEL++;
+                this.updateScenary();
                 this.addEnemiesToScene();
                 this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
 
@@ -377,6 +376,25 @@ class StarBlast {
         }
     }
 
+    static updateScenary(){
+        for (let [key, wall] of Object.entries(Scenary.walls)) {
+            for (let [key, wallPart] of Object.entries(wall.designParts)) {
+                for (let i = 0; i < wallPart.materialArray.length;i++) {
+                    if(this.LEVEL == 4 ) {
+                        wallPart.materialArray[i].color.set(Constants.COLORS.walls.scenary2);
+                    } else if ( this.LEVEL == 9 ){
+                        wallPart.materialArray[i].color.set(Constants.COLORS.walls.scenary3);
+                    } else if ( this.LEVEL == 18 ) {
+                        wallPart.materialArray[i].color.set(Constants.COLORS.walls.boss);
+                    } else {
+                        wallPart.materialArray[i].color.set(Constants.COLORS.walls.default);
+                    }
+                    
+                }
+                
+            }
+        }
+    }
     /**
      * 
      */
