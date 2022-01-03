@@ -48,22 +48,13 @@ class Scenary {
     /**
      * Constutor estático, declarado abaixo da classe
      */
-    static staticConstructor(level) {
+    static staticConstructor() {
         this.initializePlanes();
         this.setPlanes();
-        this.initializeWalls(level);
+        this.initializeWalls();
         this.setAmbientalLight();
         this.setSpotlights();
     }
-
-    static setLevel(nivel) {
-        this.l = nivel;
-    }
-
-    static getLevel(nivel) {
-        this.setLevel(nivel);
-    }
-
     /**
      * Inicializa 6 planos (formar uma caixa)
      */
@@ -85,8 +76,7 @@ class Scenary {
     /**
      * Coloca as paredes internas
      */
-    static initializeWalls(level) {
-        console.log(this.l);
+    static initializeWalls() {
         this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
         this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
         this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
