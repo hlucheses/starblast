@@ -35,10 +35,10 @@
             <button id="teacherMode" class="newGame">
                 TEACHER MODE
             </button>
-            <button class="newGame">
+            <button id="scoreboard" class="newGame">
                 SCOREBOARD
             </button>
-            <button class="newGame">
+            <button id="help" class="newGame">
                 HELP
             </button>
             <button id="exit" style="display: none;">
@@ -93,6 +93,7 @@
 <script src="js/spaceships/design/NeilAII.js"></script>
 <script src="js/spaceships/design/Buzz.js"></script>
 <script src="js/spaceships/design/AlanB.js"></script>
+<script src="js/spaceships/design/MichaelC.js"></script>
 
 <!-- Classes relativas às naves (instanciáveis) -->
 <script src="js/spaceships/parts/Cannon.js"></script>
@@ -116,9 +117,15 @@
     const topItems = document.getElementById('topItems');
     const exitBtn = document.getElementById('exit');
 
+    document.getElementById('help').onclick = function () {
+        alert("Ver instruções.txt");
+    }
+
+    document.getElementById('scoreboard').onclick = function () {
+        alert("Em desenvolvimento");
+    }
+
     document.getElementById('playButton').onclick = function () {
-
-
 
         startDiv.setAttribute('style', 'display: none');
         topItems.setAttribute('style', topItemsStyle);
