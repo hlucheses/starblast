@@ -5,8 +5,14 @@ class MichaelC extends StarBlastObject {
         this.designParts = {};
         this.design = new THREE.Object3D();
         this.defaultCannonColor = 0x111f22;
+
         this.mass = 100;
         this.init();
+
+        const SCALE_CONSTANT = 2;
+        this.design.scale.x = SCALE_CONSTANT;
+        this.design.scale.y = SCALE_CONSTANT;
+        this.design.scale.z = SCALE_CONSTANT;
     }
 
     /**
@@ -22,31 +28,55 @@ class MichaelC extends StarBlastObject {
 
         this.designParts.leftCannonPipe = this.addCannonPipe(-3.890, -.496, -.673);
         this.designParts.rightCannonPipe = this.addCannonPipe(3.890, -.496, -.673);
-        this.designParts.leftBigCannon = this.addBigCannon(-2.889, 1.328, -2.514);
+
+        this.designParts.leftBigCannon = this.addBigCannon(2.889, 1.328, -2.514);
         this.designParts.rightBigCannon = this.addBigCannon(2.889, 1.328, -2.514);
 
         this.cannons.right = new Cannon(this.designParts.rightCannonPipe, Constants.BULLET_TYPE.missile);
         this.cannons.left = new Cannon(this.designParts.leftCannonPipe, Constants.BULLET_TYPE.missile);
-        //this.cannons.bigLeft = new Cannon(this.designParts.leftBigCannon, Constants.BULLET_TYPE.missile);
-        //this.cannons.bigRight = new Cannon(this.designParts.rightBigCannon, Constants.BULLET_TYPE.missile);
 
-        this.cannons.leftCannonWing1 = this.addCannonWing();
-        this.cannons.rightCannonWing1 = this.addCannonWing();
-        this.cannons.topCannonWing1 = this.addCannonWing();
-        this.cannons.bottomCannonWing1 = this.addCannonWing();
-        this.cannons.leftCannonWing2 = this.addCannonWing();
-        this.cannons.rightCannonWing2 = this.addCannonWing();
-        this.cannons.topCannonWing2 = this.addCannonWing();
-        this.cannons.bottomCannonWing2 = this.addCannonWing();
+        this.cannons.bigLeft = new Cannon(this.designParts.leftBigCannon, Constants.BULLET_TYPE.missile);
+        this.cannons.bigRight = new Cannon(this.designParts.rightBigCannon, Constants.BULLET_TYPE.missile);
+
+        this.designParts.leftCannonWing1 = this.addCannonWing(-2.378, 1.451, -3.031, 0, Math.PI / 4.5, Math.PI / 2);
+        this.designParts.rightCannonWing1 = this.addCannonWing(-3.401, 1.451, -3.031, 0, - Math.PI / 4.5, Math.PI / 2);
+        this.designParts.topCannonWing1 = this.addCannonWing(-2.903, 1.897, -3.031, Math.PI / 4.5, 0, 0);
+        this.designParts.bottomCannonWing1 = this.addCannonWing(-2.890, 0.809, -3.031, Math.PI / 4.5, 0, Math.PI);
+        
+        this.designParts.leftCannonWing2 = this.addCannonWing(2.378, 1.451, -3.031, 0, Math.PI / 4.5, Math.PI / 2);
+        this.designParts.rightCannonWing2 = this.addCannonWing(3.401, 1.451, -3.031, 0, - Math.PI / 4.5, Math.PI / 2);
+        this.designParts.topCannonWing2 = this.addCannonWing(2.903, 1.897, -3.031, Math.PI / 4.5, 0, 0);
+        this.designParts.bottomCannonWing2 = this.addCannonWing(2.890, 0.809, -3.031, Math.PI / 4.5, 0, Math.PI);
 
         this.designParts.leftCannonHolder = this.addSideCannonHolder(-3.239, -.224, -.477, -1);
         this.designParts.rightCannonHolder = this.addSideCannonHolder(3.239, -.224, -.477, 1);
+
+        this.designParts.leftBigCannonHolder = this.addBigCanonHolder(2.264, .738, -1.836, -1);
+        this.designParts.rightBigCannonHolder = this.addBigCanonHolder(-2.264, .738, -1.836, 1);
 
         this.designParts.spike1 = this.addSpike(-1.694, 0.838, 2.467, 173 * (Math.PI / 180), -50 * (Math.PI / 180), 69 * (Math.PI / 180));
         this.designParts.spike2 = this.addSpike(-1, 0.875, 3.123, 172 * (Math.PI / 180), -66 * (Math.PI / 180), 67 * (Math.PI / 180));
         this.designParts.spike3 = this.addSpike(0, 0.895, 3.260, 108 * (Math.PI / 180), 90 * (Math.PI / 180), 0 * (Math.PI / 180));
         this.designParts.spike4 = this.addSpike(1, 0.875, 3.123, 172 * (Math.PI / 180), 66 * (Math.PI / 180), -67 * (Math.PI / 180));
         this.designParts.spike5 = this.addSpike(1.694, 0.838, 2.467, 173 * (Math.PI / 180), 50 * (Math.PI / 180), -69 * (Math.PI / 180));
+    
+        this.designParts.machineGunCannonTop = this.addMachineGunCannon(0, -2.292, .724);
+        this.designParts.machineGunCannonBottom = this.addMachineGunCannon(0, -3.194, .724);
+        this.designParts.machineGunCannonLeft = this.addMachineGunCannon(-2.774, .724, .46);
+        this.designParts.machineGunCannonRight = this.addMachineGunCannon(-2.774, .724, -.46);
+
+        this.cannons.machineLeft = new Cannon(this.designParts.machineGunCannonLeft, Constants.BULLET_TYPE.cannonBall);
+        this.cannons.machineRight = new Cannon(this.designParts.machineGunCannonRight, Constants.BULLET_TYPE.cannonBall);
+        this.cannons.machineTop = new Cannon(this.designParts.machineGunCannonTop, Constants.BULLET_TYPE.cannonBall);
+        this.cannons.machineBottom = new Cannon(this.designParts.machineGunCannonBottom, Constants.BULLET_TYPE.cannonBall);
+
+        this.designParts.topBody = this.addTopBody(0, 0.719, -0.153);
+        this.designParts.body = this.addBody(0, 0, 0);
+
+        this.designParts.machineGun = this.addMachineGun(0, -2.770, .599);
+
+        this.designParts.verticalStick = this.addVerticalStick(0, -1.980, -.477);
+        this.designParts.verticalStick = this.addHorizontalStick(0, -2.774, 0.045);
     }
 
     addTriangle(x, y, z) {
@@ -56,133 +86,6 @@ class MichaelC extends StarBlastObject {
 
         geometry.scale(.114, 1.698, .743);
         mesh.rotation.set(-34 * (Math.PI / 180), 0, 0);
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray };
-    }
-
-    /**
-     * Asa da nave
-     * Recebe posição relativa à nave (x, y, z)
-     * Recebe rotação em torno do eixo Y
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     * @param {number} rY
-     * @returns {{THREE.Mesh, array}} mesh
-     */
-    addWing(x, y, z, rY) {
-        const points = [];
-        points.push(new THREE.Vector2(0, 2.34));
-        points.push(new THREE.Vector2(3.82, -1.4));
-        points.push(new THREE.Vector2(.06, -1.74));
-        const geometry = new THREE.LatheGeometry(points, 20, 0, 2 * Math.PI);
-        const materialArray = this.newMaterialArray(0x1f0000);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        geometry.scale(.343, .997, .085);
-        mesh.rotation.set(rY * Math.PI / 2, 0, - Math.PI / (4 / 3));
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray };
-    }
-
-    addBigWindow(x, y, z) {
-        const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const materialArray = this.newMaterialArray(0xcd6666);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        geometry.scale(0.925, 0.273, 0.193);
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray };
-    }
-
-    addSmallWindow(x, y, z) {
-        const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const materialArray = this.newMaterialArray(0xcd6666);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        geometry.scale(.571, 0.272, .193);
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray };
-    }
-
-    /**
-     * Corpo da nave
-     * Recebe posição relativa à nave (x, y, z)
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     * @returns {{THREE.Mesh, array}} mesh
-     */
-    addRearBody(x, y, z) {
-        const geometry = new THREE.BoxGeometry(3.670, .534, 4.242);
-
-        const materialArray = this.newMaterialArray(0x1f0000);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray };
-    }
-
-    /**
-     * Corpo da nave
-     * Recebe posição relativa à nave (x, y, z)
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     * @returns {{THREE.Mesh, array}} mesh
-     */
-    addBody(x, y, z) {
-        const geometry = new THREE.SphereGeometry(1, 64, 32);
-        const materialArray = this.newMaterialArray(0x1f0000);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        geometry.scale(1.920, 1.176, 3.007);
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray };
-    }
-
-
-    addWingPipe(x, y, z) {
-        const points = [];
-        points.push(new THREE.Vector2(0.9, 1.74));
-        points.push(new THREE.Vector2(.44, -4.32));
-        points.push(new THREE.Vector2(0, -1.96));
-        const geometry = new THREE.LatheGeometry(points, 21, Math.PI / 120, 2 * Math.PI);
-        const materialArray = this.newMaterialArray(0x850000);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        geometry.scale(.987, .749, 1.021);
-        mesh.rotation.set(-Math.PI / 2, 0, Math.PI);
-        mesh.position.set(x, y, z);
-        this.design.add(mesh);
-        return { mesh, materialArray }
-    }
-
-    /**
-     * Propulsor
-     * Recebe posição relativa à nave (x, y, z)
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     * @returns {{THREE.Mesh, array}} mesh
-     */
-    addPropellant(x, y, z) {
-        const points = [];
-        points.push(new THREE.Vector2(.26, 3.46));
-        points.push(new THREE.Vector2(.82, -2.36));
-        points.push(new THREE.Vector2(.58, -4.96));
-        const geometry = new THREE.LatheGeometry(points);
-        const materialArray = this.newMaterialArray(0x666666);
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
-
-        geometry.scale(.687, 0.285, .696);
-        geometry.rotateX(-Math.PI / 2);
         mesh.position.set(x, y, z);
         this.design.add(mesh);
         return { mesh, materialArray };
@@ -256,11 +159,116 @@ class MichaelC extends StarBlastObject {
         return { mesh, materialArray };
     }
 
-    addCannonWing(x = 0, y = 0, z = 0) {
+    addCannonWing(x, y, z, rX, rY, rZ) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0xffffff);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 
+        geometry.scale(.114, 1, .426);
+        mesh.position.set(x, y, z);
+        mesh.rotation.set(rX, rY, rZ);
+        this.design.add(mesh);
+        return {mesh, materialArray};
+    }
+
+    addBigCanonHolder(x, y, z, rZ) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0xffffff);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.151, 1.245, .151);
+        mesh.position.set(x, y, z);
+        mesh.rotation.set(-Math.PI / 9, -Math.PI / 18, rZ * Math.PI / 4.5);
+        this.design.add(mesh);
+        return {mesh, materialArray};
     }
 
     addBigCannon(x, y, z) {
-        
+        const points = [];
+        points.push(new THREE.Vector2(.44, .5));
+        points.push(new THREE.Vector2(.44, -.9));
+        points.push(new THREE.Vector2(0, -.5));
+        const geometry = new THREE.LatheGeometry(points);
+        const materialArray = this.newMaterialArray(0x34ad00);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(1.071, 1.394, 1.071);
+        geometry.rotateX(-Math.PI / 2);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return { mesh, materialArray };
+    }
+
+    addTopBody(x, y, z) {
+        const geometry = new THREE.SphereGeometry(1, 64, 32);
+        const materialArray = this.newMaterialArray(0x000000);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(2.314, 1.398, 3.980);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return {mesh, materialArray};
+    }
+
+    addVerticalStick(x, y, z) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0x34ad00);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.151, 1.737, .151);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return {mesh, materialArray};
+    }
+
+    addHorizontalStick(x, y, z) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0x34ad00);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.151, 1.341, .151);
+        mesh.rotateX(Math.PI / 2);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return {mesh, materialArray};
+    }
+
+    addMachineGun(x, y, z) {
+        const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
+        const materialArray = this.newMaterialArray(0x34ad00);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.8, .335, .8);
+        mesh.rotateX(Math.PI / 2);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return {mesh, materialArray};
+    }
+
+    addMachineGunCannon(x, y, z) {
+        const points = [];
+        points.push(new THREE.Vector2(.44, -4.06));
+        points.push(new THREE.Vector2(.5, -.9));
+        points.push(new THREE.Vector2(0, -.5));
+        const geometry = new THREE.LatheGeometry(points);
+        const materialArray = this.newMaterialArray(0x000000);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(.4, .079, .4);
+        mesh.rotateX(-Math.PI / 2);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return {mesh, materialArray};
+    }
+
+    addBody(x, y, z) {
+        const geometry = new THREE.SphereGeometry(1, 64, 32);
+        const materialArray = this.newMaterialArray(0x34ad00);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+
+        geometry.scale(3.045, 1.315, 4.519);
+        mesh.position.set(x, y, z);
+        this.design.add(mesh);
+        return {mesh, materialArray};
     }
 }

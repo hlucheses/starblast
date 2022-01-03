@@ -73,7 +73,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 1;
+        this.LEVEL = 18;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -550,6 +550,8 @@ class StarBlast {
     }
 
     static pause() {
+        this.PAUSE_TIMESTAMP = Date.now();
+
         isPlay = false;
         const startDiv = document.getElementById('start');
         const topItems = document.getElementById('topItems');
@@ -562,5 +564,11 @@ class StarBlast {
         while(this.SCENE.children.length > 0){ 
             this.SCENE.remove(this.SCENE.children[0]); 
         }
+    }
+
+    static play() {
+        this.TIMESTAMP += (this.PAUSE_TIMESTAMP - this.TIMESTAMP);
+        isPlay = true;
+        animate();
     }
 }
