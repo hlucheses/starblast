@@ -138,12 +138,12 @@ class PlayerSpaceship extends Spaceship {
      * Dá um tiro usando um canhão
      * @returns {Bullet}
      */
-    shoot(y) {
+    shoot() {
         if (this.cannons.current == null) {
             return;
         }
 
-        this.lastBullet = this.cannons.current.shoot(Constants.PLAYER, y);
+        this.lastBullet = this.cannons.current.shoot(Constants.PLAYER);
 
         return this.lastBullet;
     }

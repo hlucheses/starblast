@@ -50,11 +50,11 @@ class StarBlast {
     // Cena
     static SCENE = new THREE.Scene();
     static RENDERER = new THREE.WebGLRenderer({ antialias: true });
-    static shadowing;
-    static ambientalLight;
+    static shadowing = Constants.MESH_TYPE.default;
+    static ambientalLight = Scenary.setAmbientalLight();
     // Elementos da cena
-    static PLAYER_SPACESHIP;
-    static PLAYER_STARTING_LIVES;
+    static PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
+    static PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
     static ENEMIES;
     static BULLETS;
     static DESINTEGRATING_PARTS;
@@ -66,6 +66,77 @@ class StarBlast {
     // Estado das teclas
     static keyStates = {};
 
+    static staticConstructor() {
+        this.RENDERER.setSize(window.innerWidth, window.innerHeight);
+        this.RENDERER.shadowMap.enabled = false;
+        this.RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        document.body.appendChild(this.RENDERER.domElement);
+
+        // Redimensionar o projecto ao redimensionar a janela
+        window.addEventListener("resize", () => {
+
+            if (started) {
+                // TODO: Ao redimensionar, o aspect ratio muda drasticamente. Resolver problema
+                if (window.innerHeight > 0) {
+                    Cameras.CURRENT.aspect = window.innerWidth / window.innerHeight;
+                    Cameras.CURRENT.updateProjectionMatrix();
+                }
+
+                this.RENDERER.setSize(window.innerWidth, window.innerHeight);
+            }
+        });
+
+        // Eventos ao pressionar a tecla
+        document.addEventListener('keydown', (event) => {
+            if (started) {
+                this.keyStates[event.code] = true;
+
+                if (this.GAME_OVER == false) {
+                    Cameras.changeCurrent(event.code);
+                }
+
+                if (Cameras.CURRENT == Cameras.BULLET) {
+                    Cameras.updateBulletCam(this.PLAYER_SPACESHIP.lastBullet);
+                }
+
+                this.PLAYER_SPACESHIP.checkCannon(event.code);
+
+                // TODO: arranjar um lugar melhor para este código
+                // Este código é igual ao que está em inimigo
+                if (event.code == "Space") {
+                    this.PLAYER_SPACESHIP.shootingPressed = true;
+                }
+
+                if (event.code == "Digit4") {
+                    this.toggleWireframe();
+                }
+
+                this.checkLight(event.code);
+            }
+        });
+
+        document.addEventListener('keyup', (event) => {
+            if (started) {
+                this.keyStates[event.code] = false;
+
+                if (event.code == "Space" && this.PLAYER_SPACESHIP.shootingPressed) {
+                    var bullet = this.PLAYER_SPACESHIP.shoot();
+
+                    this.POINTS--;
+                    if (bullet != null) {
+                        this.BULLETS.push(bullet);
+                        this.SCENE.add(bullet.design);
+
+                        if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+                            this.SCENE.add(bullet.boxHelper);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     /**
      * Inicia o fluxo do programa
      */
@@ -73,92 +144,17 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 3;
+        this.LEVEL = 1;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
         this.DESINTEGRATING_PARTS = [];
-        this.PLAYER_SPACESHIP = new PlayerSpaceship(0, 0, 160);
-        this.PLAYER_STARTING_LIVES = this.PLAYER_SPACESHIP.lives;
-        this.shadowing = Constants.MESH_TYPE.default;
-        this.ambientalLight = Scenary.setAmbientalLight();
+        this.PLAYER_SPACESHIP.design.position.set(0, 0, 160);
+        this.PLAYER_SPACESHIP.lives = this.PLAYER_STARTING_LIVES;
 
-        this.RENDERER.setSize(window.innerWidth, window.innerHeight);
-        this.RENDERER.shadowMap.enabled = false;
-        this.RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
-
-        document.body.appendChild(this.RENDERER.domElement);
-
-        // Eventos ao pressionar a tecla
-        document.addEventListener('keydown', (event) => {
-            this.keyStates[event.code] = true;
-
-            if (this.GAME_OVER == false) {
-                Cameras.changeCurrent(event.code);
-            }
-            
-            if (Cameras.CURRENT == Cameras.BULLET) {
-                Cameras.updateBulletCam(this.PLAYER_SPACESHIP.lastBullet);
-            }
-
-            this.PLAYER_SPACESHIP.checkCannon(event.code);
-
-            // TODO: arranjar um lugar melhor para este código
-            // Este código é igual ao que está em inimigo
-            if (event.code == "Space") {
-
-                this.PLAYER_SPACESHIP.shootingPressed = true;
-                this.PLAYER_SPACESHIP.shootingHeight += this.PLAYER_SPACESHIP.shootingStep;
-            }
-
-            if (event.code == "Digit4") {
-                this.toggleWireframe();
-            }
-
-            this.checkLight(event.code);
-
-            if (event.code == "Escape") {
-                this.pause();
-            }
-        });
-
-        document.addEventListener('keyup', (event) => {
-            this.keyStates[event.code] = false;
-
-            if (event.code == "Space" && this.PLAYER_SPACESHIP.shootingPressed) {
-
-                this.PLAYER_SPACESHIP.shootingPressed = false;
-
-                var bullet = this.PLAYER_SPACESHIP.shoot(this.PLAYER_SPACESHIP.shootingHeight);
-
-
-                this.PLAYER_SPACESHIP.shootingHeight = 0;
-
-                if (bullet != null) {
-                    this.BULLETS.push(bullet);
-                    this.SCENE.add(bullet.design);
-
-                    if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
-                        this.SCENE.add(bullet.boxHelper);
-                    }
-                }
-            }
-        });
-
-        // Redimensionar o projecto ao redimensionar a janela
-        window.addEventListener("resize", () => {
-
-            // TODO: Ao redimensionar, o aspect ratio muda drasticamente. Resolver problema
-            if (window.innerHeight > 0) {
-                Cameras.CURRENT.aspect = window.innerWidth / window.innerHeight;
-                Cameras.CURRENT.updateProjectionMatrix();
-            }
-
-            this.RENDERER.setSize(window.innerWidth, window.innerHeight);
-        });
+        Scenary.changeWallsColor(this.LEVEL);
         this.createScene();
         this.render();
-        this.SCENE.add(this.ambientalLight);
     }
 
     /**
@@ -180,6 +176,7 @@ class StarBlast {
         this.SCENE.add(Scenary.getPlanets());
 
         this.addSpotlights();
+        this.SCENE.add(this.ambientalLight);
     }
 
     /**
@@ -361,8 +358,7 @@ class StarBlast {
         }
 
         /* Verifica nível */
-        if (Constants.GAME_MODE == Constants.RELEASE
-            && this.GAME_OVER == false) {
+        if (Constants.GAME_MODE == Constants.RELEASE && this.GAME_OVER == false) {
             if (this.ENEMIES.length == 0) {
                 this.LEVEL++;
                 this.updateScenary();
@@ -379,22 +375,22 @@ class StarBlast {
         }
     }
 
-    static updateScenary(){
+    static updateScenary() {
         for (let [key, wall] of Object.entries(Scenary.walls)) {
             for (let [key, wallPart] of Object.entries(wall.designParts)) {
-                for (let i = 0; i < wallPart.materialArray.length;i++) {
-                    if(this.LEVEL == 4 ) {
+                for (let i = 0; i < wallPart.materialArray.length; i++) {
+                    if (this.LEVEL == 4) {
                         wallPart.materialArray[i].color.set(Constants.COLORS.walls.scenary2);
-                    } else if ( this.LEVEL == 9 ){
+                    } else if (this.LEVEL == 9) {
                         wallPart.materialArray[i].color.set(Constants.COLORS.walls.scenary3);
-                    } else if ( this.LEVEL == 18 ) {
+                    } else if (this.LEVEL == 18) {
                         wallPart.materialArray[i].color.set(Constants.COLORS.walls.boss);
                     } else {
                         wallPart.materialArray[i].color.set(Constants.COLORS.walls.default);
                     }
-                    
+
                 }
-                
+
             }
         }
     }
@@ -425,7 +421,6 @@ class StarBlast {
                 this.ambientalLight.intensity ^= 1;
                 break;
             case "KeyW":
-                console.log("entra aqui");
                 // Ativar cálculo de sombreamento
                 console.log(this)
                 if (this.shadowing == Constants.MESH_TYPE.basic) {
@@ -570,7 +565,7 @@ class StarBlast {
             hearts.innerHTML = saida;
             level.innerHTML = "LEVEL " + this.LEVEL;
         } else {
-            topItems.innerHTML = "<span color='red'>GAME OVER</span>";
+            topItems.innerHTML = "<span color='red'>LEVEL " + this.LEVEL + "</span>";
         }
     }
 
@@ -586,6 +581,8 @@ class StarBlast {
 
     static finish() {
         const topItemsContent = '<span id="level"></span><span>POINTS: <span id="noPoints"></span></span><span>REMAINING ENEMIES: <span id="noEnemies"></span></span><span>REMAINING TIME: <span id="timeAvailable"></span></span><span><span id="hearts"></span></span>'
+
+        this.GAME_OVER = false;
 
         const topItems = document.getElementById("topItems");
         topItems.innerHTML = topItemsContent;
@@ -605,8 +602,14 @@ class StarBlast {
     }
 
     static play() {
+        console.log(Date.now() + " " + this.TIMESTAMP + " " + this.PAUSE_TIMESTAMP);
         this.TIMESTAMP += (Date.now() - this.PAUSE_TIMESTAMP);
+        console.log(Date.now() + " " + this.TIMESTAMP + " " + this.PAUSE_TIMESTAMP);
+        console.log("esteve pausado por " + ((Date.now() - this.PAUSE_TIMESTAMP) / 1000) + " segundos");
         isPlay = true;
         animate();
     }
 }
+
+
+StarBlast.staticConstructor();

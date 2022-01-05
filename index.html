@@ -179,11 +179,8 @@
     let escapeWasDown = false;
     document.addEventListener('keydown', (event) => {
         if (started == true) {
-
             if (event.code == "Escape") {
-                if (!isPlay) {
-                    escapeWasDown = true;
-                }
+                escapeWasDown = true;
             }
         }
     });
@@ -196,6 +193,8 @@
                     topItems.setAttribute('style', topItemsStyle);
                     escapeWasDown = false;
                     StarBlast.play();
+                } else {
+                    StarBlast.pause();
                 }
             }
         }
