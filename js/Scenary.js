@@ -27,14 +27,20 @@ class Scenary {
         top: null,
         bottom: null,
         back: null,
-        front: null
+        front: null,
+        
     }
 
+    static quadros = {
+        rightWall: null,
+        leftWall: null
+    }
     static walls = {
         left: null,
         right: null,
         top: null,
-        bottom: null
+        bottom: null,
+        
     }
 
     static spotlights = {
@@ -52,6 +58,7 @@ class Scenary {
         this.initializePlanes();
         this.setPlanes();
         this.initializeWalls();
+        this.initalizeFrames();
         this.setAmbientalLight();
         this.setSpotlights();
     }
@@ -71,6 +78,28 @@ class Scenary {
         this.planes.bottom = new THREE.Mesh(geometry, material);
         this.planes.back = new THREE.Mesh(geometry, material);
         this.planes.front = new THREE.Mesh(geometry, material);
+
+
+    }
+
+    static initalizeFrames(){
+        const grito = new THREE.TextureLoader().load( "texturas/grito.jpg" );
+        const gritoMaterial =  new THREE.MeshBasicMaterial( { map: grito } );
+
+        this.quadros.rightWall = new THREE.Mesh(new THREE.BoxGeometry(60, 60, 4), gritoMaterial);
+
+        this.quadros.rightWall.position.set(Constants.WALL_WIDTH / 2, 0, 0);
+        this.quadros.rightWall.rotation.y = Math.PI / 2;
+        
+        const monalisa = new THREE.TextureLoader().load( "texturas/monalisa.jpg" );
+        const monalisaMaterial =  new THREE.MeshBasicMaterial( { map: monalisa } );
+
+        this.quadros.leftWall = new THREE.Mesh(new THREE.BoxGeometry(60,60,4), monalisaMaterial);
+        this.quadros.leftWall.position.set(-Constants.WALL_WIDTH / 2, 0, 0);
+        this.quadros.leftWall.rotation.y = Math.PI / 2;
+
+        
+
     }
 
     /**
@@ -81,6 +110,11 @@ class Scenary {
         this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
         this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
         this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2); 
+        
+        
+       
+
+
     }
 
     /**

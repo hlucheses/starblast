@@ -73,7 +73,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 3;
+        this.LEVEL = 1;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -164,6 +164,7 @@ class StarBlast {
         
         this.addPlanesToScene();
         this.addWallsToScene();
+        this.addQuadros();
         this.SCENE.add(this.PLAYER_SPACESHIP.getDesign());
 
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
@@ -223,6 +224,13 @@ class StarBlast {
             if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                 this.SCENE.add(wall.boxHelper);
             }
+        }
+    }
+
+    /**Adicionar quadros a cena */
+    static addQuadros(){
+        for(let [key, quadro] of Object.entries(Scenary.quadros)){
+            this.SCENE.add(quadro);
         }
     }
     /**
