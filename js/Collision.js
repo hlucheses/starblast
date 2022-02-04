@@ -157,6 +157,7 @@ class Collision {
                 }
 
                 if (collided) {
+                    
                     this.treatCollision(bulletsArray[i], bulletsArray[j]);
 
                     bulletsArray[i].collided = true;
