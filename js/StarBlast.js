@@ -225,6 +225,12 @@ class StarBlast {
                 this.SCENE.add(wall.boxHelper);
             }
         }
+
+        this.SCENE.add(Scenary.floor.design);
+
+        if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
+            this.SCENE.add(Scenary.floor.boxHelper);
+        }
     }
     /**
      * Mostra a cena em wireframes
@@ -496,8 +502,8 @@ class StarBlast {
             }
         }
 
-        for (var i = 0; i < this.DESINTEGRATING_PARTS.length; i++) {
-            this.DESINTEGRATING_PARTS[i].mesh.material = this.DESINTEGRATING_PARTS[i].materialArray[type];
+        for (let [key, floorPart] of Object.entries(Scenary.floor.designParts)) {
+            floorPart.mesh.material = floorPart.materialArray[type];
         }
 
         Constants.MESH_TYPE.default = type;

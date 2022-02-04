@@ -43,6 +43,8 @@ class Scenary {
         bottomLeft: null,
         bottomRight: null
     }
+    
+    static floor = null;
 
     static l = null;
     /**
@@ -81,6 +83,7 @@ class Scenary {
         this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
         this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
         this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2); 
+        this.floor = new Floor(0, -Constants.WALL_HEIGHT / 1.2, 0);
     }
 
     /**
