@@ -237,9 +237,12 @@ class StarBlast {
 
     /**Adicionar quadros a cena */
     static addQuadros() {
+        
         for (let i = 0; i < Scenary.quadros.leftMaterialArray.length; i++) {
-            Scenary.quadros.leftMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][0];
-            Scenary.quadros.rightMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][1];
+            if (this.LEVEL < 19) {
+                Scenary.quadros.leftMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][0];
+                Scenary.quadros.rightMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][1];
+            }
         }
 
         for (let [key, quadro] of Object.entries(Scenary.quadros)) {
@@ -381,14 +384,21 @@ class StarBlast {
         if (Constants.GAME_MODE == Constants.RELEASE && this.GAME_OVER == false) {
             if (this.ENEMIES.length == 0) {
                 this.LEVEL++;
+
+                if (this.LEVEL > 18) {
+                    alert("Terminou o jogo! Está de parabéns!");
+                    exit();
+                }
+
                 this.updateScenary();
                 this.addEnemiesToScene();
                 Scenary.changeWallsColor(this.LEVEL);
 
-
                 for (let i = 0; i < Scenary.quadros.leftMaterialArray.length; i++) {
-                    Scenary.quadros.leftMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][0];
-                    Scenary.quadros.rightMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][1];
+                    if (this.LEVEL < 19) {
+                        Scenary.quadros.leftMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][0];
+                        Scenary.quadros.rightMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][1];
+                    }
                 }
 
                 this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
