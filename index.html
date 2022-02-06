@@ -133,7 +133,11 @@
         alert("Em desenvolvimento");
     }
 
-    document.getElementById('playButton').onclick = function () {
+    document.getElementById('playButton').onclick = function() {
+        playGame();
+    };
+    
+    function playGame() {
 
         startDiv.setAttribute('style', 'display: none');
         topItems.setAttribute('style', topItemsStyle);
@@ -183,7 +187,7 @@
     let escapeWasDown = false;
     document.addEventListener('keydown', (event) => {
         if (started == true) {
-            if (event.code == "Escape") {
+            if (event.code == "Escape" || event.code == "KeyS") {
                 escapeWasDown = true;
             }
         }
@@ -191,7 +195,7 @@
 
     document.addEventListener('keyup', (event) => {
         if (started == true) {
-            if (event.code == "Escape" && escapeWasDown) {
+            if ((event.code == "Escape" || event.code == "KeyS") && escapeWasDown) {
                 if (!isPlay) {
                     startDiv.setAttribute('style', 'display: none');
                     topItems.setAttribute('style', topItemsStyle);
@@ -201,6 +205,13 @@
                     StarBlast.pause();
                 }
             }
+        }
+    });
+
+    document.addEventListener('keypress', (event) => {
+        if (event.code == "KeyR" && started == true && isPlay == false) {
+            exit();
+            playGame();
         }
     });
 

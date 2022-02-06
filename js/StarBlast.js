@@ -144,7 +144,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 18;
+        this.LEVEL = 1;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -456,7 +456,7 @@ class StarBlast {
             case "KeyQ":
                 this.ambientalLight.intensity ^= 1;
                 break;
-            case "KeyW":
+            case "KeyM":
                 // Ativar cálculo de sombreamento
                 if (this.shadowing == Constants.MESH_TYPE.basic) {
                     this.changeShadowing(Constants.MESH_TYPE.lambert);
@@ -535,6 +535,10 @@ class StarBlast {
             }
         }
 
+        for (let [key, floorPart] of Object.entries(Scenary.floor.designParts)) {
+            floorPart.mesh.material = floorPart.materialArray[type];
+        }
+
         for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             for (let [key, spotlightPart] of Object.entries(spotlight.designParts)) {
                 spotlightPart.mesh.material = spotlightPart.materialArray[type];
@@ -558,10 +562,6 @@ class StarBlast {
                 enemyPart.mesh.material = enemyPart.materialArray[type];
             }
         }
-
-        /*for (let [key, floorPart] of Object.entries(Scenary.floor.designParts)) {
-            floorPart.mesh.material = floorPart.materialArray[type];
-        }*/
 
         Scenary.quadros.leftWall.material = Scenary.quadros.leftMaterialArray[type];
         Scenary.quadros.rightWall.material = Scenary.quadros.rightMaterialArray[type];
