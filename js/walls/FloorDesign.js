@@ -16,6 +16,9 @@
  */
 
 class FloorDesign extends StarBlastObject {
+
+    
+
     /**
      * Define posição do chão
      * Inicializa o design
@@ -26,6 +29,10 @@ class FloorDesign extends StarBlastObject {
     constructor(x, y, z) {
         super(x, y, z);
 
+        this.floors = {
+            basic: new THREE.TextureLoader().load("img/textures/floor2.jpg"),
+            moon: new THREE.TextureLoader().load("img/textures/moon.jpg")
+        };
         this.initialDesign();
         this.prepareShadowingRecieve();
     }
@@ -42,25 +49,26 @@ class FloorDesign extends StarBlastObject {
      * @returns {{THREE.Mesh, array}}
      */
     addBody(x, y, z) {
+
         const WIDTH = Constants.WALL_WIDTH;
 
         const geometry = new THREE.BoxGeometry(WIDTH, Constants.WALL_THICKNESS, WIDTH);
 
         const materialArray = this.newMaterialArray();
 
-        const texture = new THREE.TextureLoader().load("http://localhost/starblast/img/textures/floor.jpg");
+        const texture = this.floors.moon;
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(4, 4);
+        texture.repeat.set(2, 2);
 
         for (let i = 0; i < materialArray.length; i++) {
-            //materialArray[i].side = THREE.DoubleSide;
-            materialArray[i].transparent = true;
-            materialArray[i].opacity = 0.36;
+            //materialArray[i].transparent = true;
+            //materialArray[i].opacity = 0.36;
+            materialArray[i].map = texture;
             materialArray[i].bumpMap = texture;
-            materialArray[i].bumpScale = 1;
+            materialArray[i].bumpScale = 5;
         }
-        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
+        const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.phong]);
 
         mesh.position.set(x, y, z);
         this.design.add(mesh);

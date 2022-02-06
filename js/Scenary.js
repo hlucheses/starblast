@@ -51,6 +51,7 @@ class Scenary {
     }
     
     static floor = null;
+    static paintings = new Array();
 
     static l = null;
     /**
@@ -69,10 +70,29 @@ class Scenary {
      */
     static initializePlanes() {
         var geometry = new THREE.PlaneGeometry(Constants.SPACE.width, Constants.SPACE.height);
+
+        const texture = new THREE.TextureLoader().load("http://localhost/starblast/img/textures/world_wall.jpg");
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(3, 3);
+
         var material = new THREE.MeshBasicMaterial({
-            side: THREE.DoubleSide,
-            color: Constants.COLORS.world
+            side: THREE.DoubleSide
+            //color: Constants.COLORS.world
         });
+
+        material.map = texture;
+
+        
+
+        /*for (let i = 0; i < materialArray.length; i++) {
+            //materialArray[i].transparent = true;
+            //materialArray[i].opacity = 0.36;
+            materialArray[i].map = texture;
+            materialArray[i].bumpMap = texture;
+            materialArray[i].bumpScale = 5;
+        }
+        const me*/
 
         this.planes.left = new THREE.Mesh(geometry, material);
         this.planes.right = new THREE.Mesh(geometry, material);
@@ -85,23 +105,29 @@ class Scenary {
     }
 
     static initalizeFrames(){
-        const grito = new THREE.TextureLoader().load( "texturas/grito.jpg" );
-        const gritoMaterial =  new THREE.MeshBasicMaterial( { map: grito } );
 
-        this.quadros.rightWall = new THREE.Mesh(new THREE.BoxGeometry(60, 60, 4), gritoMaterial);
+        for (let i = 0; i < 18; i++) {
+            this.paintings.push([
+                new THREE.TextureLoader().load( "img/textures/paintings/" + (i+1) + ".1.jpg" ),
+                new THREE.TextureLoader().load( "img/textures/paintings/" + (i+1) + ".2.jpg" )
+            ]);
+        }
 
-        this.quadros.rightWall.position.set(Constants.WALL_WIDTH / 2, 0, 0);
+        this.paintings.push([])
+        const painting1 = new THREE.TextureLoader().load( "img/textures/paintings/1.1.jpg" );
+        const painting1Material =  new THREE.MeshBasicMaterial( { map: painting1 } );
+
+        this.quadros.rightWall = new THREE.Mesh(new THREE.BoxGeometry(60, 60, 4), painting1Material);
+
+        this.quadros.rightWall.position.set(Constants.WALL_WIDTH / 2, 0, -Constants.WALL_WIDTH / 6);
         this.quadros.rightWall.rotation.y = Math.PI / 2;
         
-        const monalisa = new THREE.TextureLoader().load( "texturas/monalisa.jpg" );
-        const monalisaMaterial =  new THREE.MeshBasicMaterial( { map: monalisa } );
+        const painting2 = new THREE.TextureLoader().load( "img/textures/paintings/1.2.jpg" );
+        const painting2Material =  new THREE.MeshBasicMaterial( { map: painting2 } );
 
-        this.quadros.leftWall = new THREE.Mesh(new THREE.BoxGeometry(60,60,4), monalisaMaterial);
-        this.quadros.leftWall.position.set(-Constants.WALL_WIDTH / 2, 0, 0);
+        this.quadros.leftWall = new THREE.Mesh(new THREE.BoxGeometry(60,60,4), painting2Material);
+        this.quadros.leftWall.position.set(-Constants.WALL_WIDTH / 2, 0, -Constants.WALL_WIDTH / 6);
         this.quadros.leftWall.rotation.y = Math.PI / 2;
-
-        
-
     }
 
     /**

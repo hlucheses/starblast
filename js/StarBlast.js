@@ -173,8 +173,8 @@ class StarBlast {
 
         this.addEnemiesToScene();
 
-        this.SCENE.add(Scenary.getStars());
-        this.SCENE.add(Scenary.getPlanets());
+        //this.SCENE.add(Scenary.getStars());
+        //this.SCENE.add(Scenary.getPlanets());
 
         this.addSpotlights();
         this.SCENE.add(this.ambientalLight);
@@ -229,14 +229,20 @@ class StarBlast {
 
         this.SCENE.add(Scenary.floor.design);
 
+        Scenary.floor.designParts.body.mesh.material.map = Scenary.floor.floors.moon;
+        Scenary.floor.designParts.body.mesh.material.bumpMap = Scenary.floor.floors.moon;
+
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
             this.SCENE.add(Scenary.floor.boxHelper);
         }
     }
 
     /**Adicionar quadros a cena */
-    static addQuadros(){
-        for(let [key, quadro] of Object.entries(Scenary.quadros)){
+    static addQuadros() {
+        Scenary.quadros.leftWall.material.map = Scenary.paintings[this.LEVEL - 1][0];
+        Scenary.quadros.rightWall.material.map = Scenary.paintings[this.LEVEL - 1][1];
+
+        for (let [key, quadro] of Object.entries(Scenary.quadros)) {
             this.SCENE.add(quadro);
         }
     }
@@ -378,8 +384,26 @@ class StarBlast {
                 this.updateScenary();
                 this.addEnemiesToScene();
                 Scenary.changeWallsColor(this.LEVEL);
-                this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
 
+                Scenary.quadros.leftWall.material.map = Scenary.paintings[this.LEVEL - 1][0];
+                Scenary.quadros.rightWall.material.map = Scenary.paintings[this.LEVEL - 1][1];
+
+                switch (this.LEVEL) {
+                    case 1:
+                    case 4:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 17:
+                        Scenary.floor.designParts.body.mesh.material.map = Scenary.floor.floors.moon;
+                        Scenary.floor.designParts.body.mesh.material.bumpMap = Scenary.floor.floors.moon;
+                        break;
+                    default:
+                        Scenary.floor.designParts.body.mesh.material.map = Scenary.floor.floors.basic;
+                        Scenary.floor.designParts.body.mesh.material.bumpMap = Scenary.floor.floors.basic;
+                }
+
+                this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
                 if (this.PLAYER_SPACESHIP.lives == this.PLAYER_STARTING_LIVES) {
                     this.POINTS += Constants.GAME_TIME;
                 } else {
@@ -510,9 +534,9 @@ class StarBlast {
             }
         }
 
-        for (let [key, floorPart] of Object.entries(Scenary.floor.designParts)) {
+        /*for (let [key, floorPart] of Object.entries(Scenary.floor.designParts)) {
             floorPart.mesh.material = floorPart.materialArray[type];
-        }
+        }*/
 
         Constants.MESH_TYPE.default = type;
         this.shadowing = type;
@@ -577,9 +601,9 @@ class StarBlast {
             enemies.innerHTML = this.ENEMIES.length;
             timeAvailable.innerHTML = remainingSeconds + " seconds";
             hearts.innerHTML = saida;
-            level.innerHTML = "LEVEL " + this.LEVEL;
+            level.innerHTML = "LEVEL " + this.LEVEL + " - " + Level.arrayOfLevels[this.LEVEL - 1].name;
         } else {
-            topItems.innerHTML = "<span color='red'>LEVEL " + this.LEVEL + "</span>";
+            topItems.innerHTML = "<span color='red'>LEVEL " + this.LEVEL + " - " + Level.arrayOfLevels[this.LEVEL - 1].name + "</span>";
         }
     }
 
