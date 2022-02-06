@@ -111,7 +111,7 @@ class Level {
         // Level 18
         this.arrayOfLevels.push({
             noBuzz: 0, noAlan: 0, noNeil: 0, noBoss: 1,
-            name: "Lírio Ramalheira"
+            name: "Lirio Ramalheira"
         });
     }
 

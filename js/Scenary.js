@@ -28,19 +28,26 @@ class Scenary {
         bottom: null,
         back: null,
         front: null,
-        
+
+    }
+
+    static billboardLights = {
+        left: [],
+        right: []
     }
 
     static quadros = {
         rightWall: null,
-        leftWall: null
+        leftWall: null,
+        leftMaterialArray: null,
+        rightMaterialArray: null
     }
     static walls = {
         left: null,
         right: null,
         top: null,
         bottom: null,
-        
+
     }
 
     static spotlights = {
@@ -49,7 +56,7 @@ class Scenary {
         bottomLeft: null,
         bottomRight: null
     }
-    
+
     static floor = null;
     static paintings = new Array();
 
@@ -64,6 +71,7 @@ class Scenary {
         this.initalizeFrames();
         this.setAmbientalLight();
         this.setSpotlights();
+        this.setBillboardLights();
     }
     /**
      * Inicializa 6 planos (formar uma caixa)
@@ -71,7 +79,7 @@ class Scenary {
     static initializePlanes() {
         var geometry = new THREE.PlaneGeometry(Constants.SPACE.width, Constants.SPACE.height);
 
-        const texture = new THREE.TextureLoader().load("http://localhost/starblast/img/textures/world_wall.jpg");
+        const texture = new THREE.TextureLoader().load("img/textures/world_wall.jpg");
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(3, 3);
@@ -83,7 +91,7 @@ class Scenary {
 
         material.map = texture;
 
-        
+
 
         /*for (let i = 0; i < materialArray.length; i++) {
             //materialArray[i].transparent = true;
@@ -104,29 +112,40 @@ class Scenary {
 
     }
 
-    static initalizeFrames(){
+    static initalizeFrames() {
 
         for (let i = 0; i < 18; i++) {
             this.paintings.push([
-                new THREE.TextureLoader().load( "img/textures/paintings/" + (i+1) + ".1.jpg" ),
-                new THREE.TextureLoader().load( "img/textures/paintings/" + (i+1) + ".2.jpg" )
+                new THREE.TextureLoader().load("img/textures/paintings/" + (i + 1) + ".1.jpg"),
+                new THREE.TextureLoader().load("img/textures/paintings/" + (i + 1) + ".2.jpg")
             ]);
         }
 
-        this.paintings.push([])
-        const painting1 = new THREE.TextureLoader().load( "img/textures/paintings/1.1.jpg" );
-        const painting1Material =  new THREE.MeshBasicMaterial( { map: painting1 } );
+        this.quadros.leftMaterialArray = [
+            new THREE.MeshBasicMaterial(),
+            new THREE.MeshLambertMaterial(),
+            new THREE.MeshPhongMaterial()
+        ];
 
-        this.quadros.rightWall = new THREE.Mesh(new THREE.BoxGeometry(60, 60, 4), painting1Material);
+        this.quadros.rightMaterialArray = [
+            new THREE.MeshBasicMaterial(),
+            new THREE.MeshLambertMaterial(),
+            new THREE.MeshPhongMaterial()
+        ];
 
-        this.quadros.rightWall.position.set(Constants.WALL_WIDTH / 2, 0, -Constants.WALL_WIDTH / 6);
+        this.quadros.rightWall = new THREE.Mesh(new THREE.BoxGeometry(60, 60, 4),
+            this.quadros.rightMaterialArray[Constants.MESH_TYPE.phong]);
+
+        this.quadros.leftWall = new THREE.Mesh(new THREE.BoxGeometry(60, 60, 4),
+            this.quadros.leftMaterialArray[Constants.MESH_TYPE.phong]
+        );
+
+        this.quadros.rightWall.position.set(Constants.WALL_WIDTH / 2 - Constants.WALL_THICKNESS / 2 - 2 /* Espessura do quadro */,
+            0, -Constants.WALL_WIDTH / 6);
         this.quadros.rightWall.rotation.y = Math.PI / 2;
-        
-        const painting2 = new THREE.TextureLoader().load( "img/textures/paintings/1.2.jpg" );
-        const painting2Material =  new THREE.MeshBasicMaterial( { map: painting2 } );
 
-        this.quadros.leftWall = new THREE.Mesh(new THREE.BoxGeometry(60,60,4), painting2Material);
-        this.quadros.leftWall.position.set(-Constants.WALL_WIDTH / 2, 0, -Constants.WALL_WIDTH / 6);
+        this.quadros.leftWall.position.set(-Constants.WALL_WIDTH / 2 + Constants.WALL_THICKNESS / 2 + 2 /* Espessura do quadro */,
+            0, -Constants.WALL_WIDTH / 6);
         this.quadros.leftWall.rotation.y = Math.PI / 2;
     }
 
@@ -137,7 +156,7 @@ class Scenary {
         this.walls.left = new Wall(-Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
         this.walls.right = new Wall(Constants.WALL_WIDTH / 2, 0, 0, Math.PI / 2);
         this.walls.top = new Wall(0, 0, -Constants.WALL_WIDTH / 2);
-        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2); 
+        this.walls.bottom = new Wall(0, 0, Constants.WALL_WIDTH / 2);
         this.floor = new Floor(0, -Constants.WALL_HEIGHT / 1.2, 0);
     }
 
@@ -233,44 +252,44 @@ class Scenary {
             var z = Constants.randomNumber(-Constants.SPACE.depth / 2, Constants.SPACE.depth / 2);
             raio = Math.floor(Math.random() * 6);
             planetColor = Constants.COLORS.planets[Constants.randomNumber(0, Constants.COLORS.planets.length - 1)];
-    
-             // O plano onde será colocada o planeta
-             var planoAtual = Constants.randomNumber(1, 3);
 
-             /* 
-                 Representa em que lado o planeta será colocado
-                 -1: esquerda, baixo, atrás
-                 1: direita, cima, à frente
-                 {(esquerda, direita), (cima, baixo), (à frente, atrás)}
-             */
-             var extremidade;
- 
-             // Escolhe aleatoriamente 1 ou -1
-             do {
-                 extremidade = Constants.randomNumber(-1, 1);
-             } while (extremidade == 0);
-             
- 
-             switch (planoAtual) {
-                 case 1: // Largura
-                     x = Constants.randomNumber(
-                         extremidade * Constants.SPACE.width / 2,
-                         extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
-                     );
-                     break;
-                 case 2: // Altura
-                     y = Constants.randomNumber(
-                         extremidade * Constants.SPACE.width / 2,
-                         extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
-                     );
-                     break;
-                 case 3: // Profundidade
-                     z = Constants.randomNumber(
-                         extremidade * Constants.SPACE.width / 2,
-                         extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
-                     );
-                     break;
-             }
+            // O plano onde será colocada o planeta
+            var planoAtual = Constants.randomNumber(1, 3);
+
+            /* 
+                Representa em que lado o planeta será colocado
+                -1: esquerda, baixo, atrás
+                1: direita, cima, à frente
+                {(esquerda, direita), (cima, baixo), (à frente, atrás)}
+            */
+            var extremidade;
+
+            // Escolhe aleatoriamente 1 ou -1
+            do {
+                extremidade = Constants.randomNumber(-1, 1);
+            } while (extremidade == 0);
+
+
+            switch (planoAtual) {
+                case 1: // Largura
+                    x = Constants.randomNumber(
+                        extremidade * Constants.SPACE.width / 2,
+                        extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
+                    );
+                    break;
+                case 2: // Altura
+                    y = Constants.randomNumber(
+                        extremidade * Constants.SPACE.width / 2,
+                        extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
+                    );
+                    break;
+                case 3: // Profundidade
+                    z = Constants.randomNumber(
+                        extremidade * Constants.SPACE.width / 2,
+                        extremidade * Constants.LIMITE_ESTRELAS * Constants.SPACE.width / 2
+                    );
+                    break;
+            }
 
             var planet = new THREE.Mesh(new THREE.SphereGeometry(raio, 20, 20), new THREE.MeshBasicMaterial({
                 color: planetColor
@@ -279,14 +298,14 @@ class Scenary {
             planetGroup.add(planet);
         }
         return planetGroup;
-    
+
     }
     static setAmbientalLight() {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0);
         return directionalLight;
     }
 
-    
+
     static setSpotlights() {
         this.spotlights.topLeft = new Spotlight(
             -Constants.WALL_WIDTH / 2,
@@ -317,17 +336,98 @@ class Scenary {
         );
     }
 
+    static setBillboardLights() {
+
+        // Devia se usar constantes para os tamanhos dos quadros
+
+        const X_POS_LEFT = -Constants.WALL_WIDTH / 2 + Constants.WALL_THICKNESS / 2 + (7 * .75);
+        const X_POS_RIGHT = -X_POS_LEFT;
+
+        this.billboardLights.left.push(new BillboardLight(
+            X_POS_LEFT,
+            30,
+            -Constants.WALL_WIDTH / 6 - 28,
+            Math.PI / 2
+        ));
+
+        this.billboardLights.left.push(new BillboardLight(
+            X_POS_LEFT,
+            30,
+            -Constants.WALL_WIDTH / 6 - 15,
+            Math.PI / 2
+        ));
+
+        this.billboardLights.left.push(new BillboardLight(
+            X_POS_LEFT,
+            30,
+            -Constants.WALL_WIDTH / 6,
+            Math.PI / 2
+        ));
+
+        this.billboardLights.left.push(new BillboardLight(
+            X_POS_LEFT,
+            30,
+            -Constants.WALL_WIDTH / 6 + 15,
+            Math.PI / 2
+        ));
+
+        this.billboardLights.left.push(new BillboardLight(
+            X_POS_LEFT,
+            30,
+            -Constants.WALL_WIDTH / 6 + 28,
+            Math.PI / 2
+        ));
+
+
+        this.billboardLights.right.push(new BillboardLight(
+            X_POS_RIGHT,
+            30,
+            -Constants.WALL_WIDTH / 6 - 28,
+            -Math.PI / 2
+        ));
+
+        this.billboardLights.right.push(new BillboardLight(
+            X_POS_RIGHT,
+            30,
+            -Constants.WALL_WIDTH / 6 - 15,
+            -Math.PI / 2
+        ));
+
+        this.billboardLights.right.push(new BillboardLight(
+            X_POS_RIGHT,
+            30,
+            -Constants.WALL_WIDTH / 6,
+            -Math.PI / 2
+        ));
+
+        this.billboardLights.right.push(new BillboardLight(
+            X_POS_RIGHT,
+            30,
+            -Constants.WALL_WIDTH / 6 + 15,
+            -Math.PI / 2
+        ));
+
+        this.billboardLights.right.push(new BillboardLight(
+            X_POS_RIGHT,
+            30,
+            -Constants.WALL_WIDTH / 6 + 28,
+            -Math.PI / 2
+        ));
+
+
+    }
+
     static changeWallsColor(level) {
 
         let wallColor = null;
 
-        if (level > 0 && level < 4){
+        if (level > 0 && level < 4) {
             wallColor = Constants.COLORS.walls.default;
-        } else if ( level >= 4 && level <= 8){
+        } else if (level >= 4 && level <= 8) {
             wallColor = Constants.COLORS.walls.scenary2;
-        } else if ( level >= 9 && level <= 17){
+        } else if (level >= 9 && level <= 17) {
             wallColor = Constants.COLORS.walls.scenary2;
-        } else if ( level == 18 ){
+        } else if (level == 18) {
             wallColor = Constants.COLORS.walls.scenary3;
         } else {
             wallColor = Constants.COLORS.walls.default;

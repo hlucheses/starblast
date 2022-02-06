@@ -108,7 +108,7 @@ class StarBlast {
                     this.PLAYER_SPACESHIP.shootingPressed = true;
                 }
 
-                if (event.code == "Digit4") {
+                if (event.code == "KeyN") {
                     this.toggleWireframe();
                 }
 
@@ -144,7 +144,7 @@ class StarBlast {
 
         this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
-        this.LEVEL = 1;
+        this.LEVEL = 18;
         this.POINTS = 0;
         this.ENEMIES = [];
         this.BULLETS = [];
@@ -177,6 +177,7 @@ class StarBlast {
         //this.SCENE.add(Scenary.getPlanets());
 
         this.addSpotlights();
+        this.addBillboardLights();
         this.SCENE.add(this.ambientalLight);
     }
 
@@ -229,9 +230,6 @@ class StarBlast {
 
         this.SCENE.add(Scenary.floor.design);
 
-        Scenary.floor.designParts.body.mesh.material.map = Scenary.floor.floors.moon;
-        Scenary.floor.designParts.body.mesh.material.bumpMap = Scenary.floor.floors.moon;
-
         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
             this.SCENE.add(Scenary.floor.boxHelper);
         }
@@ -239,8 +237,10 @@ class StarBlast {
 
     /**Adicionar quadros a cena */
     static addQuadros() {
-        Scenary.quadros.leftWall.material.map = Scenary.paintings[this.LEVEL - 1][0];
-        Scenary.quadros.rightWall.material.map = Scenary.paintings[this.LEVEL - 1][1];
+        for (let i = 0; i < Scenary.quadros.leftMaterialArray.length; i++) {
+            Scenary.quadros.leftMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][0];
+            Scenary.quadros.rightMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][1];
+        }
 
         for (let [key, quadro] of Object.entries(Scenary.quadros)) {
             this.SCENE.add(quadro);
@@ -385,22 +385,10 @@ class StarBlast {
                 this.addEnemiesToScene();
                 Scenary.changeWallsColor(this.LEVEL);
 
-                Scenary.quadros.leftWall.material.map = Scenary.paintings[this.LEVEL - 1][0];
-                Scenary.quadros.rightWall.material.map = Scenary.paintings[this.LEVEL - 1][1];
 
-                switch (this.LEVEL) {
-                    case 1:
-                    case 4:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 17:
-                        Scenary.floor.designParts.body.mesh.material.map = Scenary.floor.floors.moon;
-                        Scenary.floor.designParts.body.mesh.material.bumpMap = Scenary.floor.floors.moon;
-                        break;
-                    default:
-                        Scenary.floor.designParts.body.mesh.material.map = Scenary.floor.floors.basic;
-                        Scenary.floor.designParts.body.mesh.material.bumpMap = Scenary.floor.floors.basic;
+                for (let i = 0; i < Scenary.quadros.leftMaterialArray.length; i++) {
+                    Scenary.quadros.leftMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][0];
+                    Scenary.quadros.rightMaterialArray[i].map = Scenary.paintings[this.LEVEL - 1][1];
                 }
 
                 this.TIMESTAMP += (Constants.GAME_TIME / 5) * 1000;
@@ -448,6 +436,16 @@ class StarBlast {
 
     }
 
+    static addBillboardLights() {
+        for (let i = 0; i < Scenary.billboardLights.left.length; i++) {
+            this.SCENE.add(Scenary.billboardLights.left[i].design);
+            this.SCENE.add(Scenary.billboardLights.right[i].design);
+
+            this.SCENE.add(Scenary.billboardLights.left[i].light);
+            this.SCENE.add(Scenary.billboardLights.right[i].light);
+        }
+    }
+
     /**
      * Altera a iluminação da cena com base a uma tecla
      * @param {string} eventCode 
@@ -460,7 +458,6 @@ class StarBlast {
                 break;
             case "KeyW":
                 // Ativar cálculo de sombreamento
-                console.log(this)
                 if (this.shadowing == Constants.MESH_TYPE.basic) {
                     this.changeShadowing(Constants.MESH_TYPE.lambert);
                 } else {
@@ -505,10 +502,38 @@ class StarBlast {
                     Scenary.spotlights.topRight.light.intensity = 0;
                 }
                 break;
+            case "KeyD":
+                for (let i = 0; i < Scenary.billboardLights.left.length; i++) {
+                    if (Scenary.billboardLights.left[i].light.intensity == 0) {
+                        Scenary.billboardLights.left[i].light.intensity = 1;
+                    } else {
+                        Scenary.billboardLights.left[i].light.intensity = 0;
+                    }
+                }
+                break;
+            case "KeyP":
+                for (let i = 0; i < Scenary.billboardLights.right.length; i++) {
+                    if (Scenary.billboardLights.right[i].light.intensity == 0) {
+                        Scenary.billboardLights.right[i].light.intensity = 1;
+                    } else {
+                        Scenary.billboardLights.right[i].light.intensity = 0;
+                    }
+                }
+                break;
         }
     }
 
     static changeShadowing(type) {
+
+        for (let [key, billboardLight] of Object.entries(Scenary.billboardLights)) {
+            
+            for (let i = 0; i < billboardLight[0].length; i++) {
+                console.log(billboardLight[0]);
+                for (let [key, billboardPart] of Object.entries(billboardLight[0].designParts)) {
+                    billboardPart.mesh.material = billboardPart.materialArray[type];
+                }
+            }
+        }
 
         for (let [key, spotlight] of Object.entries(Scenary.spotlights)) {
             for (let [key, spotlightPart] of Object.entries(spotlight.designParts)) {
@@ -537,6 +562,9 @@ class StarBlast {
         /*for (let [key, floorPart] of Object.entries(Scenary.floor.designParts)) {
             floorPart.mesh.material = floorPart.materialArray[type];
         }*/
+
+        Scenary.quadros.leftWall.material = Scenary.quadros.leftMaterialArray[type];
+        Scenary.quadros.rightWall.material = Scenary.quadros.rightMaterialArray[type];
 
         Constants.MESH_TYPE.default = type;
         this.shadowing = type;

@@ -28,11 +28,6 @@ class FloorDesign extends StarBlastObject {
      */
     constructor(x, y, z) {
         super(x, y, z);
-
-        this.floors = {
-            basic: new THREE.TextureLoader().load("img/textures/floor2.jpg"),
-            moon: new THREE.TextureLoader().load("img/textures/moon.jpg")
-        };
         this.initialDesign();
         this.prepareShadowingRecieve();
     }
@@ -56,7 +51,7 @@ class FloorDesign extends StarBlastObject {
 
         const materialArray = this.newMaterialArray();
 
-        const texture = this.floors.moon;
+        const texture = new THREE.TextureLoader().load("img/textures/moon.jpg");
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(2, 2);
