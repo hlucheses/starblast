@@ -432,9 +432,7 @@ class Scenary {
         } else {
             wallColor = Constants.COLORS.walls.default;
         }
-
-        console.log(wallColor);
-
+        
         for (let [key, wall] of Object.entries(Scenary.walls)) {
             for (let [key, wallPart] of Object.entries(wall.designParts)) {
                 wallPart.mesh.material.color.set(wallColor);

@@ -49,7 +49,7 @@ class FloorDesign extends StarBlastObject {
 
         const geometry = new THREE.BoxGeometry(WIDTH, Constants.WALL_THICKNESS, WIDTH);
 
-        const materialArray = this.newMaterialArray();
+        const materialArray = this.newMaterialArray(0xcccccc);
 
         const texture = new THREE.TextureLoader().load("img/textures/moon.jpg");
         texture.wrapS = THREE.RepeatWrapping;

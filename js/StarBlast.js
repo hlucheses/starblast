@@ -245,9 +245,8 @@ class StarBlast {
             }
         }
 
-        for (let [key, quadro] of Object.entries(Scenary.quadros)) {
-            this.SCENE.add(quadro);
-        }
+        this.SCENE.add(Scenary.quadros.leftWall);
+        this.SCENE.add(Scenary.quadros.rightWall);
     }
     /**
      * Mostra a cena em wireframes
@@ -484,28 +483,28 @@ class StarBlast {
                     }
                 }
                 break;
-            case "Numpad1":
+            case "KeyK":
                 if (Scenary.spotlights.bottomLeft.light.intensity == 0) {
                     Scenary.spotlights.bottomLeft.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.bottomLeft.light.intensity = 0;
                 }
                 break;
-            case "Numpad2":
+            case "KeyL":
                 if (Scenary.spotlights.bottomRight.light.intensity == 0) {
                     Scenary.spotlights.bottomRight.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.bottomRight.light.intensity = 0;
                 }
                 break;
-            case "Numpad4":
+            case "KeyI":
                 if (Scenary.spotlights.topLeft.light.intensity == 0) {
                     Scenary.spotlights.topLeft.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.topLeft.light.intensity = 0;
                 }
                 break;
-            case "Numpad5":
+            case "KeyO":
                 if (Scenary.spotlights.topRight.light.intensity == 0) {
                     Scenary.spotlights.topRight.light.intensity = Constants.INTENSIDADE;
                 } else {
@@ -678,10 +677,7 @@ class StarBlast {
     }
 
     static play() {
-        console.log(Date.now() + " " + this.TIMESTAMP + " " + this.PAUSE_TIMESTAMP);
         this.TIMESTAMP += (Date.now() - this.PAUSE_TIMESTAMP);
-        console.log(Date.now() + " " + this.TIMESTAMP + " " + this.PAUSE_TIMESTAMP);
-        console.log("esteve pausado por " + ((Date.now() - this.PAUSE_TIMESTAMP) / 1000) + " segundos");
         isPlay = true;
         animate();
     }
