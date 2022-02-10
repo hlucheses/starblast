@@ -35,8 +35,8 @@
             <button id="teacherMode" class="newGame">
                 TEACHER MODE
             </button>
-            <button id="scoreboard">
-                SCOREBOARD
+            <button id="scoreboard" style="display: none;">
+                RESTART
             </button>
             <button id="help">
                 HELP
@@ -53,8 +53,8 @@
         <span>REMAINING TIME: <span id="timeAvailable"></span></span>
         <span><span id="hearts"></span></span>
     </div>
-    <div id="gameOver" style="display: none"></div>
-
+    <div id="gameOver" style="display:none;position:absolute;z-index: 80; background: url('img/Game-over.png');width: 100%; height: 90%;background-size: contain;background-position: center;background-repeat: no-repeat;"></div>
+    <div id="loading" style="display:none;position:absolute;z-index: 800; background: url('img/loading.gif');width: 100%; height: 90%;background-size: contain;background-position: center;background-repeat: no-repeat;"></div>
 </body>
 
 <!-- 
@@ -118,8 +118,9 @@
     let startedStyle = "background: none;position: absolute;height: 100%;width: 100%;z-index: 100;background-position: center;background-repeat: no-repeat;ackground-size: cover;";
     let topItemsStyle = "position: absolute;z-index: 100;display: flex;flex-direction: column;color: #fff;width: 100%;height: 15%;padding: 2em;right: 1em;font-family: 'SpaceMission';font-size: large;letter-spacing: .2em;text-align: right;justify-content: space-between;";
     let newGameStyle = "background-image: url('img/bckg.jpg');position: absolute;height: 100%;width: 100%;z-index: 100;background-position: center;background-repeat: no-repeat;ackground-size: cover;";
-    let gameOverStyle = "display:block;position:absolute;z-index: 80; background: url('img/Game-over.png');width: 100%; height: 90%;background-size: contain;background-position: center;background-repeat: no-repeat;";
-    
+   
+
+    const scoreboardDiv = document.getElementById('scoreboard');
     const startDiv = document.getElementById('start');
     const topItems = document.getElementById('topItems');
     const exitBtn = document.getElementById('exit');
@@ -130,7 +131,10 @@
     }
 
     document.getElementById('scoreboard').onclick = function () {
-        alert("Em desenvolvimento");
+        if (started == true && isPlay == false) {
+            exit();
+            playGame();
+        }
     }
 
     document.getElementById('playButton').onclick = function() {
@@ -141,6 +145,7 @@
 
         startDiv.setAttribute('style', 'display: none');
         topItems.setAttribute('style', topItemsStyle);
+        scoreboardDiv.setAttribute('style', 'display: block');
 
         if (!started) {
             const elements = document.getElementsByClassName('newGame');
@@ -162,6 +167,8 @@
     document.getElementById('teacherMode').onclick = function () {
         startDiv.setAttribute('style', 'display: none;');
         topItems.setAttribute('style', topItemsStyle);
+        exitBtn.setAttribute('style', 'display: block');
+        scoreboardDiv.setAttribute('style', 'display: block');
 
         if (!started) {
             const elements = document.getElementsByClassName('newGame');
@@ -223,6 +230,7 @@
         }
         exitBtn.setAttribute('style', 'display: none');
         startDiv.setAttribute('style', newGameStyle);
+        scoreboardDiv.setAttribute('style', 'display: none');
         isPlay = false;
         started = false;
     }

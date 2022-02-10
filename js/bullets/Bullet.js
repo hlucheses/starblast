@@ -34,7 +34,7 @@ class Bullet extends StarBlastObject {
         this.type = type;
 
         // FIXME: Não consigo tornar isto em atributos estáticos
-        this.MAX_SPEED = 4 * Constants.metersToPixels(80);
+        this.MAX_SPEED = 3 * Constants.metersToPixels(80);
         this.ACCELERATION = 2 * Constants.metersToPixels(1);
         this.BRAKING = .5 * Constants.metersToPixels(1);
 

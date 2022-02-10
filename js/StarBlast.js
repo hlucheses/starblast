@@ -36,8 +36,8 @@ function animate() {
         StarBlast.PLAYER_SPACESHIP.design.position.y,
         StarBlast.PLAYER_SPACESHIP.design.position.z);
     Cameras.FRONTAL.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
-        StarBlast.PLAYER_SPACESHIP.design.position.y + 5,
-        StarBlast.PLAYER_SPACESHIP.design.position.z + 30);
+        StarBlast.PLAYER_SPACESHIP.design.position.y + 6,
+        StarBlast.PLAYER_SPACESHIP.design.position.z + 45);
     Cameras.CANONCAM.position.set(StarBlast.PLAYER_SPACESHIP.design.position.x,
         StarBlast.PLAYER_SPACESHIP.design.position.y,
         StarBlast.PLAYER_SPACESHIP.design.position.z);
@@ -127,6 +127,7 @@ class StarBlast {
                     if (bullet != null) {
                         this.BULLETS.push(bullet);
                         this.SCENE.add(bullet.design);
+                        
 
                         if (Constants.SHOW_BOUNDING_BOX_HELPERS) {
                             this.SCENE.add(bullet.boxHelper);
@@ -141,8 +142,6 @@ class StarBlast {
      * Inicia o fluxo do programa
      */
     static init() {
-
-        this.TIMESTAMP = Date.now();
         this.GAME_OVER = false;
         this.LEVEL = 1;
         this.POINTS = 0;
@@ -153,8 +152,11 @@ class StarBlast {
         this.PLAYER_SPACESHIP.lives = this.PLAYER_STARTING_LIVES;
 
         Scenary.changeWallsColor(this.LEVEL);
+        
         this.createScene();
         this.render();
+
+        this.TIMESTAMP = Date.now();
     }
 
     /**
@@ -483,28 +485,28 @@ class StarBlast {
                     }
                 }
                 break;
-            case "KeyK":
+            case "KeyY":
                 if (Scenary.spotlights.bottomLeft.light.intensity == 0) {
                     Scenary.spotlights.bottomLeft.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.bottomLeft.light.intensity = 0;
                 }
                 break;
-            case "KeyL":
+            case "KeyU":
                 if (Scenary.spotlights.bottomRight.light.intensity == 0) {
                     Scenary.spotlights.bottomRight.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.bottomRight.light.intensity = 0;
                 }
                 break;
-            case "KeyI":
+            case "KeyJ":
                 if (Scenary.spotlights.topLeft.light.intensity == 0) {
                     Scenary.spotlights.topLeft.light.intensity = Constants.INTENSIDADE;
                 } else {
                     Scenary.spotlights.topLeft.light.intensity = 0;
                 }
                 break;
-            case "KeyO":
+            case "KeyH":
                 if (Scenary.spotlights.topRight.light.intensity == 0) {
                     Scenary.spotlights.topRight.light.intensity = Constants.INTENSIDADE;
                 } else {
@@ -536,9 +538,8 @@ class StarBlast {
 
         for (let [key, billboardLight] of Object.entries(Scenary.billboardLights)) {
             
-            for (let i = 0; i < billboardLight[0].length; i++) {
-                console.log(billboardLight[0]);
-                for (let [key, billboardPart] of Object.entries(billboardLight[0].designParts)) {
+            for (let i = 0; i < billboardLight.length; i++) {
+                for (let [key, billboardPart] of Object.entries(billboardLight[i].designParts)) {
                     billboardPart.mesh.material = billboardPart.materialArray[type];
                 }
             }
@@ -649,9 +650,14 @@ class StarBlast {
 
         isPlay = false;
         const startDiv = document.getElementById('start');
-        const topItems = document.getElementById('topItems');
+
         startDiv.setAttribute('style', startedStyle);
-        topItems.setAttribute('style', 'display: none');
+
+        if (!this.GAME_OVER) {
+            const topItems = document.getElementById('topItems');
+            topItems.innerHTML = "PAUSED";
+        }
+        
     }
 
     static finish() {
@@ -668,15 +674,21 @@ class StarBlast {
             this.SCENE.remove(this.SCENE.children[0]);
         }
 
-        gameOverDiv.setAttribute('style', 'display: none');
+        gameOverDiv.style.setProperty('display', 'none');
     }
 
     static gameOver() {
         Cameras.CURRENT = Cameras.DYNAMIC;
-        gameOverDiv.setAttribute('style', gameOverStyle);
+        gameOverDiv.style.setProperty('display', 'block');
     }
 
     static play() {
+        if (!this.GAME_OVER) {
+            const topItemsContent = '<span id="level"></span><span>POINTS: <span id="noPoints"></span></span><span>REMAINING ENEMIES: <span id="noEnemies"></span></span><span>REMAINING TIME: <span id="timeAvailable"></span></span><span><span id="hearts"></span></span>'
+            const topItems = document.getElementById("topItems");
+            topItems.innerHTML = topItemsContent;
+        }
+       
         this.TIMESTAMP += (Date.now() - this.PAUSE_TIMESTAMP);
         isPlay = true;
         animate();

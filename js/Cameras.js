@@ -110,7 +110,7 @@ class Cameras {
      */
     static updateBulletCam(object) {
         if (object != null) {
-            var offset = new THREE.Vector3(object.design.position.x + 20, object.design.position.y + 6, object.design.position.z);
+            var offset = new THREE.Vector3(object.design.position.x + 40, object.design.position.y + 12, object.design.position.z);
             this.BULLET.position.lerp(offset, 0.2);
             this.BULLET.lookAt(object.design.position);
         } else {

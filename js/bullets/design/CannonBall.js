@@ -29,7 +29,18 @@ class CannonBall extends StarBlastObject {
         this.designParts = {};
         this.design = new THREE.Object3D();
         this.mass = .1;
+
+        this.texture = new THREE.TextureLoader().load("img/textures/cannonball.jpg");
+        this.texture.wrapS = THREE.RepeatWrapping;
+        this.texture.wrapT = THREE.RepeatWrapping;
+        this.texture.repeat.set(2, 2);
+
         this.init();
+
+        const SCALE_CONSTANT = 3;
+        this.design.scale.x = SCALE_CONSTANT;
+        this.design.scale.y = SCALE_CONSTANT;
+        this.design.scale.z = SCALE_CONSTANT;
     }
 
     /**
@@ -46,6 +57,11 @@ class CannonBall extends StarBlastObject {
     addBody(x, y, z) {
         const geometry = new THREE.SphereGeometry(.7, 64, 64);
         const materialArray = this.newMaterialArray(0x333333);
+
+        for (let i = 0; i < materialArray[i].length; i++) {
+            materialArray[i].map = this.texture;
+            materialArray[i].bumpMap = this.texture;
+        }
 
         const mesh = new THREE.Mesh(geometry, materialArray[Constants.MESH_TYPE.default]);
 

@@ -9,7 +9,7 @@ class MichaelC extends StarBlastObject {
         this.mass = 100;
         this.init();
 
-        const SCALE_CONSTANT = 2;
+        const SCALE_CONSTANT = 2.25;
         this.design.scale.x = SCALE_CONSTANT;
         this.design.scale.y = SCALE_CONSTANT;
         this.design.scale.z = SCALE_CONSTANT;

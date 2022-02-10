@@ -31,6 +31,11 @@ class Buzz extends StarBlastObject {
         this.defaultCannonColor = 0x111f22;
         this.mass = 1.5;
         this.init();
+
+        const SCALE_CONSTANT = 1.5;
+        this.design.scale.x = SCALE_CONSTANT;
+        this.design.scale.y = SCALE_CONSTANT;
+        this.design.scale.z = SCALE_CONSTANT;
     }
 
     /**

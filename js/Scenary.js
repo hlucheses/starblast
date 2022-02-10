@@ -302,6 +302,7 @@ class Scenary {
     }
     static setAmbientalLight() {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0);
+        directionalLight.castShadow = true;
         return directionalLight;
     }
 
@@ -432,7 +433,7 @@ class Scenary {
         } else {
             wallColor = Constants.COLORS.walls.default;
         }
-        
+
         for (let [key, wall] of Object.entries(Scenary.walls)) {
             for (let [key, wallPart] of Object.entries(wall.designParts)) {
                 wallPart.mesh.material.color.set(wallColor);

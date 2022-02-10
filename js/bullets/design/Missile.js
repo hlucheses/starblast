@@ -30,6 +30,11 @@
         this.design = new THREE.Object3D();
         this.mass = .5;
         this.init();
+
+        const SCALE_CONSTANT = 3;
+        this.design.scale.x = SCALE_CONSTANT;
+        this.design.scale.y = SCALE_CONSTANT;
+        this.design.scale.z = SCALE_CONSTANT;
     }
 
     /**
@@ -47,6 +52,7 @@
      * @returns {{THREE.Mesh, array}}
      */
     addBody(x, y, z) {
+
         const geometry = new THREE.CylinderGeometry(1, 1, 1, 64);
         const materialArray = this.newMaterialArray(0x3b4545);
 
