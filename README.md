@@ -16,6 +16,7 @@ O projecto foi posto no ar usando o Amazon Amplify, fazendo que cada vez que se 
     - Esquerdo: 'Z' (míssil)
     - Centro: 'X' (bola)
     - Direito: 'C' (míssil)
++ Disparar: barra de espaço
 + Alternar tipo de sombreamento: 'E'
 + Ativar/desativar cálculo de sombramento: 'M'
 + Modo arame: 'N'
