@@ -12,7 +12,11 @@ O projecto foi posto no ar usando o Amazon Amplify, fazendo que cada vez que se 
 
 ## Comandos
 + Mover a nave: setas
-+ Alternar tipo de sombreamento: 'R'
++ Canhões:
+    - Esquerdo: 'Z' (míssil)
+    - Centro: 'X' (bola)
+    - Direito: 'C' (míssil)
++ Alternar tipo de sombreamento: 'E'
 + Ativar/desativar cálculo de sombramento: 'M'
 + Modo arame: 'N'
 + Luz ambiente: 'Q'
@@ -46,7 +50,7 @@ O projecto foi posto no ar usando o Amazon Amplify, fazendo que cada vez que se 
 + Instruções ingame
 + Novos Holofotes
 + Fogo nas balas
-+ Colisão com o chãp
++ Colisão com o chão
 
 + Cenários para cada nível
     - (Andreia a fazer melhorias)
